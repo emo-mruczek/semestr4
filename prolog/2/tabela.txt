@@ -1,0 +1,8 @@
+N           liczba wynikow          inf         avg
+1           2                       82          42
+2           4                       964         241
+3           37                      37,392      1010,59459459
+4           ??                      2,625,323
+5           ??                      288,769,208
+time((lista(5, _), fail)) wykonywało się az 26 sekund
+
