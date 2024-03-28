@@ -1,0 +1,119 @@
+
+Policzyć hash od wybranego ciągu znaków można na kilka sposobów, w zależności od tego, jakiego algorytmu chcemy użyć. Wybrane komendy:
+> echo -n "trudnehasło" | md5sum
+powyższa komenda wyprintuje wartośc hash md5 dla ciągu znaków "trudnehasło"
+użycie flagi -n przy echo ucina znak nowej linii, wstawiony przez polecenie echo - w przeciwnym razie wartość hasha byłaby błędna.
+>echo -n "trudnehasło" | sha256sum
+to samo co wyżej, tylko dla sha256
+
+1. Policzyłem hash md5 dla hasła "564738" (f12139d3808d82188047805652c364c8). Do łamania użyłem polecenia:
+> hashcat -m0 "f12139d3808d82188047805652c364c8" -a3 "?d?d?d?d?d?d"
+flaga -m0 oznacza użycie hasha typu md5; flaga -a3 oznacza użycie typu ataku brute force; następnie podałem długość hasła oraz to, że składa się tylko z cyfry (?d). Wynik pojawił się natychmiast.
+
+Próbując różnych długości, zaobserwowałem, że maski o długości 19 i dłuższej są niewspierane (zakładam, że czas łamania tak długich haseł byłby okropnie długi, o ile skończony).
+
+Dlatego też spróbowałem łamać hasło o długości 18 znaków, jednakże estimated time to 66 lat, więc się poddałem.
+zaobserwowałem jednakże, że dodanie flagi -O znacznie skraca czas szukania hasha (ale nadal było to 33 lata).
+
+(flaga -O: eable optimized kernels (limits password length); For example, the "pure" MD5 kernel will accept candidates up to 256 bytes in length, but the "optimized" kernel limits this to 31 bytes.).
+
+dla 13 znakowego hasła z flagą -O: 2h 45min
+
+12 znakowe hasło (859483758495) mialo estimated time 16 minut (z flagą -O), więc zdecydowałem się poczekać. Rzeczywiscie, hasło udało się złamać w czasie krótszym, niż oczekiwany.
+
+Przeprowadziłem podobne testy dla GPU (dodając flagę -D2).
+Dla 13znakowego hasła (9362784537485) z flagą -O czas oczekiwania to tylko 5minut.
+
+Dla 15 znakowego hasła TA to 9h, dla 14 - niecała godzina
+
+Przy użyciu równolegle CPU i GPU, dla flagi -D 1,2, czasy wcale nie malały drastycznie.
+
+Do testów używałem:
+NVIDIA GeForce RTX 2070 SUPER 8GB
+AMD Ryzen 5 3600 6-Core
+
+2. Dla kombinacji małych liter i cyfr jest maska ?d oraz ?l. W tym przypadku, używam tylko GPU do łamania hasła, z flagą -O.
+
+11 znakowe hasło (j3bn4k96vd2) miało TA >2h.
+10 znakowe (j3bn4k96vd) <10 minut
+użyta komenda:
+hashcat -m0 "a941ef7502e1a9b1647ffe2a07b02409" -a3 "?l?h?l?l?h?l?h?h?l?l" -O -D2
+
+udało mi się złamać to hasło w 3 minuty 47 sekund.
+
+ale co, jeśli nie wiem, czy co jest literą, a co liczbą?
+
+tworzę customowy charset: -1 ?l?d
+oznacza on, ze dany znak jest albo małą literą, albo cyfrą
+
+a co, jeśli jeszcze nie znam długości?
+flaga -i (increment)
+
+testy dla takiego przypadku:
+10 znakowe hasło (b3kj5al7e9)
+komenda: hashcat -m0 "7d0ec51c81cf6c054e862936c70a717a" -i -1?l?d -a3 "?1?1?1?1?1?1?1?1?1?1?1" -O -D2
+
+TA dla dlugosci 9 to aż 50 minut
+
+8 znakowe hadło (b3kj5al7)
+
+hasło zostało znalezione bardzo szybko (około minuta).
+
+3. Wziąłem słownik z 100k SecList's most common password (znalezione na GitHubie). https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/100k-most-used-passwords-NCSC.txt
+
+przygotowane hasło według polecenia: ilovemyself&2137
+
+md5 hash: fd5ee6177151563e000526687b477f36
+
+
+hashcat -m0 "fd5ee6177151563e000526687b477f36" "100k-most-used-passwords-NCSC.txt" -a6 "?s?d?d?d?d" -O -D2
+
+zakładam tutaj, ze wiem, jak wykladaja ostatnie 5 znaków hasła
+
+Hasło zostało znalezione praktycznie od razu.
+
+4.
+
+Mogę zwrócić uwagę na długość hasha.
+MD5 produces a 128-bit output while SHA-256 produces a 256-bit output
+
+Znając znajomego, mogę zwrócić uwagę, jakie słowa by mogł użyć przy tworzeniu hasła.
+
+otrzymałem hash: 11c1777b71725c68d9449a384e7f5ec59a01f6f3
+
+po wyglądzie hasha stwierdzam, że jest to SHA1 (co okazało się być prawdą)
+dostałem informację, że sa to dwa słowa ze słownika eff_large.wordlist, a na koncu sa 3 znaki dodatkowe (hasło zostało wygenerowane przez keepasxc)
+
+tworzę słownik połaczonych słow
+
+hashcat -a1 "eff_large.wordlist" "eff_large.wordlist" --stdout -o combined.txt
+
+łamię, używając:
+hashcat -m100 "11c1777b71725c68d9449a384e7f5ec59a01f6f3" "combined.txt" -a6 "?s?s?s" -O -D2
+
+powyzsza komenda udalo mi sie znalezc hasło "bushstudy($%"
+
+WIRESHARK
+
+1. W wiresharku możemy filtrować dane po np:
+> protokołach; np "http" dla http, "ip", "ipv6", "dns"
+> możemy określać konkretne adresy/porty, np "ip.addr == " albo "eth.addr == " (dla adresu MAC), "tcp.port == 80" (dla http),  "udp.port == 53" dla DNS, "tcp.port==443" dla https (jest to domyślny port dla https) lub "tls"
+> mozna używać operatorów takich jak ==, eq, !=, ne, >, < itd; operatory logiczne też są niewspierane
+
+2. Przez http jest wysyłany cały kod strony, obrazki, style, ciasteczka itp; jeśli wpiszę coś np w wyszukiwarkę na stronie http, i prześlę to, mogę podejrzeć do dokladnie wpisałem w wiresharku. Przy http, dane te są zaszyfrowane.
+przy komunikacji email, wysyłane są informacje takie jak treść maila, załączniki, adresy adresata i nadawcy - oczywiscie wszystko w przypadku nieszyfrowanego połączenia (tcp port, odpowiednio).
+
+    SMTP (sending, no encryption) - port 25
+    SMTPs (sending, with encryption) - port 587
+    POP3 (retrieving, no encryption) - port 110
+    POP3s (retrieving, with encryption) - port 995
+    IMAP (retrieving, no encryption) - port 143
+    IMAPs (retrieving, with encryption) - port 993
+
+dla tranferu plików, przy protokole ftp, który domyślnie nie używa szyfrowania, można podejrzeć co jest przesyłane (bo jest przesyłane w plaitekscie) oraz komendy używane do tego. W przypafku sftp, który używa ssh, nie jest możliwe podejrzenie zawartosci przesyłanych plików, ani komend.
+
+3. Wireshark może byc użyteczny do przechwytywania dancyh nieprzesyłanych przez protokoły wykorzystujace szyfrowanie; tak samo może być użyty do ataku typu man in the middle oraz można szukać różnych słabości w architekturze sieci.
+
+4. Przy http, możemy przechwycić informacje takie jak: addres url z którym się łączymy, adres ip, zawartość przesyłanych requestów i responsów, ciasteczka.Przy https, które jest szyfrowane, znamy tylko adress ip odbiorcy, informacje o certyfikacie oraz zaszyfrowane, przesyłane dane.
+
+???????????????????????????

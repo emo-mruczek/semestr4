@@ -1,0 +1,21 @@
+1. 
+
+mozliwosc zdalnego dostepu do repo bez koniecznosci logowania sie np
+mozna latwo z cli korzystac z prywatnych repo
+
+nie da sie pobrac prywatnego repo bez ssh, bo nie ma do niego dostepu (no bo jest prywatne).
+
+mozna uzyc hardware security key
+
+
+Check the directory listing to see if you already have a public SSH key. By default, the filenames of supported public keys for GitHub are one of the following.
+
+    id_rsa.pub
+    id_ecdsa.pub
+    id_ed25519.pub
+
+
+git clone git@github.com:busyloop/lolcat.git
+
+EdDSA  using SHA-51
+It is designed to be faster than existing digital signature schemes without sacrificing security.
