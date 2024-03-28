@@ -1,0 +1,4 @@
+gcc -o libloop.o -c libloop.c
+gcc -o librec.o -c librec.c
+gcc -o main main.c libloop.o librec.o
+./main

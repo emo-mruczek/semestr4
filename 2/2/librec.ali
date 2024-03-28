@@ -1,0 +1,147 @@
+V "GNAT Lib v10"
+A -gnatA
+A -mtune=generic
+A -march=x86-64
+P SS ZX
+
+RN
+RV NO_ALLOCATORS
+RV NO_DIRECT_BOOLEAN_OPERATORS
+RV NO_EXCEPTION_HANDLERS
+RV NO_EXCEPTION_PROPAGATION
+RV NO_EXCEPTIONS
+RV NO_LOCAL_ALLOCATORS
+RV NO_NESTED_FINALIZATION
+RV NO_RECURSION
+RV NO_SECONDARY_STACK
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_DEFAULT_INITIALIZATION
+RV NO_IMPLEMENTATION_PRAGMAS
+RV SPARK_05
+
+U librec%b		librec.adb		2f5c4a72 NE OO PK IL
+W ada%s			ada.ads			ada.ali
+Z ada.exceptions%s	a-except.adb		a-except.ali
+W ada.strings%s		a-string.ads		a-string.ali
+W ada.strings.unbounded%s  a-strunb.adb		a-strunb.ali
+Z ada.tags%s		a-tags.adb		a-tags.ali
+Z system.secondary_stack%s  s-secsta.adb	s-secsta.ali
+Z system.soft_links%s	s-soflin.adb		s-soflin.ali
+Z system.standard_library%s  s-stalib.adb	s-stalib.ali
+Z system.storage_pools.subpools%s  s-stposu.adb	s-stposu.ali
+
+U librec%s		librec.ads		4b80d780 EE NE OO PK IL
+W ada%s			ada.ads			ada.ali
+Z ada.exceptions%s	a-except.adb		a-except.ali
+W ada.strings%s		a-string.ads		a-string.ali
+W ada.strings.unbounded%s  a-strunb.adb		a-strunb.ali
+Z ada.tags%s		a-tags.adb		a-tags.ali
+Z system%s		system.ads		system.ali
+
+D ada.ads		20230707070819 76789da1 ada%s
+D a-charac.ads		20230707070819 2d3ec45b ada.characters%s
+D a-chlat1.ads		20230707070819 66457d31 ada.characters.latin_1%s
+D a-except.ads		20230707070819 a7106115 ada.exceptions%s
+D a-finali.ads		20230707070819 bf4f806b ada.finalization%s
+D a-stream.ads		20230707070819 119b8fb3 ada.streams%s
+D a-string.ads		20230707070819 90ac6797 ada.strings%s
+D a-strmap.ads		20230707070819 e8bb714a ada.strings.maps%s
+D a-strunb.ads		20230707070819 1656705b ada.strings.unbounded%s
+D a-tags.ads		20230707070819 491b781d ada.tags%s
+D a-unccon.ads		20230707070819 0e9b276f ada.unchecked_conversion%s
+D librec.ads		20240305203728 cd7ac04c librec%s
+D librec.adb		20240305203729 64dc9df2 librec%b
+D system.ads		20230707070819 4635ec04 system%s
+D s-atocou.ads		20230707070819 b45c2d8d system.atomic_counters%s
+D s-exctab.ads		20230707070819 54135002 system.exception_table%s
+D s-finmas.ads		20230707070819 7811a767 system.finalization_masters%s
+D s-finroo.ads		20230707070819 4ff27390 system.finalization_root%s
+D s-memory.ads		20230707070819 597d6634 system.memory%s
+D s-parame.ads		20230707070819 48ec542b system.parameters%s
+D s-secsta.ads		20230707070819 20bbe636 system.secondary_stack%s
+D s-soflin.ads		20230707070819 a7318a92 system.soft_links%s
+D s-stache.ads		20230707070819 a37c21ec system.stack_checking%s
+D s-stalib.ads		20230707070819 09bd3940 system.standard_library%s
+D s-stalib.adb		20230707070819 f2fe2716 system.standard_library%b
+D s-stoele.ads		20230707070819 2dc34a04 system.storage_elements%s
+D s-stopoo.ads		20230707070819 b16154c2 system.storage_pools%s
+D s-stposu.ads		20230707070819 97a6219c system.storage_pools.subpools%s
+D s-stratt.ads		20230707070819 aedef97e system.stream_attributes%s
+D s-traent.ads		20230707070819 005bf670 system.traceback_entries%s
+D s-unstyp.ads		20230707070819 34867c83 system.unsigned_types%s
+G a e
+G c Z s b [factorialrec librec 14 10 none]
+G c Z s b [gcdrec librec 16 10 none]
+G c Z s b [diofrec librec 18 10 none]
+G c Z s b [gcdextendedrec librec 20 10 none]
+G c Z s s [solutionrecDI librec 4 6 none]
+G c Z s s [solutionrecDA librec 4 6 none]
+G c Z s s [solutionrecDF librec 4 6 none]
+G c Z s s [solutionrecIP librec 4 6 none]
+X 1 ada.ads
+16K9*Ada 20e8 12|1r6 1r23 2r6 2r34 13|1r6 1r23 2r6 2r34
+X 7 a-string.ads
+16K13*Strings 35e16 12|1w10 1r27 2r10 2r38 13|1w10 1r27 2r10 2r38
+X 9 a-strunb.ads
+82K21*Unbounded 756e26 12|2w18 2r46 13|2w18 2r46
+87R9*Unbounded_String<5|43R9> 739e14 12|7r15
+103V13*To_Unbounded_String{87R9} 13|48s27 62s23
+X 12 librec.ads
+3K9*librec 22l5 22e11 13|3b14 95l5 95t11
+4R6*solutionRec 8e11 18r65 13|36r65 37r14
+5i5*x{integer} 13|46m16 60m12
+6i5*y{integer} 13|47m16 61m12
+7r5*comment{9|87R9} 13|48m16 62m12
+12P6*A_Integer(integer) 20r56 20r71 13|42r21 67r55 67r70 76r12 77r12
+14V10*factorialRec{long_integer} 14>24 13|5b10 12s38 14l5 14t17
+14i24 n{integer} 13|5b24 7r23
+16V10*gcdRec{integer} 16>18 16>31 13|16b10 30s16 32s16 34l5 34t11 38s20
+16i18 a{integer} 13|16b17 17r23
+16i31 b{integer} 13|16b30 18r23
+18V10*diofRec{4R6} 18>19 18>32 18>45 13|36b10 65l5 65t12
+18i19 a{integer} 13|36b19 38r27 52r13
+18i32 b{integer} 13|36b32 38r30 53r13
+18i45 c{integer} 13|36b45 45r9 54r13
+20V10*gcdExtendedRec{integer} 20>26 20>39 20>52 20>67 13|56s12 67b10 85s12
+. 93l5 93t19
+20i26 a{integer} 13|67b25 73r23
+20i39 b{integer} 13|67b38 74r23
+20p52 x{12P6} 13|67b51 76r25 80r9 89r5
+20p67 y{12P6} 13|67b66 77r25 81r9 90r5
+X 13 librec.adb
+6i5 i{long_integer}
+7i5 locN{integer} 9r10 9r23 12r30 12r51
+17i5 locA{integer} 20r8 21m9 21r18 27r9 28r16 29r12 30r24 32r24 32r37
+18i5 locB{integer} 23r8 24m9 24r18 27r16 29r19 30r31 30r37 32r30
+37r5 result{12|4R6} 46m9 47m9 48m9 49r16 60m5 61m5 62m5 64r12
+38i5 d{integer} 45r15 52r17 53r17 54r17
+39i5 gcda{integer} 52m5 56r27
+39i11 gcdb{integer} 53m5 56r33
+39i17 gcdc{integer} 54m5 60r21 61r21
+40i5 gcd{integer} 56m5
+41i5 x{integer} 57m5 60r17
+41i8 y{integer} 58m5 61r17
+42p6 x_ptr{12|12P6} 56r39 57r10
+42p13 y_ptr{12|12P6} 56r46 58r10
+68i5 x1{integer} 89r35 90r14
+69i5 y1{integer} 89r14
+70i5 currX{integer}
+71i5 currY{integer}
+72i5 quotient{integer}
+72i15 tempX{integer}
+72i22 tempY{integer}
+72i29 temp{integer}
+73i5 locA{integer} 79r9 85r38 85r45 89r27
+74i5 locB{integer} 82r16 85r29 89r20
+75i5 gcd{integer} 85m5 92r12
+76p5 x1ptr{12|12P6} 85r51
+77p5 x2ptr{12|12P6} 85r58
+X 14 system.ads
+67M9*Address
+X 19 s-memory.ads
+53V13*Alloc{14|67M9} 103i<c,__gnat_malloc>22
+68U14*Free 104i<c,__gnat_free>22
+76V13*Realloc{14|67M9} 105i<c,__gnat_realloc>22
+X 25 s-stalib.adb
+93U14 Break_Start 94i<c,__gnat_break_start>22
+
