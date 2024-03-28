@@ -1,4 +1,0 @@
-librec.adb:72:05: warning: variable "quotient" is never read and never assigned
-librec.adb:72:15: warning: variable "tempX" is never read and never assigned
-librec.adb:72:22: warning: variable "tempY" is never read and never assigned
-librec.adb:72:29: warning: variable "temp" is never read and never assigned

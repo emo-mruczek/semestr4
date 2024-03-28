@@ -1,6 +1,0 @@
-gcc -c main.adb
-gnatbing main
-gnatlink main
-./main
-
-gprbuild
