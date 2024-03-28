@@ -1,0 +1,135 @@
+PING
+
+Ping jest programem używanym do diagnozowania połączeń sieciowych oraz ustalenia, czy istnieje połączenie między testującym a testowanym poprzez wysłanie pakietów.
+
+1. Aby ustalić ilość węzłów na trasie do wybranego serwera, używam flagi -t.
+Staram się wyszukać najmniejszą wartość TTL (time to live), przy której pakiet pomyślnie dotrze do serwera. Jako że TTL określa liczbę przeskoków, każdy kolejny router na trasie zmniejsza jego wartość o 1.
+
+testuję komendę: ping -c 3 w2.vatican.va -t X
+!dla X = 16 pakiet nie dociera, dla X = 17 nie zwraca nic, a dla X = 18 już tak. Dlatego liczba węzłów na trasie do tego serwera to 18.
+
+użyłem poleceń:
+ping -c 3 w2.vatican.va -t 16
+ping -c 3 w2.vatican.va -t 17
+ping -c 3 w2.vatican.va -t 18
+
+serwery w2.vatican.va znajdują się w USA, więc są dość daleko.
+
+2. Aby ustalić drogę powrotną, wystarczy spojrzeć na ttl zwracany przez pingowany host. Szukana ilość węzłów będzie wynosić 63-X. (63 to początkowa liczba węzłów ustawiana przez systemy). Czyli, w przypadku w2.vatican.va wynosi 63-51 = 12, a więc różni się ona od ilości węzłów ode mnie do serwera.
+
+3. Badając, jak wpływa na to wielkość pakietu, używam flagi -s określającą liczbę bitów do wysłania (domyślnie jest to 56).
+
+Nie zaobserwowałem wpływu, jednakże większe pakiety po prostu nie dochodzą (dla w2.vatican.va jest to powyżej 66000), gdyż ta wartość przekracza maksymalny rozmiar pakietu ipv4.
+
+testuję komendy:
+ping -c 3 w2.vatican.va -s 10 -t 16
+ping -c 3 w2.vatican.va -s 10 -t 18
+ping -c 3 w2.vatican.va -s 1000 -t 18
+ping -c 3 w2.vatican.va -s 60000 -t 18
+ping -c 3 w2.vatican.va -s 66000 -t 18
+
+4. Wielkość wysyłanego pakietu ma wpływ na czas propagacji - większe pakiety podwyższają czas propagacji o kilka ms. Do zbadania tego użyłem komend z 3 podpunktu.
+
+5. Każda sieć ma MTU (Maximum Transmission Unit), które określa maksymalną wielkość pakietu, które moze zostać przesłany przez daną sieć. Powyżej tej wartości, pakiety ulegają fragmentacji. Wraz z fragmentacją, zwiększa się liczba bitów do przesłania: bo każdy pakiet ma też header (28 bajtów), który musi zostać dodany do przesyłanego pakietu. Tak więc będzie to mieć wpływ na czas propagacji.
+
+6. Do wyszukania największego niepofragmentowanego pakietu, który udało się przesłać, użyłem flagi -M do, zakazującej fragmentacji.
+
+Najwięcej, co udało mi się przesłać w 1 pakiecie, to 1472 (+28).
+
+użyłem poleceń:
+ping -c 3 -M do -s 1472 w2.vatican.va
+ping -c 3 -M do -s 1473 w2.vatican.va
+
+7. Powyższe zagadnienia przeanalizuję także dla krótkiej trasy. Będę pingować wcss.pl, którego serwery znajdują się w Legnicy.
+
+testowane komendy:
+
+ping -c 3 wcss.pl -t 8
+ping -c 3 wcss.pl -t 9
+
+a więc wystarczy tylko 9 "hopów"
+ilość węzłów od wcss.pl do mnie wynosi 255-249=6
+
+ping -c 3 wcss.pl -s 10 -t 8
+ping -c 3 wcss.pl -s 10 -t 9
+ping -c 3 wcss.pl -s 1000 -t 9
+ping -c 3 wcss.pl -s 1472 -t 9
+ping -c 3 wcss.pl -s 1473 -t 9
+
+w przypadku wcss.pl, pakiety powyzej 1472 nie dochodzą. Przy większych pakietach, zwiększa się też ich czas propagacji.
+
+ping -c 3 -M do -s 1472 wcss.pl
+ping -c 3 -M do -s 1473 wcss.pl
+
+Jeśli chodzi o fragmentację, wyniki są identyczne jak przy pingowaniu w2.vatican.va
+
+8. Najdłuższa trasa, którą udało mi się znaleźć, potrzebowała TTL=30. Jest to serwer znajdujący się w Chinach.
+
+Sprawdzałem komendy:
+ping -c 3 mirrors.njupt.edu.cn -t 29
+ping -c 3 mirrors.njupt.edu.cn -t 30
+
+9. Znalazłem domenę, która używa Microsoft Azure: ccompute.westeurope.cloudapp.azure.com. Trasa przebiega przez hosty takie jak *.ntwk.msn.net.
+
+Komendy:
+ping -c 3 pccompute.westeurope.cloudapp.azure.com -t 11
+traceroute pccompute.westeurope.cloudapp.azure.com
+
+10. TRACEROUTE
+
+Program ten śledzi trasę - jaką przebiera paczka - do wybranego hosta. Wysyła on po kolei paczki z coraz to większym TTL, określając tym samym adresy ip routeróœ znajdujących się na trasie do hosta.
+
+Liczbę węzłów określa się licząc wiersze outputu traceroute'a.
+
+W przypadku w2.vatican.va, output nieskończenie wyświetla gwiazdki (*). Jest to prawdopodobnie spowodowane konfiguracją firewalla lub routera po stronie serwera. Udało mi się natomiast uzyskać taką informację przez wysyłanie próbek TCP SYN (flaga -T). Odjęcie 1 od wyniku da taką samą wartość, jaka została ustalona przy użyciu komendy ping. wcss.pl natomiast kończy wykonywanie po 9 hopach.
+
+przetestowane komendy:
+traceroute w2.vatican.va
+sudo traceroute -T w2.vatican.va
+traceroute wcss.pl
+
+ilość hopów od serwera znajduję, dodając flagę --back
+
+komendy:
+sudo traceroute --back -T w2.vatican.va
+traceroute --back wcss.pl
+
+aby zmienić wielkość pakietu wysłanego, po nazwie hosta dopisuję liczbę oznaczającą liczbę bajtów w paczce
+
+sudo traceroute -T w2.vatican.va 10
+sudo traceroute -T w2.vatican.va 1000
+sudo traceroute -T w2.vatican.va 60000
+sudo traceroute -T w2.vatican.va 66000
+to ostanie zwróci "too big packetlen 66000 specified"
+
+traceroute wcss.pl 10
+traceroute wcss.pl 1000
+traceroute wcss.pl 1472
+traceroute wcss.pl 1501
+przy tym ostatnim zaczyna być problem z docieraniem pakietów
+
+jeśli chodzi o ustalenie MTU, traceroute próbuje zrobić to sam, gdy użyje się flagi -mtu. Widzimy wtedy, że dla wcss.pl wyniesie on 1500, podobnie dla w2.vatican.wa.
+
+użyte komedy:
+traceroute --mtu wcss.pl
+traceroute -F wcss.pl
+traceroute -F wcss.pl 1501
+traceroute --mtu w2.vatican.va
+traceroute -F -q 1 -m 20 w2.vatican.va
+traceroute -F w2.vatican.va 1501
+
+Podsumowując, traceroute jest dla mnie wygodniejszym i bardziej przejrzystym narzędziem od ping. Przy jego pomocy dużo łatwiej było wykonać powyższe polecenia, ponieważ sam zwracał potrzebne informacje i nie było potrzeby ich samemu szukać (jak np w przypadku węzłów od i do hosta).
+
+
+11. WIRESHARK
+
+Jest to program służący do analizowania pakietów. Przedstawia on dokładne informacje o przechwyconych pakietach. Ma interfejs graficzny.
+
+Aby ustalić ttl ode mnie do hosta, w wireshark wybrałem "przechwytywanie z any" oraz w filtrach wpisałem "icmp". Następnie, przy użyciu programu ping, pingowałem do konkretnych hostów, i obserwowałem przechwytywane przez wireshark pakiety. Tak samo jak w poleceniu 1., używałem flagi -t. Wyniki wyszły takie same.
+
+Wireshark pokazuje także pakiety zwrócone do mnie. Tak samo jak w przypadku polecenia ping, wartość ttl to 63-51=12, a w przypadku wcss.pl -
+255-249=6
+
+W przypadku przekroczenia wielkości mtu, wireshark wypisze (no response found!).
+
+Podsumowując, program ten jest przydatny do dokładniejszego obserwowania drogi oraz zachowania paczek. Wyświetla dużo więcej informacji oraz z większą dokładnością. Jednakże nie jest on tak "lekki" jak traceroute czy ping, ze względu na dużą funkcjonalność oraz interfejs graficzny.
