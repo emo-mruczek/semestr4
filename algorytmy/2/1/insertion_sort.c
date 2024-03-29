@@ -8,23 +8,19 @@ int swap = 0;
 
 
 void alghoritm(int length, int A[], bool should_print) {
-    printf("DUPA");
     int i = 1;
     while (i < length) {
         int j = i;
-        while (j > 0) {
+        comp++;
+        while (j > 0 && A[j - 1] > A[j]) {
             //porównanie między kluczami
-            comp++;
-            if(A[j - 1] > A[j]) {
             // swap
             swap++;
             int temp = A[j];
             A[j] = A[j - 1];
             A[j - 1] = temp;
             j--;
-            }
         }
-
         if (should_print) {
             for (int k = 0; k < length; k++) {
                 printf(", %d", A[k]);
@@ -36,12 +32,11 @@ void alghoritm(int length, int A[], bool should_print) {
 }
 
 int main() {
-  printf("Podaj dlugosc tablicy: ");
+ printf("Podaj dlugosc tablicy: ");
     int length;
     scanf("%d", &length);
     int A[length];
     int Init[length];
-
 
     for (int i = 0; i < length; i++) {
         int num;
@@ -55,12 +50,9 @@ int main() {
         should_print = true;
     }
 
-
     if (should_print ) {
         printf("Tablica wejsciowa: ");
     
-
-   
     for (int k = 0; k < length; k++) {
         if (should_print ) {
             printf(", %d", A[k]);
@@ -68,16 +60,13 @@ int main() {
         }
     }}
 
-    if (should_print) {
+   if (should_print) {
         printf("\n");
         printf("Kluczowe momenty:\n");
     }
 
-    printf("dupa1");
-
     //właściwy algorytm
     alghoritm(length, A, should_print);
-    printf("dupa2");
 
     if (should_print) {
         printf("Tablica poczatkowa:\n");
