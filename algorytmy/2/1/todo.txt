@@ -4,7 +4,7 @@
 > spr porownania
 > spr przestawienia
 > porownananie i przestawienia jako procedury??
-> sprawdzanie, czy program jest posortowanym ciagiem???
-
+    > sprawdzanie, czy program jest posortowanym ciagiem???
+> dlaczego nie dziala pipe do insertionsort?????
 
 

@@ -8,6 +8,7 @@ int swap = 0;
 
 
 void alghoritm(int length, int A[], bool should_print) {
+    printf("DUPA");
     int i = 1;
     while (i < length) {
         int j = i;
@@ -34,7 +35,7 @@ void alghoritm(int length, int A[], bool should_print) {
     }
 }
 
-int main(int argc, char *argv[]) {
+int main() {
   printf("Podaj dlugosc tablicy: ");
     int length;
     scanf("%d", &length);
@@ -60,10 +61,10 @@ int main(int argc, char *argv[]) {
     
 
    
-    for (int k = 0, l = 0; k < length; k++, l++) {
+    for (int k = 0; k < length; k++) {
         if (should_print ) {
-            printf(", %d", A[l]);
-            Init[l] = A[k];
+            printf(", %d", A[k]);
+            Init[k] = A[k];
         }
     }}
 
@@ -72,8 +73,11 @@ int main(int argc, char *argv[]) {
         printf("Kluczowe momenty:\n");
     }
 
+    printf("dupa1");
+
     //właściwy algorytm
     alghoritm(length, A, should_print);
+    printf("dupa2");
 
     if (should_print) {
         printf("Tablica poczatkowa:\n");

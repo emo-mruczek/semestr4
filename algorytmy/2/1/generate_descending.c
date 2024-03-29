@@ -6,7 +6,7 @@ int main(int argc, char *argv[]) {
     int tab[length];
 
     for (int i = 0; i < length; i++) {
-        tab[i] = i + 1;
+        tab[i] = length - i;
     }
 
     printf("%d\n", length);

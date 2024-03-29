@@ -109,10 +109,10 @@ int main(int argc, char *argv[]) {
         printf("Tablica wejsciowa: ");
     
    
-    for (int k = 0, l = 0; k < length; k++, l++) {
+    for (int k = 0; k < length; k++) {
         if (should_print ) {
-            printf(", %d", A[l]);
-            Init[l] = A[k];
+            printf(", %d", A[k]);
+            Init[k] = A[k];
         }
     }}
 
