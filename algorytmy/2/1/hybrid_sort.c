@@ -6,88 +6,81 @@
 int comp = 0;
 int swap = 0;
 
-void insertion(int length, int A[], bool should_print) {
-    int i = 1;
-    while (i < length) {
+void insertion(int lo, int hi, int A[], bool should_print) {
+    for (int i = lo + 1; i <= hi; i++) {
+        int value = A[i];
         int j = i;
-        while (j > 0) {
-            //porównanie między kluczami
-            comp++;
-            if(A[j - 1] > A[j]) {
-            // swap
-            swap++;
-            int temp = A[j];
-            A[j] = A[j - 1];
-            A[j - 1] = temp;
-            j--;
-            }
-        }
+        
 
-        if (should_print) {
-            for (int k = 0; k < length; k++) {
-                printf(", %d", A[k]);
+        while (j > lo && A[j - 1] > value) {
+            comp++;
+                swap++;
+                A[j] = A[j - 1];
+                j--;
+ if (should_print) {
+            for (int k = 0; k <= hi; k++) {
+            printf(", %d", A[k]);
             }
             printf("\n");
         }
-        i++;
-    }
-}
+
+        }
+        comp++;
+
+        A[j] = value;
+
+           }
+ }
 
 int partition(int A[], int lo, int hi) {
-    int pivot = A[lo];
-    int i = lo - 1;
-    int j = hi + 1;
 
-    while (true) {
-        do {
-            i++;
-            comp++;
-        } while (A[i] < pivot);
+    int pivot = A[hi];
 
-        do {
-            j--;
-            comp++;
-        } while (A[j] > pivot);
 
-        if (i >= j) {
-            return j;
-        }
+    int index = lo;
 
-         // swap
+    for (int i = lo; i < hi; i++) {
+        comp++;
+        if (A[i] <= pivot) {
             swap++;
             int temp = A[i];
-            A[i] = A[j];
-            A[j] = temp;
-            
-    }
-}
-
-
-void quick(int A[], int lo, int hi, bool should_print) {
-    if (lo >=0 && hi >= 0 && lo < hi) {
-        int p = partition(A, lo, hi);
-
-        if(should_print) {
-            for (int k = 0; k < hi+1; k++) {
-                printf(", %d", A[k]);
-            }
-            printf("\n");
-        }
-
-        quick(A, lo, p, should_print);
-        quick(A, p + 1, hi, should_print);
-
-         if(should_print) {
-            for (int k = 0; k < hi+1; k++) {
-                printf(", %d", A[k]);
-            }
-            printf("\n");
+            A[i] = A[index];
+            A[index] = temp;
+            index++;
         }
     }
+
+    swap++;
+    int temp = A[hi];
+    A[hi] = A[index];
+    A[index] = temp;
+
+    return index;
 }
 
 void hybrid(int A[], int lo, int hi, bool should_print) {
+    while (lo < hi) {
+        if (hi - lo < 10) {
+            insertion(lo, hi, A, should_print);
+            break;
+        } else {
+            int pivot = partition(A, lo, hi);
+            if (pivot - lo < hi - pivot) {
+                hybrid(A, lo, pivot - 1, should_print);
+                lo = pivot + 1;
+            } else {
+                hybrid(A, pivot + 1, hi, should_print);
+                hi = pivot - 1;
+            }
 
+        if (should_print) {
+            for (int k = 0; k <= hi; k++) {
+                printf(", %d", A[k]);
+            }
+            printf("\n");
+        }
+        }
+    }
 }
 
 int main(int argc, char *argv[]) {
