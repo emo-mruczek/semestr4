@@ -35,11 +35,20 @@ void alghoritm(int length, int A[], bool should_print) {
 }
 
 int main(int argc, char *argv[]) {
-    int length = atoi(argv[1]);
+  printf("Podaj dlugosc tablicy: ");
+    int length;
+    scanf("%d", &length);
     int A[length];
     int Init[length];
+
+
+    for (int i = 0; i < length; i++) {
+        int num;
+        scanf("%d", &num);
+        A[i] = num;
+    }
+
     bool should_print = false;
- 
 
     if (length < 40) {
         should_print = true;
@@ -51,11 +60,10 @@ int main(int argc, char *argv[]) {
     
 
    
-    for (int k = 2, l = 0; k < length + 2; k++, l++) {
-        A[l] = atoi(argv[k]);
+    for (int k = 0, l = 0; k < length; k++, l++) {
         if (should_print ) {
             printf(", %d", A[l]);
-            Init[l] = atoi(argv[k]);
+            Init[l] = A[k];
         }
     }}
 

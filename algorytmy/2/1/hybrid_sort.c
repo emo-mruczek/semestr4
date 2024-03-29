@@ -84,9 +84,19 @@ void hybrid(int A[], int lo, int hi, bool should_print) {
 }
 
 int main(int argc, char *argv[]) {
-    int length = atoi(argv[1]);
+    printf("Podaj dlugosc tablicy: ");
+    int length;
+    scanf("%d", &length);
     int A[length];
     int Init[length];
+
+
+    for (int i = 0; i < length; i++) {
+        int num;
+        scanf("%d", &num);
+        A[i] = num;
+    }
+
     bool should_print = false;
  
 
@@ -98,13 +108,11 @@ int main(int argc, char *argv[]) {
     if (should_print ) {
         printf("Tablica wejsciowa: ");
     
-
    
-    for (int k = 2, l = 0; k < length + 2; k++, l++) {
-        A[l] = atoi(argv[k]);
+    for (int k = 0, l = 0; k < length; k++, l++) {
         if (should_print ) {
             printf(", %d", A[l]);
-            Init[l] = atoi(argv[k]);
+            Init[l] = A[k];
         }
     }}
 
