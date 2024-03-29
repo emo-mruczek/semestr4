@@ -95,6 +95,22 @@ powyzsza komenda udalo mi sie znalezc hasło "bushstudy($%"
 
 WIRESHARK
 
+Ogólne:
+dla http
+testowe http: sp5.jur.pl 
+fitr: http
+widać absolutnie wszystko, cały kod strony; mozna wyszukać coś i widać, co 
+
+dla ftp
+testowo: test.rebex.net
+filtr: ftp
+komenda: ftp -p test.rebex.net 21
+widac dane podane do logowania (nawet hasło!), widac wszystkie response/request, widac pliki, ktore pobieram
+
+maile
+filtry: pop3, SMTP
+bylem w stanie odczytac maile przychodzace i wychodzace
+
 1. W wiresharku możemy filtrować dane po np:
 > protokołach; np "http" dla http, "ip", "ipv6", "dns"
 > możemy określać konkretne adresy/porty, np "ip.addr == " albo "eth.addr == " (dla adresu MAC), "tcp.port == 80" (dla http),  "udp.port == 53" dla DNS, "tcp.port==443" dla https (jest to domyślny port dla https) lub "tls"
@@ -103,7 +119,7 @@ WIRESHARK
 2. Przez http jest wysyłany cały kod strony, obrazki, style, ciasteczka itp; jeśli wpiszę coś np w wyszukiwarkę na stronie http, i prześlę to, mogę podejrzeć do dokladnie wpisałem w wiresharku. Przy http, dane te są zaszyfrowane.
 przy komunikacji email, wysyłane są informacje takie jak treść maila, załączniki, adresy adresata i nadawcy - oczywiscie wszystko w przypadku nieszyfrowanego połączenia (tcp port, odpowiednio).
 
-    SMTP (sending, no encryption) - port 25
+    SMTP (sending, no encryption) - port 25 (u mnie 465)
     SMTPs (sending, with encryption) - port 587
     POP3 (retrieving, no encryption) - port 110
     POP3s (retrieving, with encryption) - port 995
@@ -116,4 +132,3 @@ dla tranferu plików, przy protokole ftp, który domyślnie nie używa szyfrowan
 
 4. Przy http, możemy przechwycić informacje takie jak: addres url z którym się łączymy, adres ip, zawartość przesyłanych requestów i responsów, ciasteczka.Przy https, które jest szyfrowane, znamy tylko adress ip odbiorcy, informacje o certyfikacie oraz zaszyfrowane, przesyłane dane.
 
-???????????????????????????
