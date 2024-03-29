@@ -109,7 +109,8 @@ widac dane podane do logowania (nawet hasło!), widac wszystkie response/request
 
 maile
 filtry: pop3, SMTP
-bylem w stanie odczytac maile przychodzace i wychodzace
+bylem w stanie odczytac maile przychodzace, łącznie z ich nadawca, tematem i treścią
+używałem thunderbirda odpowiednio skonfigurowanego
 
 1. W wiresharku możemy filtrować dane po np:
 > protokołach; np "http" dla http, "ip", "ipv6", "dns"
