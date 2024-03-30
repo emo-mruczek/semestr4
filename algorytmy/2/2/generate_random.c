@@ -8,7 +8,9 @@
 int main(int argc, char *argv[]) {
     int length = atoi(argv[1]);
     int tab[length];
-    srandom(time(NULL));
+    unsigned int seed;
+    getrandom(&seed, sizeof(seed), 0);
+    srandom(seed);
     int max = 2 * length;
 
     for (int i = 0; i < length; i++) {
