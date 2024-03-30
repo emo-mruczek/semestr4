@@ -11,22 +11,25 @@ void alghoritm(int length, int A[], bool should_print) {
     int i = 1;
     while (i < length) {
         int j = i;
-        comp++;
-        while (j > 0 && A[j - 1] > A[j]) {
-            //porównanie między kluczami
+   while (j > 0 && A[j-1] > A[j])  {
+       comp++;     
+       //porównanie między kluczami
             // swap
             swap++;
             int temp = A[j];
             A[j] = A[j - 1];
             A[j - 1] = temp;
             j--;
+            
         }
+
         if (should_print) {
             for (int k = 0; k < length; k++) {
-                printf(", %d", A[k]);
+                printf(" %d", A[k]);
             }
             printf("\n");
         }
+
         i++;
     }
 }
@@ -54,29 +57,26 @@ int main() {
         printf("Tablica wejsciowa: ");
     
     for (int k = 0; k < length; k++) {
-        if (should_print ) {
-            printf(", %d", A[k]);
+            printf(" %d", A[k]);
             Init[k] = A[k];
-        }
-    }}
+    }
 
-   if (should_print) {
         printf("\n");
         printf("Kluczowe momenty:\n");
     }
-
+    
     //właściwy algorytm
     alghoritm(length, A, should_print);
 
     if (should_print) {
         printf("Tablica poczatkowa:\n");
         for (int k = 0; k < length; k++) {
-            printf("%d, ", Init[k]);
+            printf("%d ", Init[k]);
         }
         printf("\n");
         printf("Tablica posortowana:\n");
         for (int k = 0; k < length; k++) {
-            printf("%d, ", A[k]);
+            printf("%d ", A[k]);
         }
         printf("\n");
     }

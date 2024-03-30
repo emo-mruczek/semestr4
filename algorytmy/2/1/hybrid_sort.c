@@ -10,32 +10,27 @@ void insertion(int lo, int hi, int A[], bool should_print) {
     for (int i = lo + 1; i <= hi; i++) {
         int value = A[i];
         int j = i;
-        
 
         while (j > lo && A[j - 1] > value) {
             comp++;
-                swap++;
-                A[j] = A[j - 1];
-                j--;
- if (should_print) {
-            for (int k = 0; k <= hi; k++) {
-            printf(", %d", A[k]);
+            swap++;
+            A[j] = A[j - 1];
+            j--;
+            
+            if (should_print) {
+                for (int k = 0; k <= hi; k++) {
+                    printf(", %d", A[k]);
+                }
+                printf("\n");
             }
-            printf("\n");
         }
-
-        }
-        comp++;
 
         A[j] = value;
-
-           }
+    }
  }
 
 int partition(int A[], int lo, int hi) {
-
     int pivot = A[hi];
-
 
     int index = lo;
 
@@ -90,7 +85,6 @@ int main(int argc, char *argv[]) {
     int A[length];
     int Init[length];
 
-
     for (int i = 0; i < length; i++) {
         int num;
         scanf("%d", &num);
@@ -98,25 +92,17 @@ int main(int argc, char *argv[]) {
     }
 
     bool should_print = false;
- 
 
     if (length < 40) {
         should_print = true;
     }
 
-
     if (should_print ) {
         printf("Tablica wejsciowa: ");
-    
-   
-    for (int k = 0; k < length; k++) {
-        if (should_print ) {
-            printf(", %d", A[k]);
+        for (int k = 0; k < length; k++) {    
+            printf(" %d" A[k]);
             Init[k] = A[k];
         }
-    }}
-
-    if (should_print) {
         printf("\n");
         printf("Kluczowe momenty:\n");
     }
@@ -127,12 +113,12 @@ int main(int argc, char *argv[]) {
     if (should_print) {
         printf("Tablica poczatkowa:\n");
         for (int k = 0; k < length; k++) {
-            printf("%d, ", Init[k]);
+            printf("%d ", Init[k]);
         }
         printf("\n");
         printf("Tablica posortowana:\n");
         for (int k = 0; k < length; k++) {
-            printf("%d, ", A[k]);
+            printf("%d ", A[k]);
         }
         printf("\n");
     }
