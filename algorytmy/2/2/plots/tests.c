@@ -32,9 +32,9 @@ void results(char generator_type[30], char sort_type[20], int n) {
 int main() {
 
     printf("#random data for k = %d\n", K_MAX);
-    printf("#N-compQ-swapQ-compH-swapH-compI-swapI\n");
+    printf("#N-compH-swapH-compQ-swapQ-compI-swapI\n");
 
-    for (int n = 10; n <= 50; n = n + 10) {
+ /*   for (int n = 10; n <= 50; n = n + 10) {
         for (int k = 0; k < K_MAX; k++) {
             printf("%d ", n);
             results("./generate_random", "./hybrid_sort", n);
@@ -42,18 +42,17 @@ int main() {
             results("./generate_random","./insertion_sort", n);
             printf("\n");
         }
-    }
+    }*/
 
-/*    for (int n = 1000; n <= 50000; n = n + 1000) {
+   for (int n = 1000; n <= 50000; n = n + 1000) {
         
         for (int k = 0; k < K_MAX; k++) {
             printf("%d ", n);
             results("./generate_random", "./hybrid_sort", n);
             results("./generate_random", "./quick_sort", n);
-            printf("0 0 ");
             printf("\n");
         }
     }
-*/
-    return 0;
+
+   return 0;
 }

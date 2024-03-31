@@ -1,45 +1,45 @@
 awk '{
-    sumCQ[$1] += $2
-    sumSQ[$1] += $3
-    sumCH[$1] += $4
-    sumSH[$1] += $5
+     sumCH[$1] += $2
+    sumSH[$1] += $3
+    sumCQ[$1] += $4
+    sumSQ[$1] += $5
     sumCI[$1] += $6
     sumSI[$1] += $7
     count[$1]++
 }
 END {
     for (key in sumSQ) {
-        print key, sumCQ[key] / count[key], sumSQ[key] / count[key], sumCH[key] / count[key], sumSH[key] / count[key], sumCI[key] / count[key], sumSI[key] / count[key]
+        print key, sumCH[key] / count[key], sumSH[key] / count[key], sumCQ[key] / count[key], sumSQ[key] / count[key], sumCI[key] / count[key], sumSI[key] / count[key], (sumCH[key] / count[key])/key, (sumSH[key] / count[key]) / key, (sumCQ[key] / count[key]) / key, (sumSQ[key] / count[key]) / key, (sumCI[key] / count[key]) / key, (sumSI[key] / count[key]) / key
     }
 }' random_1_small.txt > average_1_small.txt
 
 
 awk '{
-    sumSQ[$1] += $2
-    sumCQ[$1] += $3
-    sumSH[$1] += $4
-    sumCH[$1] += $5
-    sumSI[$1] += $6
+     sumCH[$1] += $2
+    sumSH[$1] += $3
+    sumCQ[$1] += $4
+    sumSQ[$1] += $5
+    sumCI[$1] += $6
     sumSI[$1] += $7
     count[$1]++
 }
 END {
     for (key in sumSQ) {
-        print key, sumSQ[key] / count[key], sumCQ[key] / count[key], sumSH[key] / count[key], sumCH[key] / count[key], sumSI[key] / count[key], sumSI[key] / count[key]
+          print key, sumCH[key] / count[key], sumSH[key] / count[key], sumCQ[key] / count[key], sumSQ[key] / count[key], sumCI[key] / count[key], sumSI[key] / count[key], (sumCH[key] / count[key])/key, (sumSH[key] / count[key]) / key, (sumCQ[key] / count[key]) / key, (sumSQ[key] / count[key]) / key, (sumCI[key] / count[key]) / key, (sumSI[key] / count[key]) / key
     }
 }' random_10_small.txt > average_10_small.txt
 
 awk '{
-    sumSQ[$1] += $2
-    sumCQ[$1] += $3
-    sumSH[$1] += $4
-    sumCH[$1] += $5
-    sumSI[$1] += $6
+     sumCH[$1] += $2
+    sumSH[$1] += $3
+    sumCQ[$1] += $4
+    sumSQ[$1] += $5
+    sumCI[$1] += $6
     sumSI[$1] += $7
     count[$1]++
 }
 END {
     for (key in sumSQ) {
-        print key, sumSQ[key] / count[key], sumCQ[key] / count[key], sumSH[key] / count[key], sumCH[key] / count[key], sumSI[key] / count[key], sumSI[key] / count[key]
+         print key, sumCH[key] / count[key], sumSH[key] / count[key], sumCQ[key] / count[key], sumSQ[key] / count[key], sumCI[key] / count[key], sumSI[key] / count[key], (sumCH[key] / count[key])/key, (sumSH[key] / count[key]) / key, (sumCQ[key] / count[key]) / key, (sumSQ[key] / count[key]) / key, (sumCI[key] / count[key]) / key, (sumSI[key] / count[key]) / key
     }
 }' random_100_small.txt > average_100_small.txt
