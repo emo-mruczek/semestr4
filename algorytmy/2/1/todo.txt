@@ -3,7 +3,8 @@
 > drukujemy jako liczby dwucyfrowe???
 > spr porownania
 > spr przestawienia
-> porownananie i przestawienia jako procedury??
-    > sprawdzanie, czy program jest posortowanym ciagiem???
-> swapy w hybrid-sorcie są dziwne...
+> wyznaczanie najlepszego odciecia hybrid
+> wyznaczanie n ln (n)
+> ogolnie 4 zad ocb???
+
 

@@ -2,7 +2,6 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-
 int comp = 0;
 int swap = 0;
 
@@ -10,8 +9,20 @@ bool is_less(int a, int b, bool count) {
     if (count) {
         comp++;
     }
-    
+
     if (a < b) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool is_less_equal(int a, int b, bool count) {
+    if (count) {
+        comp++;
+    }
+
+    if (a <= b) {
         return true;
     } else {
         return false;
@@ -25,44 +36,67 @@ void exchange(int* a, int* b) {
     *b = temp;
 }
 
-int partition(int A[], int lo, int hi) {
-    int pivot = A[lo];
-    int i = lo - 1;
-    int j = hi + 1;
+int partition(int A[], int p, int q, int* l) {
 
-    while (true) {
-        do {
-            i++;
-        } while(is_less(A[i], pivot, true));
+     if (A[p] > A[q]) {
+         exchange(&A[p], &A[q]);
+     }
 
-        do {
-            j--;
-        } while (is_less(pivot, A[j], true));
+     int j = p + 1;
+     int k = p + 1;
+     int g = q - 1;
 
-        if (i >= j) {
-            return j;
-        }
+     while (is_less_equal(k, g, false)) {
+         if (is_less(A[k], A[p], true)) {
+             exchange(&A[k], &A[j]);
+             j++;
+         } else if (is_less_equal(A[q], A[k], true)) {
+             while (is_less(A[hi], A[g], true) && is_less(k, g, false)) {
+                 g--;
+             }
+             exchange(&A[k], &A[g]);
+             g--;
 
-        exchange(&A[i], &A[j]);
-    }
+             if (is_less(A[k], A[p], true)) {
+                     exchange(&A[k], &A[j]);
+                     j++;
+            }
+         }
+
+         k++;
+     }
+
+     j--;
+     g++;
+    
+     exchange(&A[p], &A[j]);
+     exchange(&A[q], &A[g]);
+
+     *l = j;
+     return g;
 }
 
 
-void alghoritm(int A[], int lo, int hi, bool should_print) {
-    if (lo >=0 && hi >= 0 && lo < hi) {
+
+
+void alghoritm(int A[], int p, int q, bool should_print) {
+    if (p < q) {
+
         if(should_print) {
-            for (int k = 0; k < hi+1; k++) {
+            for (int k = 0; k < q+1; k++) {
                 printf(" %d", A[k]);
             }
             printf("\n");
         }
 
-        int p = partition(A, lo, hi);
-        
-        alghoritm(A, lo, p, should_print);
-        alghoritm(A, p + 1, hi, should_print);
+
+        int l, r;
+        r = partition(A, p, q, &l);
+        alghoritm(A, p, l - 1, should_print);
+        alghoritm(A, l + 1, r - 1, should_print);
+        alghoritm(A, r + 1, q, should_print);
     }
- }
+}
 
  bool is_sorted(int A[], int length) {
     for (int i = 0; i < length - 1; i++) {
@@ -95,7 +129,7 @@ int main(int argc, char *argv[]) {
     if (should_print ) {
         printf("Tablica wejsciowa: ");
             for (int k = 0, l = 0; k < length; k++, l++) {
-                printf(" %d", A[l]); 
+                printf(" %d", A[l]);
                 Init[l] = A[k];
         }
         printf("\n");
@@ -129,3 +163,5 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
+
+
