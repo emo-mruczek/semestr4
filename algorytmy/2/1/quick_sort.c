@@ -6,6 +6,25 @@
 int comp = 0;
 int swap = 0;
 
+bool is_less(int a, int b, bool count) {
+    if (count) {
+        comp++;
+    }
+    
+    if (a < b) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+void exchange(int* a, int* b) {
+    swap++;
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
 int partition(int A[], int lo, int hi) {
     int pivot = A[lo];
     int i = lo - 1;
@@ -14,37 +33,29 @@ int partition(int A[], int lo, int hi) {
     while (true) {
         do {
             i++;
-            comp++;
-        } while (A[i] < pivot);
+        } while(is_less(A[i], pivot, true));
 
         do {
             j--;
-            comp++;
-        } while (A[j] > pivot);
+        } while (is_less(pivot, A[j], true));
 
         if (i >= j) {
             return j;
         }
 
-         // swap
-            swap++;
-            int temp = A[i];
-            A[i] = A[j];
-            A[j] = temp;
-            
+        exchange(&A[i], &A[j]);
     }
 }
 
 
 void alghoritm(int A[], int lo, int hi, bool should_print) {
     if (lo >=0 && hi >= 0 && lo < hi) {
-  if(should_print) {
+        if(should_print) {
             for (int k = 0; k < hi+1; k++) {
                 printf(" %d", A[k]);
             }
             printf("\n");
         }
-
 
         int p = partition(A, lo, hi);
         
@@ -53,6 +64,15 @@ void alghoritm(int A[], int lo, int hi, bool should_print) {
     }
 
  }
+
+ bool is_sorted(int A[], int length) {
+    for (int i = 0; i < length - 1; i++) {
+        if (!is_less(A[i], A[i + 1], false)) {
+            return false;
+        }
+    }
+    return true;
+}
 
 int main(int argc, char *argv[]) {
     printf("Podaj dlugosc tablicy: ");
@@ -101,6 +121,12 @@ int main(int argc, char *argv[]) {
 
     printf("Łączna liczba porównan między kluczami: %d\n", comp);
     printf("Łączna liczba przestawień kluczy: %d\n", swap);
+
+      if (is_sorted(A, length)) {
+        printf("Tablica zostala posortowana prawidlowo.");
+    } else {
+        printf("Tablica zostala posortowana blednie.");
+    }
 
     return 0;
 }

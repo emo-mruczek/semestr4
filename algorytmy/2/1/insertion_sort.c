@@ -2,36 +2,55 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-
 int comp = 0;
 int swap = 0;
 
+bool is_less(int a, int b, bool count) {
+    if (count) {
+      comp++;
+    }
+
+    if (a < b) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+void exchange(int* a, int* b) {
+    swap++;
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
 
 void alghoritm(int length, int A[], bool should_print) {
     int i = 1;
     while (i < length) {
-        int j = i;
-   while (j > 0 && A[j-1] > A[j])  {
-       comp++;     
-       //porównanie między kluczami
-            // swap
-            swap++;
-            int temp = A[j];
-            A[j] = A[j - 1];
-            A[j - 1] = temp;
-            j--;
-            
-        }
+       int j = i;
+       while (j > 0 && is_less(A[j], A[j-1], true))  {
+            exchange(&A[j], &A[j-1]);
+            j--;     
+       }
 
-        if (should_print) {
+       if (should_print) {
             for (int k = 0; k < length; k++) {
                 printf(" %d", A[k]);
             }
             printf("\n");
-        }
+       }
 
-        i++;
+       i++;
     }
+}
+
+bool is_sorted(int A[], int length) {
+    for (int i = 0; i < length - 1; i++) {
+        if (!is_less(A[i], A[i + 1], false)) {
+            return false;
+        }
+    }
+    return true;
 }
 
 int main() {
@@ -83,6 +102,12 @@ int main() {
 
     printf("Łączna liczba porównan między kluczami: %d\n", comp);
     printf("Łączna liczba przestawień kluczy: %d\n", swap);
+
+    if (is_sorted(A, length)) {
+        printf("Tablica zostala posortowana prawidlowo.");
+    } else {
+        printf("Tablica zostala posortowana blednie.");
+    }
 
     return 0;
 }
