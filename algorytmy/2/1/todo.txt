@@ -5,6 +5,10 @@
 > spr przestawienia
 > wyznaczanie najlepszego odciecia hybrid
 > wyznaczanie n ln (n)
-> ogolnie 4 zad ocb???
+> zad 4 czemu nie wchodzi
+> zad 4 wykresy
+> zad ktores dodac sensowna mediane z zad 3 mergesort
+> moj sor
+> wykresy do 3 (np wziac kod z 4);
 
 
