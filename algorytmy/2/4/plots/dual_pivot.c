@@ -62,7 +62,7 @@ int partition(int A[], int p, int q, int len, int* l) {
     int g = q - 1;
 
     while (is_less_equal(k, g, false)) {
-        if (is_more_p(A, p, q, len)) {
+       
           
             if (is_less(A[k], A[p], true)) {
                 exchange(&A[k], &A[j]);
@@ -80,7 +80,7 @@ int partition(int A[], int p, int q, int len, int* l) {
                 }
             }
             k++;
-        } else {
+        
             if (is_less_equal(A[q], A[k], true)) {
                 while (is_less(A[q], A[g], true) && is_less(k, g, false)) {
                     g--;
@@ -97,7 +97,6 @@ int partition(int A[], int p, int q, int len, int* l) {
                 j++;
             } 
             k++;    
-        }
     }
     j--;
     g++;
@@ -141,7 +140,6 @@ void alghoritm(int A[], int p, int q, int len, bool should_print) {
 }
 
 int main(int argc, char *argv[]) {
-    printf("Podaj dlugosc tablicy: ");
     int length;
     scanf("%d", &length);
     int A[length];
@@ -154,10 +152,6 @@ int main(int argc, char *argv[]) {
     }
 
     bool should_print = false;
-
-    if (length < 40) {
-        should_print = true;
-    }
 
     if (should_print ) {
         printf("Tablica wejsciowa: ");
@@ -185,14 +179,8 @@ int main(int argc, char *argv[]) {
         printf("\n");
     }
 
-    printf("Łączna liczba porównan między kluczami: %d\n", comp);
-    printf("Łączna liczba przestawień kluczy: %d\n", swap);
+    printf("%d %d ", comp, swap);
 
-      if (is_sorted(A, length)) {
-        printf("Tablica zostala posortowana prawidlowo.");
-    } else {
-        printf("Tablica zostala posortowana blednie.");
-    }
 
     return 0;
 }

@@ -34,25 +34,25 @@ int main() {
 //    printf("#random data for k = %d\n", K_MAX);
   //  printf("#N-compH-swapH-compQ-swapQ-compI-swapI\n");
 
-   for (int n = 10; n <= 50; n = n + 10) {
+/*   for (int n = 10; n <= 50; n = n + 10) {
         for (int k = 0; k < K_MAX; k++) {
             printf("%d ", n);
             results("./generate_random", "./quick_sort", n);
              results("./generate_random", "./dual_pivot", n);
             printf("\n");
         }
-    }
+    }*/
 
-/*   for (int n = 1000; n <= 50000; n = n + 1000) {
+   for (int n = 1000; n <= 50000; n = n + 1000) {
         
         for (int k = 0; k < K_MAX; k++) {
             printf("%d ", n);
-            results("./generate_random", "./hybrid_sort", n);
             results("./generate_random", "./quick_sort", n);
+            results("./generate_random", "./dual_pivot", n);
             printf("\n");
         }
     }
-*/
+
 
  /*   for (int n = 10; n <= 50; n = n + 10) {
         for (int k = 0; k < K_MAX; k++) {

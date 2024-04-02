@@ -74,7 +74,6 @@ void alghoritm(int A[], int lo, int hi, bool should_print) {
 }
 
 int main(int argc, char *argv[]) {
-    printf("Podaj dlugosc tablicy: ");
     int length;
     scanf("%d", &length);
     int A[length];
@@ -87,10 +86,6 @@ int main(int argc, char *argv[]) {
     }
 
     bool should_print = false;
-
-    if (length < 40) {
-        should_print = true;
-    }
 
     if (should_print ) {
         printf("Tablica wejsciowa: ");
@@ -118,14 +113,7 @@ int main(int argc, char *argv[]) {
         printf("\n");
     }
 
-    printf("Łączna liczba porównan między kluczami: %d\n", comp);
-    printf("Łączna liczba przestawień kluczy: %d\n", swap);
-
-      if (is_sorted(A, length)) {
-        printf("Tablica zostala posortowana prawidlowo.");
-    } else {
-        printf("Tablica zostala posortowana blednie.");
-    }
+    printf("%d %d ", comp, swap);
 
     return 0;
 }
