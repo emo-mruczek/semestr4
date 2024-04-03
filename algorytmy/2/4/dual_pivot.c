@@ -36,83 +36,78 @@ void exchange(int* a, int* b) {
     *b = temp;
 }
 
-// is from 0 to p more keys than from q to A.length?
-bool is_more_p(int A[], int p, int q, int len) {
-    int cp, cq = 0;
-    for (int i = 0; i < p; i++) {
-        cp++;
-    }
-    for(int i = q+1; i < len; i++) {
-        cq++;
-    }
-
-    if (cp >- cq){
-        return true;
-    } else {
-        return false;
-    }
+void rotate(int* a, int* b, int* c) {
+    swap += 2;
+    int temp = *a;
+    *a = *b;
+    *b = *c;
+    *c = temp;
 }
 
-int partition(int A[], int p, int q, int len, int* l) {
-    if (A[p] > A[q]) {
+// is from 0 to p more keys than from q to A.length?
+
+int partition(int A[], int p, int q, int* ret) {
+    if (A[q] < A[p]) {
          exchange(&A[p], &A[q]);
     }
-    int j = p + 1;
-    int k = p + 1;
-    int g = q - 1;
 
-    while (is_less_equal(k, g, false)) {
-        if (is_more_p(A, p, q, len)) {
-          
-            if (is_less(A[k], A[p], true)) {
-                exchange(&A[k], &A[j]);
+    int l = A[p];
+    int r = A[q];
+    int i = p + 1;
+    int k = q - 1;
+    int j = i;
+    int d = 0; // holds difference between small and large numbers
+    
+    while (j <= k) {
+        if (d >= 0) {
+            if (is_less(A[j], l, true)) {
+                exchange(&A[i], &A[j]);
+                i++;
                 j++;
-            } else if (is_less_equal(A[q], A[k], true)) {
-                while (is_less(A[q], A[g], true) && is_less(k, g, false)) {
-                    g--;
-                }
-                exchange(&A[k], &A[g]);
-                g--;
-
-                if (is_less(A[k], A[p], true)) {
-                     exchange(&A[k], &A[j]);
-                     j++;
+                d++;
+            } else {
+                if (is_less(A[j], r, true)) {
+                    j++;
+                } else {
+                    exchange(&A[j], &A[k]);
+                    k--;
+                    d--;
                 }
             }
-            k++;
         } else {
-            if (is_less_equal(A[q], A[k], true)) {
-                while (is_less(A[q], A[g], true) && is_less(k, g, false)) {
-                    g--;
+            if (is_less(r, A[k], true)) {
+                k--;
+                d--;
+            } else {
+                if (is_less(A[k], l, true)) {
+                    rotate(&A[k], &A[j], &A[i]);
+                    i++;
+                    d++;
+                } else {
+                    exchange(&A[j], &A[k]);
                 }
-                exchange(&A[k], &A[g]);
-                g--;
-
-                if (is_less(A[k], A[p], true)) {
-                     exchange(&A[k], &A[j]);
-                     j++;
-                }
-            } else if (is_less(A[k], A[p], true)) {
-                exchange(&A[k], &A[j]);
                 j++;
-            } 
-            k++;    
+            }
         }
     }
-    j--;
-    g++;
-    
-    exchange(&A[p], &A[j]);
-    exchange(&A[q], &A[g]);
 
-    *l = j;
-    return g;
+    exchange(&A[p], &A[i-1]);
+    exchange(&A[q], &A[k+1]);
+
+    *ret = i;
+    return k;
+
+  //  exchange(&A[p], &A[j]);
+ //   exchange(&A[q], &A[g]);
+
+ //   *l = j;
+  //  return g;
 }
 
 
 
 
-void alghoritm(int A[], int p, int q, int len, bool should_print) {
+void alghoritm(int A[], int p, int q, bool should_print) {
     if (p < q) {
 
         if(should_print) {
@@ -124,10 +119,10 @@ void alghoritm(int A[], int p, int q, int len, bool should_print) {
 
 
         int l, r;
-        r = partition(A, p, q, len, &l);
-        alghoritm(A, p, l - 1, len, should_print);
-        alghoritm(A, l + 1, r - 1, len, should_print);
-        alghoritm(A, r + 1, q, len, should_print);
+        r = partition(A, p, q, &l);
+        alghoritm(A, p, l - 2, should_print);
+        alghoritm(A, l, r, should_print);
+        alghoritm(A, r + 1, q, should_print);
     }
 }
 
@@ -170,7 +165,7 @@ int main(int argc, char *argv[]) {
     }
 
     //właściwy algorytm
-    alghoritm(A, 0, length - 1, length, should_print);
+    alghoritm(A, 0, length - 1, should_print);
 
     if (should_print) {
         printf("Tablica poczatkowa:\n");
