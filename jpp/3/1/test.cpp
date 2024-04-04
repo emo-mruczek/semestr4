@@ -166,16 +166,13 @@ int main() {
     a *= GF(2);
     cout << "a * 2: " << a << endl;
 
+    cout << "-------" << endl;
 
+    GF obj;
+    cout << "Podaj wartość dla GF obj: ";
+    cin >> obj;
+    cout << "Charakterystyka tego obiektu to: " << endl;
+    obj.about();
 
-
-
-
-
-
-
-
-
-
-
+    return 0;
 }

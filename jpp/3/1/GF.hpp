@@ -3,10 +3,8 @@
 class GF {
 
     // TODO:
-    // dodawanie liczba += GF itd?????
     //zeby int mial zawszze 32
-    //porownania
-    
+
     private:
 
     int size = 1234577;
@@ -20,6 +18,7 @@ class GF {
         value = 0;
     }
 
+    // tez do konwersji int na GF
     GF(int n) {
         if (n >= 0) {
             value = n % size;
@@ -28,6 +27,17 @@ class GF {
         }
     }
 
+    // konwersja na int
+    operator int() const {
+        return value;
+    }
+
+    // do zwracania charakterystyki
+    void about() {
+        std::cout << "Size: " << this->size << " Value: " << this->value << std::endl;
+    }
+
+
     // operatory porównań
     // ==
     friend bool operator==(const GF& obj_a, const GF& obj_b) {
@@ -35,7 +45,7 @@ class GF {
     }
 
     // !=
-     friend bool operator!=(const GF& obj_a, const GF& obj_b) {
+    friend bool operator!=(const GF& obj_a, const GF& obj_b) {
         return obj_a.value != obj_b.value;
     }
 
@@ -197,16 +207,16 @@ class GF {
         throw std::runtime_error("You can't put int as GF!"); // musi byc konwersja!
     }
 
-
- 
-
     // streamy
-    friend std::ostream& operator<<(std::ostream& os, GF obj) {
+    friend std::ostream& operator<<(std::ostream& os, const GF& obj) {
         return os << obj.value;
     }
 
-    operator int() const {
-        return value;
+    friend std::istream& operator>>(std::istream& is, GF& obj) {
+        int temp;
+        is >> temp;
+        obj.value = temp % obj.size;
+        return is;
     }
 
 };
