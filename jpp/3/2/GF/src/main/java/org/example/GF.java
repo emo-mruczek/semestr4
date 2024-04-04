@@ -22,8 +22,10 @@ public class GF {
     }
 
     // konwersja
-  public int toInt() {
-      return this.value;
+  public static GF toGF(int n) {
+     GF gf = new GF();
+     gf.value = n % gf.size;
+     return gf;
   }
 
   // do zwracania charakterystyki
