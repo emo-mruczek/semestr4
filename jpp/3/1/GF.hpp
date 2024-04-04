@@ -1,11 +1,17 @@
 #include <iostream>
 
 class GF {
+
+    // TODO:
+    // dodawanie liczba += GF itd?????
+    //zeby int mial zawszze 32
+    //porownania
+    
     private:
 
-    unsigned int size = 21;
+    int size = 1234577;
 
-    unsigned int value;
+    int value;
 
     public:
 
@@ -14,96 +20,104 @@ class GF {
         value = 0;
     }
 
-    GF(unsigned int n ) {
-        value = n % size;
+    GF(int n) {
+        if (n >= 0) {
+            value = n % size;
+        } else {
+            value = ((size - (-n)) % size);
+        }
     }
 
     // operatory porównań
     // ==
     friend bool operator==(const GF& obj_a, const GF& obj_b) {
-        return (obj_a.value == obj_b.value) ? true : false;
-    }
-
-    friend bool operator==(const GF& obj_a, unsigned int n) {
-        return (obj_a.value == n % obj_a.size) ? true : false;
-    }
-
-    friend bool operator==(unsigned int n, const GF& obj_a) {
-        return (obj_a.value == n % obj_a.size) ? true : false;
+        return obj_a.value == obj_b.value;
     }
 
     // !=
      friend bool operator!=(const GF& obj_a, const GF& obj_b) {
-        return (obj_a.value != obj_b.value) ? true : false;
-    }
-
-    friend bool operator!=(const GF& obj_a, unsigned int n) {
-        return (obj_a.value != n % obj_a.size) ? true : false;
-    }
-
-    friend bool operator!=(unsigned int n, const GF& obj_a) {
-        return (obj_a.value != n % obj_a.size) ? true : false;
+        return obj_a.value != obj_b.value;
     }
 
     // <=
     friend bool operator<=(const GF& obj_a, const GF& obj_b) {
-        return (obj_a.value <= obj_b.value) ? true : false;
-    }
-
-    friend bool operator<=(const GF& obj_a, unsigned int n) {
-        return (obj_a.value <= n % obj_a.size) ? true : false;
-    }
-
-    friend bool operator<=(unsigned int n, const GF& obj_a) {
-        return (n % obj_a.size <= obj_a.value  ) ? true : false;
+        return obj_a.value <= obj_b.value;
     }
 
     // >=
     friend bool operator>=(const GF& obj_a, const GF& obj_b) {
-        return (obj_a.value >= obj_b.value) ? true : false;
-    }
-
-    friend bool operator>=(const GF& obj_a, unsigned int n) {
-        return (obj_a.value >= n % obj_a.size) ? true : false;
-    }
-
-    friend bool operator>=(unsigned int n, const GF& obj_a) {
-        return (n % obj_a.size >= obj_a.value ) ? true : false;
+        return obj_a.value >= obj_b.value;
     }
 
      // <
     friend bool operator<(const GF& obj_a, const GF& obj_b) {
-        return (obj_a.value < obj_b.value) ? true : false;
-    }
-
-    friend bool operator<(const GF& obj_a, unsigned int n) {
-        return (obj_a.value < n % obj_a.size) ? true : false;
-    }
-
-    friend bool operator<(unsigned int n, const GF& obj_a) {
-       return (n % obj_a.size < obj_a.value ) ? true : false;
+        return obj_a.value < obj_b.value;
     }
 
     // >
     friend bool operator>(const GF& obj_a, const GF& obj_b) {
-        return (obj_a.value > obj_b.value) ? true : false;
-    }
-
-    friend bool operator>(const GF& obj_a, unsigned int n) {
-        return (obj_a.value > n % obj_a.size) ? true : false;
-    }
-
-    friend bool operator>(unsigned int n, const GF& obj_a) {
-        return (n % obj_a.size > obj_a.value ) ? true : false;
+        return obj_a.value > obj_b.value;
     }
 
     // operatory arytmetyczne
+    // +
+    GF operator+(const GF& obj) const {
+        if (this->size != obj.size) {
+           throw std::runtime_error("Incompatible types");
+        }
+
+        GF res;
+        res.value = (this->value + obj.value) % size;
+        return res;
+    }
+
+    // -
+    GF operator-(const GF& obj) const {
+        if (this->size != obj.size) {
+           throw std::runtime_error("Incompatible types");
+        }
+
+        GF res;
+        res.value = (this->value - obj.value + this->size) % this->size;
+        return res;
+    }
+
+    // *
+    GF operator*(const GF& obj) const {
+        if (this->size != obj.size) {
+           throw std::runtime_error("Incompatible types");
+        }
+
+        GF res;
+        res.value = (this->value * obj.value) % this->size;
+        return res;
+    }
+
+    // /
+    GF operator/(const GF& obj) const {
+        if (this->size != obj.size) {
+           throw std::runtime_error("Incompatible types");
+        }
+
+        if (obj.value == 0) {
+        throw std::runtime_error("Division by zero");
+        }
+
+        unsigned int inverse = 1;
+        for (unsigned int i = 1; i < this->size; ++i) {
+            if ((obj.value * i) % this->size == 1) {
+                inverse = i;
+                break;
+            }
+        }
     
-
-
+        GF res;
+        res.value = (this->value * inverse) % this->size;
+        return res;
+    }
 
     // operatory podstawień
-    // przypisanie
+    // =
     GF& operator=(const GF& obj) {
         if (this != &obj) {
             this->value = obj.value;
@@ -111,14 +125,88 @@ class GF {
         return *this;
     }
 
-    GF& operator=(unsigned int n) {
-        this->value = n % size;
+    GF& operator=(int n) {
+        throw std::runtime_error("You can't put int as GF!"); // musi byc konwersja!
+    }
+
+    // +=
+    GF& operator+=(const GF& obj) {
+         if (this->size != obj.size) {
+           throw std::runtime_error("Incompatible types");
+        }
+
+        this->value = (this->value + obj.value) % this->size;
         return *this;
     }
+
+    GF& operator+=(int n) {
+        throw std::runtime_error("You can't put int as GF!"); // musi byc konwersja!
+    }
+
+    // -=
+    GF& operator-=(const GF& obj) {
+         if (this->size != obj.size) {
+           throw std::runtime_error("Incompatible types");
+        }
+
+        this->value = (this->value - obj.value + this->size) % this->size;
+        return *this;
+    }
+
+    GF& operator-=(int n) {
+        throw std::runtime_error("You can't put int as GF!"); // musi byc konwersja!
+    }
+
+    // *=
+    GF& operator*=(const GF& obj) {
+         if (this->size != obj.size) {
+           throw std::runtime_error("Incompatible types");
+        }
+
+        this->value = (this->value * obj.value) % this->size;
+        return *this;
+    }
+
+    GF& operator*=(int n) {
+        throw std::runtime_error("You can't put int as GF!"); // musi byc konwersja!
+    }
+
+    // /=
+    GF& operator/=(const GF& obj) {
+         if (this->size != obj.size) {
+           throw std::runtime_error("Incompatible types");
+        }
+
+        if (obj.value == 0) {
+        throw std::runtime_error("Division by zero");
+        }
+
+        unsigned int inverse = 1;
+        for (unsigned int i = 1; i < this->size; ++i) {
+        if ((obj.value * i) % this->size == 1) {
+            inverse = i;
+            break;
+            }
+        }
+
+        this->value = (this->value * inverse) % this->size;
+        return *this;
+    }
+
+    GF& operator/=(int n) {
+        throw std::runtime_error("You can't put int as GF!"); // musi byc konwersja!
+    }
+
+
+ 
 
     // streamy
     friend std::ostream& operator<<(std::ostream& os, GF obj) {
         return os << obj.value;
+    }
+
+    operator int() const {
+        return value;
     }
 
 };
