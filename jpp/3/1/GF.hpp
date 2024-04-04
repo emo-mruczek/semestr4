@@ -72,20 +72,20 @@ class GF {
     // operatory arytmetyczne
     // +
     GF operator+(const GF& obj) const {
-        if (this->size != obj.size) {
+       /* if (this->size != obj.size) {
            throw std::runtime_error("Incompatible types");
-        }
+        }*/
 
         GF res;
-        res.value = (this->value + obj.value) % size;
+        res.value = (this->value + obj.value) % this->size;
         return res;
     }
 
     // -
     GF operator-(const GF& obj) const {
-        if (this->size != obj.size) {
+       /* if (this->size != obj.size) {
            throw std::runtime_error("Incompatible types");
-        }
+        }*/
 
         GF res;
         res.value = (this->value - obj.value + this->size) % this->size;
@@ -94,9 +94,9 @@ class GF {
 
     // *
     GF operator*(const GF& obj) const {
-        if (this->size != obj.size) {
+        /*if (this->size != obj.size) {
            throw std::runtime_error("Incompatible types");
-        }
+        }*/
 
         GF res;
         res.value = (this->value * obj.value) % this->size;
@@ -105,16 +105,16 @@ class GF {
 
     // /
     GF operator/(const GF& obj) const {
-        if (this->size != obj.size) {
+       /* if (this->size != obj.size) {
            throw std::runtime_error("Incompatible types");
-        }
+        }*/
 
         if (obj.value == 0) {
         throw std::runtime_error("Division by zero");
         }
 
         unsigned int inverse = 1;
-        for (unsigned int i = 1; i < this->size; ++i) {
+        for (unsigned int i = 1; i < this->size; i++) {
             if ((obj.value * i) % this->size == 1) {
                 inverse = i;
                 break;
@@ -141,9 +141,9 @@ class GF {
 
     // +=
     GF& operator+=(const GF& obj) {
-         if (this->size != obj.size) {
+        /* if (this->size != obj.size) {
            throw std::runtime_error("Incompatible types");
-        }
+        }*/
 
         this->value = (this->value + obj.value) % this->size;
         return *this;
@@ -155,9 +155,9 @@ class GF {
 
     // -=
     GF& operator-=(const GF& obj) {
-         if (this->size != obj.size) {
+        /* if (this->size != obj.size) {
            throw std::runtime_error("Incompatible types");
-        }
+        }*/
 
         this->value = (this->value - obj.value + this->size) % this->size;
         return *this;
@@ -169,9 +169,9 @@ class GF {
 
     // *=
     GF& operator*=(const GF& obj) {
-         if (this->size != obj.size) {
+        /*if (this->size != obj.size) {
            throw std::runtime_error("Incompatible types");
-        }
+        }*/ 
 
         this->value = (this->value * obj.value) % this->size;
         return *this;
@@ -183,9 +183,9 @@ class GF {
 
     // /=
     GF& operator/=(const GF& obj) {
-         if (this->size != obj.size) {
+       /*  if (this->size != obj.size) {
            throw std::runtime_error("Incompatible types");
-        }
+        }*/
 
         if (obj.value == 0) {
         throw std::runtime_error("Division by zero");
