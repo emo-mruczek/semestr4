@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 public class GF {
 
+  //scanner dla -1W!!!
+
     private final int size = 1234577;
 
     private int value;
@@ -28,8 +30,12 @@ public class GF {
      return gf;
   }
 
+  public int toInt() {
+      return this.value;
+  }
+
   // do zwracania charakterystyki
-  void about() {
+  public void about() {
       System.out.println("Size: " + this.size + " Value: " + this.value + "\n");
   }
 

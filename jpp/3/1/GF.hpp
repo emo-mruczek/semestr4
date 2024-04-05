@@ -5,6 +5,8 @@ class GF {
     // TODO:
     //zeby int mial zawszze 32
 
+    //scanner dla -1!!!!
+
     private:
 
     int size = 1234577;
