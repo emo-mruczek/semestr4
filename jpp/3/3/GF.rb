@@ -1,5 +1,13 @@
 class GF
 
+  def value
+    @value
+  end
+
+  def size
+    @@size
+  end
+
   # konstruktor z defaultową wartoscia 0
   def initialize(n = 0)
     if n>= 0
@@ -9,19 +17,10 @@ class GF
     end
   end
 
-  # do zwracania wartosci size
-  def size
-    @@size
-  end
-
-  # do zwracania wartosci value
-  def value
-    @value
-  end
-
   # konwersje
   # self odnosi sie do obecnej instancji klasy, ktorej metoda jest wywolywana
   # no i mozna uzyc tego jako GF.to_GF(n)
+  # w sumie moge po prostu uzywac GF.new(n), na jedno wychodzi
   def self.to_GF(n)
     new(n)
   end
@@ -35,9 +34,75 @@ class GF
     puts "Size: #{@@size} Value: #{@value}"
   end
 
-  # prywatna czesc klasy
-  private
+  # operatory porownan
+  # ==
+  def ==(obj)
+    @value == obj.value
+  end
+  
+  # !=
+  def !=(obj)
+    @value != obj.value
+  end
 
+  # <=
+  def <=(obj)
+    @value <= obj.value
+  end
+
+  # >=
+  def >=(obj)
+    @value >= obj.value
+  end
+
+  # <
+  def <(obj)
+    @value < obj.value
+  end
+
+  # >
+  def >(obj)
+    @value > obj.value
+  end
+
+  # operatory arytmetyczne
+  # +
+  def +(obj)
+    puts
+    res = (value + obj.value) % size
+    return GF.new(res)
+  end
+
+  # -
+  def -(obj)
+      res = (value - obj.value + size) % size
+      GF.new(res)
+  end
+
+  # *
+  def *(obj)
+      res = (value * obj.value) % size
+      GF.new(res)
+  end
+
+  # /
+  def /(obj)
+    if obj.value == 0
+      raise ArgumentError, "Division by 0"
+    else 
+      inverse = (1..size).find { |i| (obj.value * i) % size == 1 }
+      res = (value * inverse) % size
+      GF.new(res)
+    end
+  end
+
+  #/ operatory podstawien
+  # =
+  def assign(other)
+    @value = other.value
+  end
+
+  # prywatna czesc klasy
   # @@, wiec jest to zmienna klasy
   @@size = 1234577
 

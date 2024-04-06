@@ -44,9 +44,9 @@ void alghoritm(int length, int A[], bool should_print) {
     }
 }
 
-bool is_sorted(int A[], int length) {
+ bool is_sorted(int A[], int length) {
     for (int i = 0; i < length - 1; i++) {
-        if (!is_less(A[i], A[i + 1], false)) {
+        if (A[i] > A[i + 1]) {
             return false;
         }
     }
