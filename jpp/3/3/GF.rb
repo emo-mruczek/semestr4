@@ -1,3 +1,4 @@
+#INPUT FOR NEGATIVE!!
 class GF
 
   def value
@@ -70,7 +71,7 @@ class GF
   def +(obj)
     puts
     res = (value + obj.value) % size
-    return GF.new(res)
+    GF.new(res)
   end
 
   # -
@@ -89,7 +90,7 @@ class GF
   def /(obj)
     if obj.value == 0
       raise ArgumentError, "Division by 0"
-    else 
+    else
       inverse = (1..size).find { |i| (obj.value * i) % size == 1 }
       res = (value * inverse) % size
       GF.new(res)
@@ -98,18 +99,30 @@ class GF
 
   #/ operatory podstawien
   # =
-  def assign(other)
-    @value = other.value
+  def assign(obj)
+    @value = obj.value
   end
 
-  # prywatna czesc klasy
+  # zauwazylem w sumie, ze dzialaja te operatory bez definiowania ich tutaj
+
+  # streamy
+  def to_s
+    @value.to_s
+  end
+
+  def from_input(input)
+    temp = input.chomp.to_i
+    @value = temp % @@size
+    self
+  end
+
+
+  private
+  # /prywatna czesc klasy
   # @@, wiec jest to zmienna klasy
   @@size = 1234577
 
   # zmienna instancji
   @value
-
-
-
 
 end
