@@ -24,7 +24,7 @@ void exchange(int* a, int* b) {
     *b = temp;
 }
 
-void alghoritm(int length, int A[], bool should_print) {
+void sort(int length, int A[], bool should_print) {
     int i = 1;
     while (i < length) {
        int j = i;
@@ -72,7 +72,7 @@ int main() {
         should_print = true;
     }
 
-    if (should_print ) {
+    if (should_print) {
         printf("Tablica wejsciowa: ");
     
     for (int k = 0; k < length; k++) {
@@ -85,7 +85,7 @@ int main() {
     }
     
     //właściwy algorytm
-    alghoritm(length, A, should_print);
+    sort(length, A, should_print);
 
     if (should_print) {
         printf("Tablica poczatkowa:\n");
