@@ -10,7 +10,7 @@ bool is_less(int a, int b, bool count) {
     if (count) {
         comp++;
     }
-    
+
     if (a < b) {
         return true;
     } else {
@@ -25,44 +25,48 @@ void exchange(int* a, int* b) {
     *b = temp;
 }
 
-int partition(int A[], int lo, int hi) {
-    int pivot = A[lo];
-    int i = lo - 1;
-    int j = hi + 1;
 
-    while (true) {
-        do {
-            i++;
-        } while(is_less(A[i], pivot, true));
+void merge(int A[], int B[], int lo, int mid, int hi) {
+    for (int k = lo; k <= hi; k++) {
+        B[k] = A[k];
+    }
 
-        do {
-            j--;
-        } while (is_less(pivot, A[j], true));
+    int i = lo;
+    int j = mid + 1;
 
-        if (i >= j) {
-            return j;
+    for (int k = lo; k <= hi; k++) {
+        if (i > mid) {
+            A[k] = B[j++];
+        } else if (j > hi) {
+            A[k] = B[i++];
+        } else if (is_less(B[j], B[i], true)) {
+            A[k] = A[j++];
+        } else {
+            A[k] = A[i++];
         }
-
-        exchange(&A[i], &A[j]);
     }
 }
 
 
-void sort(int A[], int lo, int hi, bool should_print) {
-    if (lo >=0 && hi >= 0 && lo < hi) {
-        if(should_print) {
-            for (int k = 0; k < hi+1; k++) {
-                printf(" %d", A[k]);
-            }
-            printf("\n");
-        }
-
-        int p = partition(A, lo, hi);
-        
-        sort(A, lo, p, should_print);
-        sort(A, p + 1, hi, should_print);
+void sort(int A[], int B[], int lo, int hi, bool should_print) {
+    if (hi <= lo) {
+        return;
     }
- }
+
+    int mid = lo + (hi - lo) / 2;
+    sort(A, B, lo, mid, should_print);
+    sort(A, B, mid + 1, hi, should_print);
+    merge(A, B, lo, mid, hi);
+
+     if (should_print) {
+          for (int k = 0; k <= hi; k++) {
+                printf(" %d", A[k]);
+
+          }
+          printf("\n");
+       }
+
+}
 
  bool is_sorted(int A[], int length) {
     for (int i = 0; i < length - 1; i++) {
@@ -74,7 +78,7 @@ void sort(int A[], int lo, int hi, bool should_print) {
 }
 
 int main(int argc, char *argv[]) {
-    printf("Podaj dlugosc tablicy: ");
+   // printf("Podaj dlugosc tablicy: ");
     int length;
     scanf("%d", &length);
     int A[length];
@@ -88,14 +92,14 @@ int main(int argc, char *argv[]) {
 
     bool should_print = false;
 
-    if (length < 40) {
+   /* if (length < 40) {
         should_print = true;
-    }
+    }*/
 
     if (should_print ) {
         printf("Tablica wejsciowa: ");
             for (int k = 0, l = 0; k < length; k++, l++) {
-                printf(" %d", A[l]); 
+                printf(" %d", A[l]);
                 Init[l] = A[k];
         }
         printf("\n");
@@ -103,7 +107,8 @@ int main(int argc, char *argv[]) {
     }
 
     //właściwy algorytm
-    sort(A, 0, length - 1, should_print);
+    int B[length];
+    sort(A, B, 0, length - 1, should_print);
 
     if (should_print) {
         printf("Tablica poczatkowa:\n");
@@ -118,14 +123,16 @@ int main(int argc, char *argv[]) {
         printf("\n");
     }
 
-    printf("Łączna liczba porównan między kluczami: %d\n", comp);
+ /*   printf("Łączna liczba porównan między kluczami: %d\n", comp);
     printf("Łączna liczba przestawień kluczy: %d\n", swap);
 
       if (is_sorted(A, length)) {
         printf("Tablica zostala posortowana prawidlowo.");
     } else {
         printf("Tablica zostala posortowana blednie.");
-    }
+    }*/
+ printf("%d %d ", comp, swap);
 
     return 0;
 }
+

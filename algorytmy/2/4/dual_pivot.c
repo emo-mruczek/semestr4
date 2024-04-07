@@ -44,10 +44,8 @@ void rotate(int* a, int* b, int* c) {
     *c = temp;
 }
 
-// is from 0 to p more keys than from q to A.length?
-
 int partition(int A[], int p, int q, int* ret) {
-    if (A[q] < A[p]) {
+    if (is_less(A[q], A[p], true)) {
          exchange(&A[p], &A[q]);
     }
 
@@ -96,15 +94,7 @@ int partition(int A[], int p, int q, int* ret) {
 
     *ret = i;
     return k;
-
-  //  exchange(&A[p], &A[j]);
- //   exchange(&A[q], &A[g]);
-
- //   *l = j;
-  //  return g;
 }
-
-
 
 
 void alghoritm(int A[], int p, int q, bool should_print) {
@@ -116,7 +106,6 @@ void alghoritm(int A[], int p, int q, bool should_print) {
             }
             printf("\n");
         }
-
 
         int l, r;
         r = partition(A, p, q, &l);

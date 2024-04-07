@@ -48,15 +48,24 @@ void merge(int A[], int B[], int lo, int mid, int hi) {
 }
 
 
-void alghoritm(int A[], int B[], int lo, int hi, bool should_print) {
+void sort(int A[], int B[], int lo, int hi, bool should_print) {
     if (hi <= lo) {
         return;
     }
 
     int mid = lo + (hi - lo) / 2;
-    alghoritm(A, B, lo, mid, should_print);
-    alghoritm(A, B, mid + 1, hi, should_print);
+    sort(A, B, lo, mid, should_print);
+    sort(A, B, mid + 1, hi, should_print);
     merge(A, B, lo, mid, hi);
+
+     if (should_print) {
+          for (int k = 0; k <= hi; k++) {
+                printf(" %d", A[k]);
+
+          }
+          printf("\n");
+       }
+
 }
 
  bool is_sorted(int A[], int length) {
@@ -99,7 +108,7 @@ int main(int argc, char *argv[]) {
 
     //właściwy algorytm
     int B[length];
-    alghoritm(A, B, 0, length - 1, should_print);
+    sort(A, B, 0, length - 1, should_print);
 
     if (should_print) {
         printf("Tablica poczatkowa:\n");

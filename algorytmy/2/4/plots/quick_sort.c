@@ -48,7 +48,7 @@ int partition(int A[], int lo, int hi) {
 }
 
 
-void alghoritm(int A[], int lo, int hi, bool should_print) {
+void sort(int A[], int lo, int hi, bool should_print) {
     if (lo >=0 && hi >= 0 && lo < hi) {
         if(should_print) {
             for (int k = 0; k < hi+1; k++) {
@@ -59,8 +59,8 @@ void alghoritm(int A[], int lo, int hi, bool should_print) {
 
         int p = partition(A, lo, hi);
         
-        alghoritm(A, lo, p, should_print);
-        alghoritm(A, p + 1, hi, should_print);
+        sort(A, lo, p, should_print);
+        sort(A, p + 1, hi, should_print);
     }
  }
 
@@ -74,6 +74,7 @@ void alghoritm(int A[], int lo, int hi, bool should_print) {
 }
 
 int main(int argc, char *argv[]) {
+  //  printf("Podaj dlugosc tablicy: ");
     int length;
     scanf("%d", &length);
     int A[length];
@@ -87,6 +88,10 @@ int main(int argc, char *argv[]) {
 
     bool should_print = false;
 
+  //  if (length < 40) {
+  //      should_print = true;
+   // }
+
     if (should_print ) {
         printf("Tablica wejsciowa: ");
             for (int k = 0, l = 0; k < length; k++, l++) {
@@ -98,7 +103,7 @@ int main(int argc, char *argv[]) {
     }
 
     //właściwy algorytm
-    alghoritm(A, 0, length - 1, should_print);
+    sort(A, 0, length - 1, should_print);
 
     if (should_print) {
         printf("Tablica poczatkowa:\n");
@@ -113,7 +118,15 @@ int main(int argc, char *argv[]) {
         printf("\n");
     }
 
-    printf("%d %d ", comp, swap);
+  /*  printf("Łączna liczba porównan między kluczami: %d\n", comp);
+    printf("Łączna liczba przestawień kluczy: %d\n", swap);
 
+      if (is_sorted(A, length)) {
+        printf("Tablica zostala posortowana prawidlowo.");
+    } else {
+        printf("Tablica zostala posortowana blednie.");
+    }
+*/
+  printf("%d %d,", comp, swap);
     return 0;
 }

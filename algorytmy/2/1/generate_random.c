@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
     int max = 2 * length + 1;
 
     for (int i = 0; i < length; i++) {
-        tab[i] = (random() % (max + 1));
+        tab[i] = (random() % (max));
     }
 
     printf("%d\n", length);
