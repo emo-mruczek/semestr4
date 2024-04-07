@@ -42,9 +42,9 @@ int main() {
             results("./generate_random","./insertion_sort", n);
             printf("\n");
         }
-    }*/
-
-/*   for (int n = 1000; n <= 50000; n = n + 1000) {
+    }
+*/
+  for (int n = 1000; n <= 50000; n = n + 1000) {
         
         for (int k = 0; k < K_MAX; k++) {
             printf("%d ", n);
@@ -53,9 +53,9 @@ int main() {
             printf("\n");
         }
     }
-*/
 
-    for (int n = 10; n <= 50; n = n + 10) {
+
+ /*   for (int n = 10; n <= 50; n = n + 10) {
         for (int k = 0; k < K_MAX; k++) {
             printf("%d ", n);
             results("./generate_ascending", "./hybrid_sort", n);
@@ -66,6 +66,6 @@ int main() {
             results("./generate_descending","./insertion_sort", n);
             printf("\n");
         }
-    }
+    }*/
    return 0;
 }

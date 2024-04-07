@@ -44,7 +44,7 @@ int main() {
         }
     }*/
 
-/*   for (int n = 1000; n <= 50000; n = n + 1000) {
+   for (int n = 1000; n <= 50000; n = n + 1000) {
         
         for (int k = 0; k < K_MAX; k++) {
             printf("%d ", n);
@@ -52,7 +52,7 @@ int main() {
             results("./generate_random", "./quick_sort", n);
             printf("\n");
         }
-    }*/
+    }
 
 
  /*   for (int n = 10; n <= 50; n = n + 10) {

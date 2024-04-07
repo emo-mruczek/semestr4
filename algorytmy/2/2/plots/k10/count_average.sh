@@ -11,6 +11,6 @@ END {
     for (key in sumSQ) {
         print key, sumCH[key] / count[key], sumSH[key] / count[key], sumCQ[key] / count[key], sumSQ[key] / count[key], sumCI[key] / count[key], sumSI[key] / count[key], (sumCH[key] / count[key])/key, (sumSH[key] / count[key]) / key, (sumCQ[key] / count[key]) / key, (sumSQ[key] / count[key]) / key, (sumCI[key] / count[key]) / key, (sumSI[key] / count[key]) / key
     }
-}' random_1_small.txt > average_1_small.txt
+}' random_10_small.txt > average_10_small.txt
 
 
