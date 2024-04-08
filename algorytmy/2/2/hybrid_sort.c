@@ -48,25 +48,35 @@ int insertion(int A[], int lo, int hi, bool should_print){
 }
 
 int partition(int A[], int lo, int hi, bool should_print) {
+    int m = lo + (hi - lo) / 2;
+    exchange(&A[m], &A[lo]);
+
+    int i =  lo + 1;
+    int j = hi;
     int pivot = A[lo];
-    int i = lo - 1;
-    int j = hi + 1;
 
-    while (true) {
-        do {
+    while (i <= j) {
+        while (i <= hi && is_less(A[i], pivot, true))
             i++;
-        } while(is_less(A[i], pivot, true));
-
-        do {
+        while (j > lo && is_less(pivot, A[j], true))
             j--;
-        } while (is_less(pivot, A[j], true));
 
-        if (i >= j) {
-            return i;
-        }
-
-        exchange(&A[i], &A[j]);
+        if (i < j)
+            exchange(&A[i++], &A[j--]);
+        else
+            break;
     }
+
+    exchange(&A[lo], &A[j]);
+
+    if (should_print) {
+        for (int k = 0; k <= hi; k++) {
+                printf(" %d", A[k]);
+        }
+            printf("\n");
+    }
+
+    return j;
 }
 
 void hybrid(int A[], int lo, int hi, bool should_print) {
