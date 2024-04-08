@@ -47,7 +47,7 @@ int insertion(int A[], int lo, int hi, bool should_print){
    }
 }
 
-int partition(int A[], int lo, int hi, bool should_print) {
+/*int partition(int A[], int lo, int hi, bool should_print) {
     int m = lo + (hi - lo) / 2;
     exchange(&A[m], &A[lo]);
 
@@ -77,6 +77,28 @@ int partition(int A[], int lo, int hi, bool should_print) {
     }
 
     return j;
+}
+*/
+int partition(int A[], int lo, int hi, bool should_print) {
+    int pivot = A[lo];
+    int i = lo - 1;
+    int j = hi + 1;
+
+    while (true) {
+        do {
+            i++;
+        } while(is_less(A[i], pivot, true));
+
+        do {
+            j--;
+        } while (is_less(pivot, A[j], true));
+
+        if (i >= j) {
+            return i;
+        }
+
+        exchange(&A[i], &A[j]);
+    }
 }
 
 void hybrid(int A[], int lo, int hi, bool should_print) {
