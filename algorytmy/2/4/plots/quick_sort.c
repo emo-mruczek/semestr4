@@ -127,6 +127,6 @@ int main(int argc, char *argv[]) {
         printf("Tablica zostala posortowana blednie.");
     }
 */
-  printf("%d %d,", comp, swap);
+  printf("%d %d ", comp, swap);
     return 0;
 }
