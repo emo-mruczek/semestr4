@@ -108,12 +108,20 @@ int main(int argc, char *argv[]) {
     if (should_print) {
         printf("Tablica poczatkowa:\n");
         for (int k = 0; k < length; k++) {
-            printf("%d ", Init[k]);
+            if(Init[k]/10 < 1) {
+                printf("0%d ", Init[k]);
+            } else {
+                printf("%d ", Init[k]);
+            }
         }
         printf("\n");
         printf("Tablica posortowana:\n");
         for (int k = 0; k < length; k++) {
-            printf("%d ", A[k]);
+            if(A[k]/10 < 1) {
+                printf("0%d ", A[k]);
+            } else {
+                printf("%d ", A[k]);
+            }
         }
         printf("\n");
     }

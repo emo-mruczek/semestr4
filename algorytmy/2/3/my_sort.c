@@ -213,14 +213,25 @@ int main(int argc, char *argv[]) {
         should_print = true;
     }
 
-    if (should_print ) {
-        printf("Tablica wejsciowa: ");
-            for (int k = 0, l = 0; k < length; k++, l++) {
-                printf(" %d", A[l]);
-                Init[l] = A[k];
+    if (should_print) {
+        printf("Tablica poczatkowa:\n");
+        for (int k = 0; k < length; k++) {
+            if(Init[k]/10 < 1) {
+                printf("0%d ", Init[k]);
+            } else {
+                printf("%d ", Init[k]);
+            }
         }
         printf("\n");
-        printf("Kluczowe momenty:\n");
+        printf("Tablica posortowana:\n");
+        for (int k = 0; k < length; k++) {
+            if(A[k]/10 < 1) {
+                printf("0%d ", A[k]);
+            } else {
+                printf("%d ", A[k]);
+            }
+        }
+        printf("\n");
     }
 
     //właściwy algorytm
