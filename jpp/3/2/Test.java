@@ -1,4 +1,3 @@
-import org.example.GF;
 
 import java.util.Scanner;
 

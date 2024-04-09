@@ -1,10 +1,6 @@
-package org.example;
-
 import java.util.Scanner;
 
 public class GF {
-
-  //scanner dla -1W!!!
 
     private final int size = 1234577;
 
@@ -162,6 +158,10 @@ public class GF {
   // do scanneru
   public void read(Scanner scanner) {
       int temp = scanner.nextInt();
-      this.value = temp % this.size;
+      if (temp >= 0) {
+        this.value = temp % this.size;
+      } else {
+        this.value = ((this.size - (-temp)) % this.size);
+      }
   }
 }

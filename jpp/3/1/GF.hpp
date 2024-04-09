@@ -2,9 +2,6 @@
 
 class GF {
 
-    // TODO:
-    //zeby int mial zawszze 32
-
     //scanner dla -1!!!!
 
     private:
@@ -217,7 +214,11 @@ class GF {
     friend std::istream& operator>>(std::istream& is, GF& obj) {
         int temp;
         is >> temp;
-        obj.value = temp % obj.size;
+        if (temp >= 0) {
+            obj.value = temp % obj.size;
+        } else {
+            obj.value = ((obj.size - (-temp)) % obj.size);
+        }
         return is;
     }
 

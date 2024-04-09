@@ -1,4 +1,3 @@
-#INPUT FOR NEGATIVE!!
 class GF
 
   def value
@@ -112,7 +111,13 @@ class GF
 
   def from_input(input)
     temp = input.chomp.to_i
-    @value = temp % @@size
+    
+    if temp>= 0
+      @value = temp % @@size
+    else
+      @value = (@@size - (-temp)) % @@size
+    end
+ 
     self
   end
 
