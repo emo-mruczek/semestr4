@@ -1,4 +1,6 @@
 #include <iostream>
+#include <cstdint>
+
 
 class GF {
 
@@ -9,9 +11,9 @@ class GF {
 
     private:
 
-    int size = 1234567891;
+    uint64_t size = 1234567891;
 
-    int value;
+    uint64_t value;
 
     public:
 
@@ -21,7 +23,7 @@ class GF {
     }
 
     // tez do konwersji int na GF
-    GF(int n) {
+    GF(uint64_t n) {
         if (n >= 0) {
             value = n % size;
         } else {
