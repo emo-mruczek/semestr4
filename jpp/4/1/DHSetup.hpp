@@ -13,12 +13,10 @@ class DHSetup {
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_int_distribution<> distr(1, field.getCharacteristic());
-        uint64_t generator = distr(gen);
+        uint64_t number = distr(gen);
 
-        return T(generator);
+        return T(number);
     }
-
-    
 
     public: 
 
@@ -46,9 +44,4 @@ class DHSetup {
             return a * temp * temp;
         }
     }
-
-    
-
-
-
 };
