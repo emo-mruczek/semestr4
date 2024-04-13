@@ -41,11 +41,13 @@ class User {
 
     void setKey(T a) {
         this->key = dh.power(a, secret);
+        std::cout << "Moj klucz: " << key << std::endl;
     }
 
     T encrypt(T m) {
         if (key == T(0)) {
                 std::cout << "You cannot encrypt before setting the key!";
+                return T(0);
         } else {
             m *= key;
             return m;
@@ -55,6 +57,7 @@ class User {
     T decrypt(T c) {
         if (key == T(0)) {
                 std::cout << "You cannot encrypt before setting the key!";
+                return T(0);
         } else {
         c /= key;
         return c;

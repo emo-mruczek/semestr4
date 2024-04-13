@@ -23,10 +23,6 @@ class DHSetup {
 
     DHSetup() {
         this->generator = generateGenerator();
-      //  this->generator = generateGenerator(field);
-//        int chara = field.getCharacteristic();
- //       std::cout << chara << std::endl;
-     //   std::cout << this->generator << std::endl;
     }
 
     T getGenerator() {
