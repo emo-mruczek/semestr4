@@ -11,11 +11,11 @@ class User {
 
     private:
 
-    DHSetup dh;
+    DHSetup<T> dh;
 
     uint64_t secret;
 
-    T key;
+    T key = T(0);
 
     void setSecret() {
         std::random_device rd;
@@ -28,14 +28,14 @@ class User {
 
     public:
 
-    User(&DHSetup set){
+    User(&DHSetup<T> set){
         this->dh = set;
         setSecret();
-        cin << secret;
+        std::cin << secret;
     }
 
     T getPublicKey() {
-        T ret = dh.power(dh.getGenerator, secret);
+        T ret = dh.power(dh.getGenerator(), secret);
         return ret;
     }
 
@@ -44,12 +44,20 @@ class User {
     }
 
     T encrypt(T m) {
-        m *= key;
-        return m;
+        if (key == T(0) {
+                std::cout << "You cannot encrypt before setting the key!";
+        } else {
+            m *= key;
+            return m;
+        }
     }
 
     T decrypt(T c) {
+        if (key == T(0) {
+                std::cout << "You cannot encrypt before setting the key!";
+        } else {
         c /= key;
         return c;
+        }
     }
 };

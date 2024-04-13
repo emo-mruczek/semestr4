@@ -34,7 +34,7 @@ class DHSetup {
     T power(T a, uint64_t b) {
         T temp;
         if (b == 0) {
-            return 1; // czy to jest prawda??
+            return T(1); // czy to jest prawda??
         } 
 
         temp = power(a, b / 2);
