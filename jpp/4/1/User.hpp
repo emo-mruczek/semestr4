@@ -28,10 +28,10 @@ class User {
 
     public:
 
-    User(&DHSetup<T> set){
+    User(DHSetup<T>& set){
         this->dh = set;
         setSecret();
-        std::cin << secret;
+        std::cout << "Moj sekret: " << secret << std::endl;
     }
 
     T getPublicKey() {
@@ -44,7 +44,7 @@ class User {
     }
 
     T encrypt(T m) {
-        if (key == T(0) {
+        if (key == T(0)) {
                 std::cout << "You cannot encrypt before setting the key!";
         } else {
             m *= key;
@@ -53,7 +53,7 @@ class User {
     }
 
     T decrypt(T c) {
-        if (key == T(0) {
+        if (key == T(0)) {
                 std::cout << "You cannot encrypt before setting the key!";
         } else {
         c /= key;
