@@ -1,0 +1,21 @@
+1. Poufność maili
+
+konto o mailu nabezpieke@o2.pl
+
+wireshark z sudo
+any
+filtr: pop
+
+można przechwycic: mail nadawcy, odbiorcy, temat, treść wiadomości, imie usera, odpowiedzi serwera, hasło
+
+protokól SMTP nie przewiduje szyfrowania normalnie, ale wersja z TLS (SMTPS) (Transport Layer Security) juz tak
+
+i tak, i nie - bo wiadomość na pewno jest zaszyfrowana i nie można przejąc jej snifferem, co nie znaczy, ze gwarantuje to prywatnosc (ktoś przejmie konto, wyciek danych, cos na urzadzeniu w styly keylogger)
+
+szyfrowanie wiadomości samemu - narzędzia inne np Pretty Good Privacy (zapewnia m.in podpisy cyfrowe wiadomości, weryfikowanie nadawcy, szyfrowanie wiadomosci) albo S/MIME (podpobne do pgp)
+
+korzystanie z protokołów z ssl/TLS
+
+niedopuszczenie do przejecia konta (2fa, dobre haslo)
+
+proton: end-to-end encryption (mail jest zaszyfrowany na urzadzeniu, przeslany w zaszyfrowaej formie, i odszyfrowany dopiero na kolejnym urzadzeniu), password-protected email (umozliwia wysylanie maili do osob spoza protona) zero-access encrypion (proton nie moze odczytac maili, są od razu szyfrowane na ich serwerach - proton nie może nikomu przekazac tresci maila), wbudowany support do pgp, 2fa, kryptografia krzywych eliptycznych, wspiera Sender Policy Framework (aby nikt nie mogl wyslac maila z mojego adresu), Domain Key Identified Mail (ze tresc maili nie byla zmieniana), DMARC (przeciw spoofowaniu adresu)
