@@ -19,3 +19,39 @@ korzystanie z protokołów z ssl/TLS
 niedopuszczenie do przejecia konta (2fa, dobre haslo)
 
 proton: end-to-end encryption (mail jest zaszyfrowany na urzadzeniu, przeslany w zaszyfrowaej formie, i odszyfrowany dopiero na kolejnym urzadzeniu), password-protected email (umozliwia wysylanie maili do osob spoza protona) zero-access encrypion (proton nie moze odczytac maili, są od razu szyfrowane na ich serwerach - proton nie może nikomu przekazac tresci maila), wbudowany support do pgp, 2fa, kryptografia krzywych eliptycznych, wspiera Sender Policy Framework (aby nikt nie mogl wyslac maila z mojego adresu), Domain Key Identified Mail (ze tresc maili nie byla zmieniana), DMARC (przeciw spoofowaniu adresu)
+
+2.
+
+SPF - sender policy framework - okresla, ktore serwery maja uprawnienia do wysylania wiadomosci w imieniu danej domeny. 
+DKIM - domain keys indentified mail - podpisy cyfrowe
+DMARC - domain based message authentication, reporting and conformance - dodanie rekordu dmarc do uystawien dns domeny z instrukcjami jak traktowac maile
+
+
+sprawdzam uzywając dig txt (text record, rodzaj rekordu w DNS, opisuje nazwę domeny)
+
+A - adres
+MX - mail exchange record
+NS - name server record
+TXT - text record
+SOA - start of authority record (o domenie)
+TTL - time  to live
+ANY
+
+dig <domena> txt
+
+pwr.edu.pl 
+mail.esmtt.com -> brak spf1
+
+dig txt P112023._domainkey.pwr.edu.pl
+dig txt _dmarc.pwr.edu.pl 
+
+polityka dmarc w p=
+
+none – dostarcz wiadomo´s´c
+quarantine – dostarcz wiadomo´s´c do folderu SPAM
+reject – odrzu´c wiadomo´s´c
+
+moze się zdarzyć, że wiadomośc trafi do spamu, gdy np zadzialaja jakies filtry antyspamowe - np gdy nadawca cczęsto wysyla wiadomosci, to moze zostać oflagowany jako spamer; ogolnie mogą zadziałac rozne algorytmy atyspamowe skrzynki odbiorcy
+
+
+moze zawierac zlosliwy zalacznik, poniewaz nie zawartosc zalacznikow nie jest weryfikowana
