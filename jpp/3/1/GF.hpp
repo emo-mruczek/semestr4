@@ -2,7 +2,6 @@
 
 class GF {
 
-    //scanner dla -1!!!!
 
     private:
 
