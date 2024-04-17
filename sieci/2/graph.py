@@ -1,7 +1,8 @@
 import networkx as nx
 from pyvis.network import Network 
-from random import randint
+import random
 import numpy as np
+from copy import deepcopy
 
 m = 1500
 
@@ -33,18 +34,49 @@ def generate_N(nodes, max):
 
     return [[randint(1, max) for j in range(nodes)] for i in range(nodes)]
 
-def flow(G):
+def flow(G, M = N):
     nx.set_edge_attributes(G, 0, 'a')
     for i in range(len(nodes)):
         for j in range(len(nodes)):
             path = nx.shortest_path(G, nodes[i], nodes[j])
             for p in range(len(path) - 1):
-                G[path[p]][path[p+1]]['a'] += N[i][j]
+                G[path[p]][path[p+1]]['a'] += M[i][j]
 
 def capacity(G):
     nx.set_edge_attributes(G, 0, 'c')
     for i, j in G.edges:
         G[i][j]['c'] = 50 * (G[i][j]['a'] // 10) * m
+
+def reliability(G, p, T_max):
+    successes = 0
+    G_sum = sum(sum(row) for row in N) # będziemy dzielic przez sumę wszystkich elementow macierzy natęzen 
+    for _ in range(1000):
+        tester = deepcopy(G)
+        for edge in G.edges:
+            ran = random.random() # wygeneruje floata od 0.0 do 1.0
+            if ran > p:
+                tester.remove_edge(*edge)
+                if not nx.is_connected(tester):
+                    print("broken")
+                else:
+                    flow(tester)
+                    res = T(tester, G_sum, m)
+                    if res and res < T_max:
+                        successes += 1
+                        print(successes)
+                    else:
+                        print("failed")
+    return successes/1000
+                    
+
+def T(G, G_sum, m):
+    ret = 0     
+    for i, j in G.edges: # sumujemy po krawedziach
+        if (G[i][j]['a'] < G[i][j]['c'] / m):
+            ret += G[i][j]['a'] / (G[i][j]['c'] / m - G[i][j]['a'])
+        else:
+            return None # nie mozna dzielic przez 0, co nie?
+    return ret / G_sum
 
 
 def main():
@@ -55,12 +87,12 @@ def main():
     #print(G)
 
     flow(G)
-    for edge in G.edges(data=True):
-       print(f"Edge {edge[0]} -> {edge[1]}: Flow = {edge[2]['a']}")
+   # for edge in G.edges(data=True):
+   #    print(f"Edge {edge[0]} -> {edge[1]}: Flow = {edge[2]['a']}")
     capacity(G)
-    for edge in G.edges(data=True):
-       print(f"Edge {edge[0]} -> {edge[1]}: Cap = {edge[2]['c']}")
-    
+   # for edge in G.edges(data=True):
+   #    print(f"Edge {edge[0]} -> {edge[1]}: Cap = {edge[2]['c']}")
+    ret = reliability(G, 0.8, 0.1) 
 
 if __name__ == "__main__":
     main()
