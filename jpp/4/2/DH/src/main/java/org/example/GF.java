@@ -6,16 +6,16 @@ public class GF {
 
   //scanner dla -1W!!!
 
-  private static final int size = 1234577;
+  private static final long size = 1234567891;
 
-  private int value;
+  private long value;
 
   // konstruktory
   public GF() {
     this.value = 0;
   }
 
-  public GF(int n) {
+  public GF(long n) {
     if (n >= 0) {
       this.value = n % this.size;
     } else {
@@ -24,18 +24,18 @@ public class GF {
   }
 
   // konwersja
-  public static GF toGF(int n) {
+  public static GF toGF(long n) {
     GF gf = new GF();
     gf.value = n % gf.size;
     return gf;
   }
 
-  public int toInt() {
+  public long toLong() {
     return this.value;
   }
 
   // do zwracania charakterystyki
-  public static int getCharacteristic() {
+  public static long getCharacteristic() {
     return size;
   }
 
@@ -156,7 +156,7 @@ public class GF {
   // do printowania
   @Override
   public String toString() {
-    return Integer.toString(this.value);
+    return Long.toString(this.value);
   }
 
   // do scanneru
