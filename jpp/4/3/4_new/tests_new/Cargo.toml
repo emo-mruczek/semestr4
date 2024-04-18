@@ -1,0 +1,12 @@
+[package]
+name = "tests_new"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+GF = { path = "../GF"}
+DHSetup = {path = "../DHSetup"}
+User = {path = "../User"}
