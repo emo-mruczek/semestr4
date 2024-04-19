@@ -67,8 +67,16 @@ reject - odrzuc
 ze spamu: dmarc=none (p=none,d=none,d.eval=none)
 
 
+
+dig _dmarc.pwr.edu.pl txt = v
+dla nazwa.pl jest p=reject
+dla spamu brak polityki
+
+
+
+
 SPF - sender policy framework - okresla, ktore serwery maja uprawnienia do wysylania wiadomosci w imieniu danej domeny. 
-DKIM - domain keys indentified mail - podpisy cyfrowe
+DKIM - domain keys indentified mail - podpisy cyfrowe, liczenie hasha z np nagłówków i treści
 DMARC - domain based message authentication, reporting and conformance - dodanie rekordu dmarc do uystawien dns domeny z instrukcjami jak traktowac maile
 
 
@@ -96,7 +104,11 @@ none – dostarcz wiadomo´s´c
 quarantine – dostarcz wiadomo´s´c do folderu SPAM
 reject – odrzu´c wiadomo´s´c
 
-moze się zdarzyć, że wiadomośc trafi do spamu, gdy np zadzialaja jakies filtry antyspamowe - np gdy nadawca cczęsto wysyla wiadomosci, to moze zostać oflagowany jako spamer; ogolnie mogą zadziałac rozne algorytmy atyspamowe skrzynki odbiorcy
+moze się zdarzyć, że wiadomośc trafi do spamu, gdy np zadzialaja jakies filtry antyspamowe - np gdy nadawca cczęsto wysyla wiadomosci, to moze zostać oflagowany jako spamer; ogolnie mogą zadziałac rozne algorytmy atyspamowe skrzynki odbiorcy, jakieś słowa kluczowe itp
 
 
 moze zawierac zlosliwy zalacznik, poniewaz nie zawartosc zalacznikow nie jest weryfikowana
+
+DKIM pass, SPF nie - gdy mail jest git, ale idzie przez jakis serwer, ktory nie jest wpisany
+
+SPF pass, DKIM nie - jest wysłany z ok serwera, ale po jego opuszczeniu mail został jakoś zmodyfikowany
