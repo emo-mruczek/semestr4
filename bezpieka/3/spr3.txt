@@ -22,6 +22,51 @@ proton: end-to-end encryption (mail jest zaszyfrowany na urzadzeniu, przeslany w
 
 2.
 
+z pwr.edu.pl - przechodzi spf (spf=pass (google.com: domain of 272336@student.pwr.edu.pl designates 209.85.220.41 as permitted sender) smtp.mailfrom=272336@student.pwr.edu.pl;)
+
+w dig - dig pwr.edu.pl TXT - sprawdzic spf; chyba jest ok bo include _spf.google.com
+
+mail ze spamu że wygrałem perfumy: greatexpectation.biz
+
+przechodzi spf
+
+
+
+z pwr.edu.pl - DKIM pass
+
+Authentication-Results: mx.google.com;
+dkim=pass header.i=@student.pwr.edu.pl header.s=google header.b="HPuzT//0";
+
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=student.pwr.edu.pl; s=google; t=1713545219; x=1714150019; dara=google.com;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+
+v (required), version
+c (optional), canonicalization algorithm(s) for header and body
+d (required), Signing Domain Identifier (SDID)
+s (required), selector
+t (recommended), signature timestamp
+x (recommended), expire time   (pewnie epoch)
+h (required), header fields - list of those that have been signed
+
+ze spamu: dkim=none (no signatures found);
+
+
+
+
+z pwr.edu.pl - dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=student.pwr.edu.pl
+
+v is the version, p is the policy , sp the subdomain policy, dis to (chyba) disposition
+
+o politykach:
+none - nic nie rob jak nie przejdzie
+quarantine - do spamu
+reject - odrzuc
+
+ze spamu: dmarc=none (p=none,d=none,d.eval=none)
+
+
 SPF - sender policy framework - okresla, ktore serwery maja uprawnienia do wysylania wiadomosci w imieniu danej domeny. 
 DKIM - domain keys indentified mail - podpisy cyfrowe
 DMARC - domain based message authentication, reporting and conformance - dodanie rekordu dmarc do uystawien dns domeny z instrukcjami jak traktowac maile

@@ -1,0 +1,34 @@
+    Received: from mx.poczta.onet.pl (unresolved [10.175.36.31]:41810)
+    by ps23.m5r2.onet (Ota) with LMTP id 4CD6810
+    for <krokcia@op.pl>; Fri, 22 Mar 2024 21:25:18 +0100 (CET)
+    Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=69.58.11.139; helo=elevationloft.com; envelope-from=vhzgy2g7lan0rm4.vtzdhdxzvnfa369md62ivrs4loalarie@greatexpectation.biz; receiver=<UNKNOWN>
+    Authentication-Results: mx.poczta.onet.pl;
+    bimi=skipped (DMARC did not pass);
+    dkim=none (no signatures found);
+    dmarc=none policy.published-domain-policy=none policy.applied-disposition=none policy.evaluated-disposition=none (p=none,d=none,d.eval=none) policy.policy-from=p header.from=erickson.marcimcdonald.com;
+    iprev=fail smtp.remote-ip=69.58.11.139 (Error NOERROR looking up 69.58.11.139 PTR);
+    spf=pass smtp.mailfrom=vhzgy2g7lan0rm4.vtzdhdxzvnfa369md62ivrs4loalarie@GreatExpectation.biz smtp.helo=elevationloft.com;
+    x-ptr=fail smtp.helo=elevationloft.com policy.ptr=""
+    Received: from elevationloft.com (unknown [69.58.11.139])
+    by mx.poczta.onet.pl (Onet) with ESMTP id 4V1YjR6h8hz19KM
+    for <krokcia@op.pl>; Fri, 22 Mar 2024 21:25:15 +0100 (CET)
+    Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04hn2212.outbound.protection.outlook.com [17.253.144.10]) by ms11p00im-qufv17084001.me.com (Postfix) with ESMTPS id voGm7lccW for <krokcia@op.pl>; Fri, 22 Mar 2024 16:25:15 -0400 (EDT)
+    Received: from localhost (127.0.0.1) by email.apple.com id voGm7lccW for <krokcia@op.pl>; Fri, 22 Mar 2024 16:25:15 -0400 (EDT) (envelope-from <vhzgy2g7lan0rm4.vtzdhdxzvnfa369md62ivrs4loalarie@GreatExpectation.biz>)
+    From: "Krokcia" <info@erickson.marcimcdonald.com>
+    Reply-To: "aa" <info@erickson.marcimcdonald.com>
+    Sender: aa <info@erickson.marcimcdonald.com>
+    To: krokcia@op.pl <krokcia@op.pl>
+    Date: Fri, 22 Mar 2024 16:25:15 -0400 (EDT)
+    X-MSGID: 833486675XZ648947
+    Subject: [SPAM] =?UTF-8?b?8J2QlvCdkLLwnZCb8J2Qq/CdkJrwnZCn8J2QqCDwnZCC8J2QovCdkJ7MqCDwnZCd8J2QqCDwnZCO8J2QrfCdkKvwnZCz8J2QsvCdkKbwnZCa8J2Qp/CdkKLwnZCaIPCdkJnwnZCe8J2QrPCdkK3wnZCa8J2QsPCdkK4g8J2Qj/CdkKvwnZCozIHwnZCb8J2QnvCdkKQg8J2Qj/CdkJ7wnZCr8J2Qn/CdkK7wnZCmIPCdkJLwnZCe8J2QqfCdkKHwnZCo8J2Qq/CdkJog8J2QhfCdkJrwnZCv8J2QqPCdkKvwnZCi8J2QrfCdkJ7wnZCs8J+OgQ==?= ;
+    List-Unsubscribe: <mailto:info@erickson.marcimcdonald.com?subject=unsubscribe%20krokcia@op.pl&body=remove%20krokcia@op.pl%20>
+    MIME-Version: 1.0
+    Content-Type: multipart/mixed; boundary="========/637F6BDD00096785/"
+    X-Authentication-Milter: Header added by Authentication Milter
+    X-ONET_PL-MDA-UBL: OUBL
+    X-ONET_PL-MDA-Version: 1.0.25
+    X-ONET_PL-MDA-Info: 023 19733 4CD6810 0.000000
+    X-ONET_PL-MDA-From: vhzgy2g7lan0rm4.vtzdhdxzvnfa369md62ivrs4loalarie@greatexpectation.biz
+    X-ONET_PL-MDA-Spam: NO
+
+
