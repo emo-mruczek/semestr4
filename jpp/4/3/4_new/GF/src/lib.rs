@@ -6,37 +6,23 @@ use std::ops::Div;
 use std::fmt;
 use std::str::FromStr;
 
-pub trait GF_trait {
-    fn new() -> Self;
-    fn from(n: i64) -> Self;
-    fn to_u64(&self) -> i64; 
-    fn get_characteristic(&self) -> i64;
-    fn clone_from(&mut self, other: &GF);
-    fn add_assign(&mut self, other: Self); 
-    fn sub_assign(&mut self, other: Self); 
-    fn mul_assign(&mut self, other: Self); 
-    fn div_assign(&mut self, other: Self); 
-}
-
-
-
 #[derive(Clone, Copy)]
 pub struct GF {
     size: i64,
     value: i64,
 }
 
-impl GF_trait for GF {
+impl GF {
 
     //kontruktor
-   fn new() -> Self{
+    pub fn new() -> Self{
         GF {
             size: 1234567891,
             value: 0,
         }
     }
 
-     fn from(n: i64) -> Self {
+     pub fn from(n: i64) -> Self {
         let size: i64 = 1234567891;
         let value: i64 = if n >= 0 {
             n as i64 % size
@@ -47,37 +33,37 @@ impl GF_trait for GF {
     }
 
     // konwersja
-    fn to_u64(&self) -> i64 {
+    pub fn to_u64(&self) -> i64 {
         self.value
     }
 
     // do zwracania charakterystyki
-    fn get_characteristic(&self) -> i64 {
+    pub fn get_characteristic(&self) -> i64 {
         self.size
     }
 
-     fn clone_from(&mut self, other: &GF) {
+     pub fn clone_from(&mut self, other: &GF) {
         if self as *const _ != other as *const _ {
             self.value = other.value;
         }
     }
 
-     fn add_assign(&mut self, other: Self) {
+     pub fn add_assign(&mut self, other: Self) {
         self.value = (self.value + other.value) % self.size;
     }
 
     // -=
-    fn sub_assign(&mut self, other: Self) {
+    pub fn sub_assign(&mut self, other: Self) {
         self.value = (self.value - other.value + self.size) % self.size;
     }
 
     // *=
-    fn mul_assign(&mut self, other: Self) {
+    pub fn mul_assign(&mut self, other: Self) {
         self.value = (self.value * other.value) % self.size;
     }
 
     // /=
-    fn div_assign(&mut self, other: Self) {
+    pub fn div_assign(&mut self, other: Self) {
         if other.value == 0 {
             panic!("Division by zero");
         }
