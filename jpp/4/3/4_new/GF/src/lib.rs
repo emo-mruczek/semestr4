@@ -6,23 +6,37 @@ use std::ops::Div;
 use std::fmt;
 use std::str::FromStr;
 
+pub trait GF_trait {
+    fn new() -> Self;
+    fn from(n: i64) -> Self;
+    fn to_u64(&self) -> i64; 
+    fn get_characteristic(&self) -> i64;
+    fn clone_from(&mut self, other: &GF);
+    fn add_assign(&mut self, other: Self); 
+    fn sub_assign(&mut self, other: Self); 
+    fn mul_assign(&mut self, other: Self); 
+    fn div_assign(&mut self, other: Self); 
+}
+
+
+
 #[derive(Clone, Copy)]
 pub struct GF {
     size: i64,
     value: i64,
 }
 
-impl GF {
+impl GF_trait for GF {
 
     //kontruktor
-    pub fn new() -> Self{
+   fn new() -> Self{
         GF {
             size: 1234567891,
             value: 0,
         }
     }
 
-     pub fn from(n: i64) -> Self {
+     fn from(n: i64) -> Self {
         let size: i64 = 1234567891;
         let value: i64 = if n >= 0 {
             n as i64 % size
@@ -33,37 +47,37 @@ impl GF {
     }
 
     // konwersja
-    pub fn to_u64(&self) -> i64 {
+    fn to_u64(&self) -> i64 {
         self.value
     }
 
     // do zwracania charakterystyki
-    pub fn get_characteristic(&self) -> i64 {
+    fn get_characteristic(&self) -> i64 {
         self.size
     }
 
-     pub fn clone_from(&mut self, other: &GF) {
+     fn clone_from(&mut self, other: &GF) {
         if self as *const _ != other as *const _ {
             self.value = other.value;
         }
     }
 
-     pub fn add_assign(&mut self, other: Self) {
+     fn add_assign(&mut self, other: Self) {
         self.value = (self.value + other.value) % self.size;
     }
 
     // -=
-    pub fn sub_assign(&mut self, other: Self) {
+    fn sub_assign(&mut self, other: Self) {
         self.value = (self.value - other.value + self.size) % self.size;
     }
 
     // *=
-    pub fn mul_assign(&mut self, other: Self) {
+    fn mul_assign(&mut self, other: Self) {
         self.value = (self.value * other.value) % self.size;
     }
 
     // /=
-    pub fn div_assign(&mut self, other: Self) {
+    fn div_assign(&mut self, other: Self) {
         if other.value == 0 {
             panic!("Division by zero");
         }

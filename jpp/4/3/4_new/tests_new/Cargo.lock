@@ -6,6 +6,7 @@ version = 3
 name = "DHSetup"
 version = "0.1.0"
 dependencies = [
+ "GF",
  "rand",
 ]
 

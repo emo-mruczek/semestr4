@@ -1,23 +1,27 @@
 use rand::Rng;
-use GF::GF;
+use GF_mod::GF_trait;
+use GF_mod::GF;
 
-pub trait GF {
-    fn get_characteristic() -> i64;
-    fn from(n: i64) -> Self;
-}
 
-pub struct DHSetup<T: GF> {
+pub struct DHSetup<T> {
     generator: T
 }
 
-impl<T: GF> DHSetup<T> {
+impl<T> DHSetup<T> 
+where 
+    T: GF_trait
+{
     pub fn new() -> Self {
         let generator = Self::generateGenerator();
-        Self {generator}
+       // Self {generator}
+        println!("konstruktor");
+        Self{generator}
     }
 
     fn generateGenerator() -> T {
-        let chara = T::get_characteristic();
+        let dum = T::new();
+        let chara = T::get_characteristic(dum);
+
         let number = rand::thread_rng().gen_range(1..chara);
         T::from(number)
     }
