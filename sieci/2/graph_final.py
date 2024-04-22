@@ -1,5 +1,3 @@
-#TODO: moje spodoby zrobienia rzeczy
-#TODO: wykresy
 
 import networkx as nx
 from pyvis.network import Network
@@ -8,7 +6,7 @@ from copy import deepcopy
 from random import randint
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
+
 
 SIZE = 256
 
@@ -155,12 +153,12 @@ def test_N(G, matrix):
 def test_cap(G, matrix):
 
     curr_sum = sum(sum(r) for r in matrix)
-    m = 4
+    m = 1
     p = 0.9
     Tmax = T(G, curr_sum, m)
     x = []
     y = []
-    for k in range(500):
+    for k in range(1000):
         for i, j in G.edges:
             G[i][j]['c'] += SIZE
         current_reliability = reliability(G, matrix, Tmax, p, m)
@@ -200,8 +198,8 @@ def main():
     G = generate_graph()
     #draw(G)
     #test_N(G, my_N)
-    test_cap(G, my_N)
-    #test_edges(G, my_N)
+    #test_cap(G, my_N)
+    test_edges(G, my_N)
 
 if __name__ == "__main__":
     main()

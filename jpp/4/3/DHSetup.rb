@@ -1,14 +1,14 @@
 # typed: true
 # przy uzyciu Sorbet (type checker), aby byly typy generyczne
+require 'sorbet-runtime'
 
-class DHSetup[T]
+class DHSetup
 
-  extend T::Sig  # do sygnatur metod
-  #extend T::Generic # zeby miec dostep do type_member
-
-  #Elem = type_member # klasa DHSetup jest generyczna 
+   
+  extend T::Sig # zeby miec dostep do type_member
+  extend T::Generic #  typ generyczny
+  Elem = type_member # klasa DHSetup jest generyczna 
   
-  sig { returns(T) }
   def initialize
     @generator = generateGenerator
   end
@@ -18,16 +18,19 @@ class DHSetup[T]
     @generator 
   end 
 
-  sig { params(a: T, b: Long).returns(T) }
-  def power
+  sig { params(a: T, b: Integer).returns(T) }
+  def power(a, b)
     if b == 0 
       return T.new(1)
+    end
 
     temp = power(a, b / 2)
     if b % 2 == 0
       temp * temp
     else
       a * temp * temp
+    end
+  end
 
   private
 
@@ -41,4 +44,3 @@ class DHSetup[T]
   end 
 
 end
-
