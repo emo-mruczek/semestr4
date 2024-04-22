@@ -1,12 +1,14 @@
 #TODO: moje spodoby zrobienia rzeczy
 #TODO: wykresy
-#TODO: sprawko
 
 import networkx as nx
 from pyvis.network import Network
 import random
 from copy import deepcopy
 from random import randint
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 
 SIZE = 256
 
@@ -114,15 +116,27 @@ def reliability(G, matrix, Tmax, p, m, iterations=100, intervals=10):
     ret = successes / (iterations * intervals)
     return ret
 
+def plotting(x, y):
+    #print(x)
+    #print(y)
+    #mean = np.mean(y)
+    plt.plot(x, y)
+    plt.ylabel('Niezawodność')
+    plt.xlabel('Krok')
+    plt.show()
+
+
 def test_N(G, matrix):
     print("Zwiększanie macierzy N, wartości niezawodności:")
 
     curr_sum = sum(sum(r) for r in matrix)
-    m = 2
+    m = 6
     p = 0.95
-    Tmax = T(G, curr_sum, 4)
-    step = (SIZE * 25)
+    Tmax = T(G, curr_sum, m)
+    step = SIZE * 10
     tester = deepcopy(matrix)
+    x = []
+    y = []
     for k in range(100):
         while True:
             i, j = random.randint(0, 19), random.randint(0, 19)
@@ -133,20 +147,29 @@ def test_N(G, matrix):
         for n in range(len(path) - 1):
             G[path[n]][path[n + 1]]['a'] += step
         current_reliability = reliability(G, tester, Tmax, p, m)
+        y.append(current_reliability)
+        x.append(step*k)
         print(f"krok: {step*k}, niezawodność: {current_reliability}")
+    plotting(x, y)
 
 def test_cap(G, matrix):
 
     curr_sum = sum(sum(r) for r in matrix)
-    m = 2
-    p = 0.95
-    Tmax = T(G, curr_sum, 4)
-
-    for k in range(1):
+    m = 4
+    p = 0.9
+    Tmax = T(G, curr_sum, m)
+    x = []
+    y = []
+    for k in range(500):
         for i, j in G.edges:
             G[i][j]['c'] += SIZE
         current_reliability = reliability(G, matrix, Tmax, p, m)
-        print(f"krok: {SIZE * k}, niezawodność: {current_reliability}")
+        y.append(current_reliability)
+        x.append(SIZE * k)
+        #print(f"krok: {SIZE * k}, niezawodność: {current_reliability}")
+
+    plotting(x, y)
+
 
 def test_edges(G, matrix):
     curr_sum = sum(sum(r) for r in matrix)
@@ -159,21 +182,26 @@ def test_edges(G, matrix):
     caps_len = len(all_caps)
     caps_new = caps_sum / caps_len
     without_edge = list(nx.non_edges(G))
-    for k in range(1):
+    x = []
+    y = []
+    for k in range(20):
         i, j = random.sample(without_edge, 1)[0]
         without_edge.remove((i, j))
         G.add_edge(i, j)
         G[i][j]['c'] = caps_new
         flow(G, matrix)
         current_reliability = reliability(G, matrix, Tmax, p, m)
+        y.append(current_reliability)
+        x.append(k)
         print(f"krok: {k}, niezawodność: {current_reliability}")
+    plotting(x, y)
 
 def main():
     G = generate_graph()
-    draw(G)
-    #test_N(G, N)
-    #test_cap(G, N)
-    #test_edges(G, N)
+    #draw(G)
+    #test_N(G, my_N)
+    test_cap(G, my_N)
+    #test_edges(G, my_N)
 
 if __name__ == "__main__":
     main()
