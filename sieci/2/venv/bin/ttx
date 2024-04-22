@@ -1,4 +1,4 @@
-#!/home/felix/Desktop/tempForCode/semestr4/sieci/2/venv/bin/python
+#!/home/felix/Desktop/semestr4/sieci/2/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

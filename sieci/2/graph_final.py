@@ -33,6 +33,8 @@ my_N = [[0, 9, 6, 10, 5, 4, 5, 6, 4, 2, 4, 1, 8, 2, 8, 5, 8, 2, 4, 6],
 
 my_edges = [(0, 1), (2, 3), (1, 4), (3, 4), (4, 5), (5, 6), (5, 7), (7, 8), (5, 8), (5, 12), (5, 9), (9, 10), (9, 11), (11,14), (14, 13), (9,16), (16, 15), (16,19), (16,18), (18,17)]
 
+my_nodes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+
 def generate_graph():
     G = nx.Graph()
     G.add_edges_from(my_edges)
@@ -44,8 +46,8 @@ def generate_graph():
 
 def draw(G):
     net = Network()
-    #net.add_nodes(nodes)
-    #net.add_edges(edges)
+    net.add_nodes(my_nodes)
+    net.add_edges(my_edges)
     net.show('graph.html', notebook=False)
 
 def generate_N(nodes, max):
@@ -168,6 +170,7 @@ def test_edges(G, matrix):
 
 def main():
     G = generate_graph()
+    draw(G)
     #test_N(G, N)
     #test_cap(G, N)
     #test_edges(G, N)
