@@ -3,15 +3,15 @@ using System;
 
 public class GF
 {
-    private int size = 1234567891;
-    private int value;
+    private long size = 1234567891;
+    private long value;
     
     public GF()
     {
         value = 0;
     }
 
-    public GF(int n)
+    public GF(long n)
     {
         if (n >= 0)
         {
@@ -23,12 +23,12 @@ public class GF
         }
     }
 
-    public static implicit operator int(GF gf)
+    public static implicit operator long(GF gf)
     {
         return gf.value;
     }
 
-    public int GetCharacteristic()
+    public long GetCharacteristic()
     {
         return this.size;
     }
@@ -91,8 +91,8 @@ public class GF
             throw new DivideByZeroException("Division by zero");
         }
 
-        uint inverse = 1;
-        for (uint i = 1; i < obj_a.size; i++)
+        long inverse = 1;
+        for (long i = 1; i < obj_a.size; i++)
         {
             if ((obj_b.value * i) % obj_a.size == 1)
             {
@@ -102,7 +102,7 @@ public class GF
         }
 
         GF result = new GF();
-        result.value = (int)((obj_a.value * inverse) % obj_a.size);
+        result.value = (long)((obj_a.value * inverse) % obj_a.size);
         return result;
     }
     
