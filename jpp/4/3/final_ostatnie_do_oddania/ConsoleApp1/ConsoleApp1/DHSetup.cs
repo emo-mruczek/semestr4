@@ -1,5 +1,4 @@
-﻿namespace ConsoleApp1;
-
+﻿
 using System;
 
 public class DHSetup<T> where T: GF, new()
@@ -9,8 +8,8 @@ public class DHSetup<T> where T: GF, new()
    private T generateGenerator(T dum)
    {
       Random random = new Random();
-      int max = dum.GetCharacteristic();
-      int number = random.Next(1, max - 1);
+      ulong max = dum.GetCharacteristic();
+      ulong number = random.Next(1, max - 1);
       return (T) new GF(number);
    }
 

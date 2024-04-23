@@ -5,7 +5,7 @@ public class tester
    
 
 
-    public static void Main()
+    public static void Mainjjdfd()
     {
         Console.WriteLine("Tworzę dwa obiekty: a i b");
         GF a = new GF();

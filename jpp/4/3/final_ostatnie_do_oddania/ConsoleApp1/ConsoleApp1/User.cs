@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp1;
+﻿using System;
 
 public class User<T> where T: GF, new()
 {
