@@ -1,3 +1,4 @@
+
 class GF
 
   def value
