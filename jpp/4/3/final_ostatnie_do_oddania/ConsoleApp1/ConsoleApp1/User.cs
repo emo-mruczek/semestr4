@@ -10,7 +10,7 @@ public class User<T> where T: GF, new()
         Random random = new Random();
         ulong number = (ulong)random.Next(10, 100);
         this.secret = number;
-        Console.WriteLine("Mój sekret: " + secret);
+        Console.WriteLine("Mój sekret: " + secret); 
     }
     
     public User(DHSetup<T> set) {
@@ -28,23 +28,22 @@ public class User<T> where T: GF, new()
         Console.WriteLine("Mój klucz: " + key);
     }
     
-    
     public T encrypt(T m) {
-      //  if (key == null) {
-      //      Console.WriteLine("You cannot encrypt before setting the key!");
-    //        return null;
-    //    } else
-      //  {
+        if (key is null) {
+            Console.WriteLine("You cannot encrypt before setting the key!");
+            return null;
+        } else
+       {
             return (T) new GF(m * key);
-      //  }
+        }
     }
 
     public T decrypt(T c) {
-      //  if (key == null) {
-      //      Console.WriteLine("You cannot decrypt before setting the key!");
-     //       return null;
-      //  } else {
+        if (key is null) {
+            Console.WriteLine("You cannot decrypt before setting the key!");
+            return null;
+        } else {
             return (T) new GF(c/key);
-     //   }
+        }
     }
 }
