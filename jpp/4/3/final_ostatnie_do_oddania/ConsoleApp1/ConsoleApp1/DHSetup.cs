@@ -10,7 +10,7 @@ public class DHSetup<T> where T: GF, new()
       Random random = new Random();
       int max = (int)dum.GetCharacteristic();
       int number = random.Next(1, max - 1);
-      return (T) new GF(number);
+      return (T) new GF (number);
    }
 
    public DHSetup(T dum)
@@ -25,13 +25,13 @@ public class DHSetup<T> where T: GF, new()
    
    public T power(T a, ulong b) {
       if (b == 0) {
-         return (T) new GF(1);
+         return (T) new GF (1);
       }
       T temp = power(a, b/2);
       if (b % 2 == 0) {
-         return (T) new GF(temp * temp);  
+         return (T) (temp * temp);  
       } else {
-         return (T) new GF(a*temp*temp);
+         return (T) (a*temp*temp);
       }
     
    }

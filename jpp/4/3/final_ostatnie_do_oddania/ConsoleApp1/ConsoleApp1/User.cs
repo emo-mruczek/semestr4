@@ -34,7 +34,7 @@ public class User<T> where T: GF, new()
             return null;
         } else
        {
-            return (T) new GF(m * key);
+            return (T) (m * key);
         }
     }
 
@@ -43,7 +43,7 @@ public class User<T> where T: GF, new()
             Console.WriteLine("You cannot decrypt before setting the key!");
             return null;
         } else {
-            return (T) new GF(c/key);
+            return (T) (c/key);
         }
     }
 }
