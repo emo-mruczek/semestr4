@@ -1,13 +1,15 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <sys/random.h>
+#include <time.h>
 
 int comp = 0;
 int swap = 0;
-bool shoud_print = false;
+bool should_print = false;
 
 bool is_less(int a, int b) {
-    comp++
+    comp++;
 
     if (a < b) {
         return true;
@@ -26,6 +28,24 @@ bool is_equal(int a, int b) {
     }
 }
 
+bool is_less_equal(int a, int b) {
+    comp++;
+    
+    if (a <= b) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+void exchange(int* a, int* b) {
+    swap++;
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+
 
 int partition(int A[], int lo, int hi) {
     int pivot = A[lo];
@@ -35,17 +55,19 @@ int partition(int A[], int lo, int hi) {
     while (true) {
         do {
             i++;
-        } while(is_less(A[i], pivot, true));
+        } while(A[i] < pivot);
 
         do {
             j--;
-        } while (is_less(pivot, A[j], true));
+        } while (pivot < A[j]);
 
         if (i >= j) {
             return j;
         }
 
-        exchange(&A[i], &A[j]);
+        int temp = A[i];
+        A[i] = A[j];
+        A[j] = temp;
     }
 }
 
@@ -62,29 +84,32 @@ void sort(int A[], int lo, int hi ) {
 
 
 int rand_partition(int A[], int p, int q) {
-
+    unsigned int seed;
+    getrandom(&seed, sizeof(seed), 0);
+    srandom(seed);
+    int r = (p + random() % (q - p));
+    exchange(&A[p], &A[r]);
+    return partition(A, p, q);
 }
 
 
-int select(int A[], int p, int q, int i) {
-    if (A[p] == A[q]) {
-        return p;
+int select_algorithm(int A[], int p, int r, int i) {
+    if (is_equal(p, r)) {
+        return A[p];
     }
 
-    int r = rand_partition(A, p, q);
-    int k = r - p + 1;
+    int q = rand_partition(A, p, r);
+    int k = q - p + 1;
 
-    if (is_equal(i, k)) {
-        return A[r];
-    } else if (is_less(i, k)) {
-        return select(A, p, r - 1, i);
+    if (is_less_equal(i, k)) {
+        return select_algorithm(A, p, q, i);
     } else {
-        return select(A, r + 1, q, i - k);
+        return select_algorithm(A, q + 1, r, i - k);
     }
 }
 
-bool is_ok(int A, int stat, int value) {
-    if (A[stat] == A[value]) {
+bool is_ok(int A[], int stat, int value) {
+    if (A[stat] == value) {
         return true;
     } else {
         return false;
@@ -93,26 +118,27 @@ bool is_ok(int A, int stat, int value) {
 
 
 int main() {
-    printf("Podaj dlugosc tablicy: ");
+    printf("Podaj dlugosc tablicy: \n");
     int length;
     scanf("%d", &length);
 
-    printf("Podaj numer szukanej statystyki pozycyjnej");
+    printf("Podaj numer szukanej statystyki pozycyjnej: \n");
     int stat;
     scanf("%d", &stat);
 
-    if (stat > len || stat < 0) {
+    if (stat > length || stat < 1) {
         printf("Podano nieistniejaca statystyke pozycyjna");
         return 0;
     }
 
-    int A[length];
-    int Init[length];
+    int A[length+1];
+    int Init[length+1];
 
-    for (int i = 0; i < length; i++) {
+    for (int i = 1; i < length+1; i++) {
         int num;
         scanf("%d", &num);
         A[i] = num;
+        Init[i] = num;
     }
 
     if (length < 50) {
@@ -125,11 +151,11 @@ int main() {
     }
     
     //właściwy algorytm
-    int value = select(A, 0, length, stat); //czy jest git??
+    int value = select_algorithm(A, 1, length, stat); //czy jest git??
 
     if (should_print) {
         printf("Tablica poczatkowa:\n");
-        for (int k = 0; k < length; k++) {
+        for (int k = 1; k < length+1; k++) {
             if(Init[k]/10 < 1) {
                 printf("0%d ", Init[k]);
             } else {
@@ -139,7 +165,7 @@ int main() {
         printf("\n");
 
         printf("Tablica po znalezieniu statystyki:\n");
-        for (int k = 0; k < length; k++) {
+        for (int k = 1; k < length+1; k++) {
             if(A[k]/10 < 1) {
                 printf("0%d ", A[k]);
             } else {
@@ -148,11 +174,11 @@ int main() {
         }
         printf("\n");
 
-        printf("Znalezniona statystyka: %d", value);
+        printf("Znalezniona statystyka: %d\n", value);
     
         printf("Posortowana tablica:\n");
-        sort(A, 0, length - 1);
-        for (int k = 0; k < length; k++) {
+        sort(A, 1, length);
+        for (int k = 1; k < length+1; k++) {
             if(A[k]/10 < 1) {
                 printf("0%d ", A[k]);
             } else {
@@ -166,9 +192,9 @@ int main() {
     printf("Łączna liczba przestawień kluczy: %d\n", swap);
 
     if (is_ok(A, stat, value)) {
-        printf("Tablica zostala posortowana prawidlowo.");
+        printf("Znaleziono prawidlowa statystyka.");
     } else {
-        printf("Tablica zostala posortowana blednie.");
+        printf("Bledna statystyka.");
     }
 
     return 0;
