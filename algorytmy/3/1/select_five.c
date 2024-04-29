@@ -30,7 +30,7 @@ bool is_equal(int a, int b) {
 
 bool is_less_equal(int a, int b) {
     comp++;
-    
+
     if (a <= b) {
         return true;
     } else {
@@ -75,7 +75,7 @@ int partition(int A[], int lo, int hi) {
 void sort(int A[], int lo, int hi ) {
     if (lo >=0 && hi >= 0 && lo < hi) {
         int p = partition(A, lo, hi);
-        
+
         sort(A, lo, p );
         sort(A, p + 1, hi);
     }
@@ -83,29 +83,11 @@ void sort(int A[], int lo, int hi ) {
 
 
 
-int rand_partition(int A[], int p, int q) {
-    unsigned int seed;
-    getrandom(&seed, sizeof(seed), 0);
-    srandom(seed);
-    int r = (p + random() % (q - p));
-    exchange(&A[p], &A[r]);
-    return partition(A, p, q);
-}
-
-
 int select_algorithm(int A[], int p, int r, int i) {
-    if (is_equal(p, r)) {
-        return A[p];
-    }
 
-    int q = rand_partition(A, p, r);
-    int k = q - p + 1;
+    
 
-    if (is_less_equal(i, k)) {
-        return select_algorithm(A, p, q, i);
-    } else {
-        return select_algorithm(A, q + 1, r, i - k);
-    }
+
 }
 
 bool is_ok(int A[], int stat, int value) {
@@ -151,7 +133,7 @@ int main() {
         printf("\n");
         printf("Kluczowe momenty:\n");
     }
-    
+
     //właściwy algorytm
     int value = select_algorithm(A, 1, length, stat); //czy jest git??
 
@@ -177,7 +159,7 @@ int main() {
         printf("\n");
 
         printf("Znalezniona statystyka: %d\n", value);
-    
+
         printf("Posortowana tablica:\n");
         sort(A, 1, length);
         for (int k = 1; k < length+1; k++) {

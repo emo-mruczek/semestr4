@@ -1,0 +1,2 @@
+1. poprawic liczenie swapow w random select
+2. sprawdzic dobrze, czy random select dobrze dziala
