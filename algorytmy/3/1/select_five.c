@@ -83,11 +83,35 @@ void sort(int A[], int lo, int hi ) {
 
 
 
-int select_algorithm(int A[], int p, int r, int i) {
+int select_algorithm(int A[], int p, int r, int i, int length) {
 
-    
+     int n = r - p + 4;
+     int number_of_groups = n / 5;
 
+     if ( n % 5 != 0) {
+         number_of_groups++;
+     }
 
+     int tab[number_of_groups][5];
+     printf("wielkosc: %d\n", length);
+
+     int k = 1;
+     for (int i = 0; i < number_of_groups; i++) {
+
+         printf("Numer grupy: %d\n", i);
+
+         for (int j = 0; j < 5; j++) {
+
+             if (k > length) {
+                 break;
+             }
+
+             tab[i][j] = A[k];
+             k++;
+             printf("%d ", tab[i][j]);
+         }
+         printf("\n");
+     }
 }
 
 bool is_ok(int A[], int stat, int value) {
@@ -135,7 +159,7 @@ int main() {
     }
 
     //właściwy algorytm
-    int value = select_algorithm(A, 1, length, stat); //czy jest git??
+    int value = select_algorithm(A, 1, length, stat, length); //czy jest git??
 
     if (should_print) {
         printf("Tablica poczatkowa:\n");
