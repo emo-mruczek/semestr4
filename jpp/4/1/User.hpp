@@ -1,5 +1,4 @@
 
-// NIE MAM POJEIA CZY TO DZIALA, PISANE NA KRZYWY RYJ
 
 #include <cstdint>
 #include <random>
@@ -7,7 +6,6 @@
 template <typename T>
 class User {
 
-// TODO: dodaj sygnalizowanie niewlasciwego uzycia metod
 
     private:
 
