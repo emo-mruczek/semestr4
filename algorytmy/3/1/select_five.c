@@ -81,9 +81,40 @@ void sort(int A[], int lo, int hi ) {
     }
  }
 
+int partition_diff(int A[], int p, int r, int x) {
+    int i = -1;
+    for (int j = p; j < r; j++) {
+        if (A[j] == x){
+            i = j;
+            break;
+        }
+    }
+
+    if (i != -1) {
+        exchange(&A[r-1], &A[i]);
+    }
+
+    int store_index = p;
+
+    for (int j = p; j < r - 1; j++) {
+        if (A[j] < x){
+            int t = A[j];
+            A[j] = A[store_index];
+            A[store_index] = t;
+            store_index++;
+        }
+    }
+
+    if (i != -1) {
+        exchange(&A[r-1], &A[store_index]);
+    }
+
+    return store_index;
+}
 
 
-int select_algorithm(int A[], int p, int r, int i, int length) {
+
+int select_algorithm(int A[], int p, int r, int ind, int length) {
 
      // podział na grupy 
      int n = r - p + 1;
@@ -151,41 +182,34 @@ int select_algorithm(int A[], int p, int r, int i, int length) {
 
         int median = to_sort[size_of_a_group/2];
         printf("mediana: %d \n", median);
-
-                      
-
-        /*switch(size_of_a_group) {
-            case 5 :
-                median = to_sort[2];
-                break;
-            case 3 :
-                median = to_sort[1];
-                break;
-            default:
-                break;
-            
-        }*/
+        medians[i] = median;
     }
+
+    for (int i = 0; i < number_of_groups; i++) {
+        printf("%d ", medians[i]);
+    }
+
+    printf("\n");
 
     // mediana median 
     int median_of_medians;
     if (number_of_groups == 1) {
         median_of_medians = medians[0];
     } else { 
-        median_of_medians = select_algorithm(medians, 0, number_of_groups, (number_of_groups - 1) / 2 );
+        median_of_medians = select_algorithm(medians, 0, number_of_groups - 1, (number_of_groups - 1) / 2, number_of_groups );
     }
     
-    int index = partition(A, p, r, median_of_medians);
+    int index = partition_diff(A, p, r, median_of_medians);
 
-    if (p + i < index) {
-        return select_algorithm(A, p, index, i);
-    } else if (p + 1 > index) {
-        return select_algorithm(A, index + 1, r, p + 1 - index - 1);
+    printf("Index: %d \n", index);
+
+    if (ind < index - p + 1) {
+        return select_algorithm(A, p, index - p + 1 - 1, ind, index - p + 1);
+    } else if (ind > index - p + 1) {
+        return select_algorithm(A, index - p + 1 + 1, r, ind - k , r - index + 1);
     } else {
-        return A[p+1];
+        return A[index];
     }
-
-
 }
 
 bool is_ok(int A[], int stat, int value) {
