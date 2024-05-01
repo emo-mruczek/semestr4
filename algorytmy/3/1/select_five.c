@@ -165,9 +165,27 @@ int select_algorithm(int A[], int p, int r, int i, int length) {
                 break;
             
         }*/
-        
-
     }
+
+    // mediana median 
+    int median_of_medians;
+    if (number_of_groups == 1) {
+        median_of_medians = medians[0];
+    } else { 
+        median_of_medians = select_algorithm(medians, 0, number_of_groups, (number_of_groups - 1) / 2 );
+    }
+    
+    int index = partition(A, p, r, median_of_medians);
+
+    if (p + i < index) {
+        return select_algorithm(A, p, index, i);
+    } else if (p + 1 > index) {
+        return select_algorithm(A, index + 1, r, p + 1 - index - 1);
+    } else {
+        return A[p+1];
+    }
+
+
 }
 
 bool is_ok(int A[], int stat, int value) {
