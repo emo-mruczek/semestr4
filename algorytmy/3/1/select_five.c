@@ -86,8 +86,10 @@ void sort(int A[], int lo, int hi ) {
 int select_algorithm(int A[], int p, int r, int i, int length) {
 
      // podział na grupy 
-     int n = r - p + 4;
+     int n = r - p;
      int number_of_groups = n / 5;
+
+     printf("Liczba grup: %d\n", number_of_groups);
 
      if ( n % 5 != 0) {
          number_of_groups++;
@@ -99,7 +101,7 @@ int select_algorithm(int A[], int p, int r, int i, int length) {
      int k = 1;
      for (int i = 0; i < number_of_groups; i++) {
 
-         printf("Numer grupy: %d\n", i);
+         //printf("Numer grupy: %d\n", i);
 
          for (int j = 0; j < 5; j++) {
 
@@ -109,9 +111,9 @@ int select_algorithm(int A[], int p, int r, int i, int length) {
 
              tab[i][j] = A[k];
              k++;
-             printf("%d ", tab[i][j]);
+             //printf("%d ", tab[i][j]);
          }
-         printf("\n");
+         //printf("\n");
      }
 
     // szukam mediany
@@ -120,26 +122,33 @@ int select_algorithm(int A[], int p, int r, int i, int length) {
     for (int i = 0; i < number_of_groups; i++) {
 
         int to_sort[5];
+        printf("Numer grupy: %d. W grupie: ", i);
 
         for (int j = 0; j < 5; j++) {
             if (k > length) {
+                k--;
                 break;
             }
 
             to_sort[j] = tab[i][j];
-            printf("testowo: %d ", to_sort[j]);
+            printf("%d ", to_sort[j]);
             k++;
         }
 
+    
+        int size_of_a_group = 5 - (k % 5 - 1);
+        printf("Wielosc grupy: %d\n", size_of_a_group);
         printf("\n");
 
-        sort(to_sort, 0, 5 - ((k - 1) % 5));
+        sort(to_sort, 0, size_of_a_group - 1);
 
-        for (int x = 0; x < 5 - ((k - 1) % 5); x++) {
+        for (int x = 0; x < size_of_a_group; x++) {
             printf("%d ", to_sort[x]);
         }
 
-        printf("\n");
+        printf("\n"); 
+
+
     }
 }
 
