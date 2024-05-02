@@ -9,10 +9,6 @@ public class test
 
         Console.WriteLine("Wspolna liczba pierwsza: " + dum.GetCharacteristic());
         Console.WriteLine("Wspolny generator: " + dh.getGenerator());
-        
-        GF dupadupa = new GF(3);
-        GF dupa = dh.power(dupadupa, 3);
-        Console.WriteLine(dupa);
 
         // tworze user Alice, konstruktor od razu tworzy sekret
         User<GF> Alice = new User<GF>(dh);
