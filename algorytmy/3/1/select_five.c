@@ -39,7 +39,6 @@ bool is_less_equal(int a, int b) {
 }
 
 void exchange(int* a, int* b) {
-    swap++;
     int temp = *a;
     *a = *b;
     *b = temp;
@@ -57,31 +56,18 @@ void insertion_sort(int arr[], int low, int high) {
     }
 }
 
+
 int partition_diff(int A[], int p, int r, int x) {
-    int i = p - 1;
+    int i = p;
     for (int j = p; j < r; j++) {
-        if (A[j] == x){
-            i = j;
-            break;
+        if (A[j] <= x) {
+            exchange(&A[i], &A[j]);
+            i++;
         }
     }
+    exchange(&A[i], &A[r]);
 
-    if (i != p - 1) {
-        exchange(&A[r-1], &A[i]);
-    }
-
-    int store_index = p;
-
-    for (int j = p; j < r - 1; j++) {
-        if (A[j] < x){
-            exchange(&A[j], &A[store_index]);
-            store_index++;
-        }
-    }
-
-    exchange(&A[r-1], &A[store_index]);
-
-    return store_index;
+    return i;
 }
 
 int select_algorithm(int A[], int p, int r, int ind) {
@@ -161,16 +147,7 @@ int main() {
         printf("Kluczowe momenty:\n");
     }
 
-    int pass;
-    if (stat < 10) {
-    if (stat == length) {
-        pass = stat + 1;
-    } 
-
-
-    if (length <= ) {
-        pass = stat;
-    }
+    int pass = stat;
 
     //właściwy algorytm
     int value = select_algorithm(A, 0, length - 1, pass); //czy jest git??
