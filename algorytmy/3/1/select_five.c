@@ -55,20 +55,33 @@ void insertion_sort(int arr[], int low, int high) {
         arr[j + 1] = key;
     }
 }
-
-
 int partition_diff(int A[], int p, int r, int x) {
-    int i = p;
-    for (int j = p; j < r; j++) {
-        if (A[j] <= x) {
-            exchange(&A[i], &A[j]);
-            i++;
+    int i = p - 1;
+    for (int j = p; j <= r; j++) {
+        if (A[j] == x){
+            i = j;
+            break;
         }
     }
-    exchange(&A[i], &A[r]);
 
-    return i;
+    if (i != p - 1) {
+        exchange(&A[r], &A[i]);
+    }
+
+    int store_index = p;
+
+    for (int j = p; j < r; j++) {
+        if (A[j] < x){
+            exchange(&A[j], &A[store_index]);
+            store_index++;
+        }
+    }
+
+    exchange(&A[r], &A[store_index]);
+
+    return store_index;
 }
+
 
 int select_algorithm(int A[], int p, int r, int ind) {
     int n = r - p + 1;
