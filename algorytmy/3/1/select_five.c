@@ -196,17 +196,18 @@ int select_algorithm(int A[], int p, int r, int ind, int length) {
     if (number_of_groups == 1) {
         median_of_medians = medians[0];
     } else { 
-        median_of_medians = select_algorithm(medians, 0, number_of_groups - 1, (number_of_groups - 1) / 2, number_of_groups );
+        median_of_medians = select_algorithm(medians, 0, number_of_groups - 1, (number_of_groups - 2) / 2, number_of_groups );
     }
     
     int index = partition_diff(A, p, r, median_of_medians);
+    int m = index - p + 1;
 
     printf("Index: %d \n", index);
 
-    if (ind < index - p + 1) {
-        return select_algorithm(A, p, index - p + 1 - 1, ind, index - p + 1);
-    } else if (ind > index - p + 1) {
-        return select_algorithm(A, index - p + 1 + 1, r, ind - k , r - index + 1);
+    if (ind < m) {
+        return select_algorithm(A, p, index - 1, ind, ind - index + 1);
+    } else if (ind > m) {
+        return select_algorithm(A, index + 1, r, ind - m , r - index - 1);
     } else {
         return A[index];
     }
