@@ -203,6 +203,10 @@ int main() {
         pass = stat + 1;
     }
 
+    if (length <= 5) {
+        pass = stat;
+    }
+
     //właściwy algorytm
     int value = select_algorithm(A, 0, length - 1, pass); //czy jest git??
 
