@@ -208,7 +208,7 @@ int main() {
 
     if (should_print) {
         printf("Tablica poczatkowa:\n");
-        for (int k = 1; k < length+1; k++) {
+        for (int k = 0; k < length; k++) {
             if(Init[k]/10 < 1) {
                 printf("0%d ", Init[k]);
             } else {
@@ -218,7 +218,7 @@ int main() {
         printf("\n");
 
         printf("Tablica po znalezieniu statystyki:\n");
-        for (int k = 1; k < length+1; k++) {
+        for (int k = 0; k < length; k++) {
             if(A[k]/10 < 1) {
                 printf("0%d ", A[k]);
             } else {
@@ -230,8 +230,8 @@ int main() {
         printf("Znalezniona statystyka: %d\n", value);
 
         printf("Posortowana tablica:\n");
-        sort(A, 1, length);
-        for (int k = 1; k < length+1; k++) {
+        sort(A, 0, length);
+        for (int k = 0; k < length; k++) {
             if(A[k]/10 < 1) {
                 printf("0%d ", A[k]);
             } else {
