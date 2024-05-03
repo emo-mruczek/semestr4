@@ -153,7 +153,7 @@ void sort(int A[], int lo, int hi ) {
 
 
 bool is_ok(int A[], int stat, int value) {
-    if (A[stat] == value) {
+    if (A[stat-1] == value) {
         return true;
     } else {
         return false;
@@ -244,7 +244,7 @@ int main() {
     printf("Łączna liczba porównan między kluczami: %d\n", comp);
     printf("Łączna liczba przestawień kluczy: %d\n", swap);
 
-    if (is_ok(A, stat, value)) {
+    if (is_ok(Init, stat, value)) {
         printf("Znaleziono prawidlowa statystyka.");
     } else {
         printf("Bledna statystyka.");
