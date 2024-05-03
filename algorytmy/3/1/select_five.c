@@ -7,6 +7,8 @@
 int comp = 0;
 int swap = 0;
 bool should_print = false;
+int n = 0;
+
 
 bool is_less(int a, int b) {
     comp++;
@@ -55,65 +57,57 @@ void insertion_sort(int arr[], int low, int high) {
         arr[j + 1] = key;
     }
 }
-int partition_diff(int A[], int p, int r, int x) {
-    int i = p - 1;
-    for (int j = p; j <= r; j++) {
-        if (A[j] == x){
-            i = j;
-            break;
-        }
+
+int partition(int arr[], int p, int q, int pivot) {
+  //znajdujemy indeks pivota (bo przy tablicy median go utraciliśmy)
+  int pivotIndex;
+  for(int i = p; i <= q; i++) {
+    if(is_equal(pivot, arr[i])) {
+      pivotIndex = i;
+      break;
     }
-
-    if (i != p - 1) {
-        exchange(&A[r], &A[i]);
+  }
+  if(pivotIndex != p)
+    exchange(&arr[pivotIndex], &arr[p]);
+  pivotIndex = p;
+  int j = p;
+  for(int i = p+1; i <= q; i++) {
+    if(is_less(arr[i], arr[pivotIndex])) {
+      j++;
+      exchange(&arr[j], &arr[i]);
     }
-
-    int store_index = p;
-
-    for (int j = p; j < r; j++) {
-        if (A[j] < x){
-            exchange(&A[j], &A[store_index]);
-            store_index++;
-        }
-    }
-
-    exchange(&A[r], &A[store_index]);
-
-    return store_index;
+  }
+  exchange(&arr[j], &arr[p]);
+  return j;
 }
 
 
-int select_algorithm(int A[], int p, int r, int ind) {
-    int n = r - p + 1;
-    if (ind > 0 && ind <= n) {
-        if (n <= 5) {
-            insertion_sort(A, p, r);
-            return A[p + ind - 1];
-        }
-
-        // Divide A[] into groups of 5 elements
-        int number_of_groups = (n + 4) / 5;
-        int medians[number_of_groups];
-
-        for (int i = 0; i < number_of_groups; i++) {
-            int median_index = p + 5 * i + 2;
-            medians[i] = select_algorithm(A, p + 5 * i, median_index - 1, 3);
-        }
-
-        int median_of_medians = select_algorithm(medians, 0, number_of_groups - 1, number_of_groups / 2);
-
-        int index = partition_diff(A, p, r, median_of_medians);
-        int m = index - p + 1;
-
-        if (ind < m) {
-            return select_algorithm(A, p, index - 1, ind);
-        } else if (ind > m) {
-            return select_algorithm(A, index + 1, r, ind - m);
-        } else {
-            return A[index];
-        }
+int select_algorithm(int arr[], int p, int q, int i) {
+     if (p == q){
+    return arr[p];
+  }
+  //zadeklarowanie tablicy median o rozmiarze sufit z rozmiaru tablicy przez 5
+  int medianTabSize = ( ((q-p+1)%5 == 0) ? ((q-p+1)/5): (((q-p+1)/5)+1) );
+  int medianTab[medianTabSize];
+  int index = 0;
+  for(int i = p; i <= q; i += 5) {
+    if(i + 4 <= q) {
+      insertion_sort(arr, i, i+4);
+      medianTab[index] = arr[i+2];
+      index++;
     }
-    return -1; // Out of range index
+    else {
+      insertion_sort(arr, i, q);
+      medianTab[index] = arr[i + ((q-i)/2)];
+    }
+  }
+  int medianOfMedian = select_algorithm(medianTab, 0, medianTabSize-1, ((medianTabSize + 1)/2));
+  int r = partition(arr, p, q, medianOfMedian);
+  int k = r - p + 1;
+  
+  if (k == i) return arr[r];
+  else if (i < k) return select_algorithm(arr, p, r-1, i);
+  else return select_algorithm(arr, r+1, q, i-k);
 }
 
 bool is_ok(int A[], int stat, int value) {
@@ -160,10 +154,9 @@ int main() {
         printf("Kluczowe momenty:\n");
     }
 
-    int pass = stat;
 
     //właściwy algorytm
-    int value = select_algorithm(A, 0, length - 1, pass); //czy jest git??
+    int value = select_algorithm(A, 0, length - 1, stat); //czy jest git??
 
     if (should_print) {
         printf("Tablica poczatkowa:\n");
