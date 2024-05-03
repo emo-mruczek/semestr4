@@ -117,43 +117,8 @@ int select_algorithm(int A[], int p, int r, int ind) {
     return -1; // Out of range index
 }
 
-int partition(int A[], int lo, int hi) {
-    int pivot = A[lo];
-    int i = lo - 1;
-    int j = hi + 1;
-
-    while (true) {
-        do {
-            i++;
-        } while(A[i] < pivot);
-
-        do {
-            j--;
-        } while (pivot < A[j]);
-
-        if (i >= j) {
-            return j;
-        }
-
-        int temp = A[i];
-        A[i] = A[j];
-        A[j] = temp;
-    }
-}
-
-
-void sort(int A[], int lo, int hi ) {
-    if (lo >=0 && hi >= 0 && lo < hi) {
-        int p = partition(A, lo, hi);
-
-        sort(A, lo, p );
-        sort(A, p + 1, hi);
-    }
- }
-
-
 bool is_ok(int A[], int stat, int value) {
-    if (A[stat-1] == value) {
+    if (A[stat - 1] == value) {
         return true;
     } else {
         return false;
@@ -197,13 +162,13 @@ int main() {
     }
 
     int pass;
+    if (stat < 10) {
     if (stat == length) {
-        pass = 1;
-    } else {
         pass = stat + 1;
-    }
+    } 
 
-    if (length <= 5) {
+
+    if (length <= ) {
         pass = stat;
     }
 
@@ -234,7 +199,7 @@ int main() {
         printf("Znalezniona statystyka: %d\n", value);
 
         printf("Posortowana tablica:\n");
-        sort(A, 0, length);
+        insertion_sort(A, 0, length - 1);
         for (int k = 0; k < length; k++) {
             if(A[k]/10 < 1) {
                 printf("0%d ", A[k]);
@@ -248,7 +213,7 @@ int main() {
     printf("Łączna liczba porównan między kluczami: %d\n", comp);
     printf("Łączna liczba przestawień kluczy: %d\n", swap);
 
-    if (is_ok(Init, stat, value)) {
+    if (is_ok(A, stat, value)) {
         printf("Znaleziono prawidlowa statystyka.");
     } else {
         printf("Bledna statystyka.");
