@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
         tab[i] = (random() % (max + 1));
     }
 
-    int random_index = (random() % (length));
+    int random_index = (1 + random() % (length));
 
     printf("%d\n", length);
     printf("%d\n", random_index);

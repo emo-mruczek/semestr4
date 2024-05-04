@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
     unsigned int seed;
     getrandom(&seed, sizeof(seed), 0);
     srandom(seed);
-    int random_index = (random() % (length));
+    int random_index = (1 + random() % (length));
 
     printf("%d\n", length);
     printf("%d\n", random_index);

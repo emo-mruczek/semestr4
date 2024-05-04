@@ -7,8 +7,6 @@
 int comp = 0;
 int swap = 0;
 bool should_print = false;
-int n = 0;
-
 
 bool is_less(int a, int b) {
     comp++;
@@ -41,16 +39,43 @@ bool is_less_equal(int a, int b) {
 }
 
 void exchange(int* a, int* b) {
+    swap++;
     int temp = *a;
     *a = *b;
     *b = temp;
 }
 
+
+int partition_for_sort(int A[], int lo, int hi) {
+    int pivot = A[lo];
+    int i = lo - 1;
+    int j = hi + 1;
+
+    while (true) {
+        do {
+            i++;
+        } while(A[i] < pivot);
+
+        do {
+            j--;
+        } while (pivot < A[j]);
+
+        if (i >= j) {
+            return j;
+        }
+
+        int temp = A[i];
+        A[i] = A[j];
+        A[j] = temp;
+    }
+}
+
+
 void insertion_sort(int arr[], int low, int high) {
     for (int i = low + 1; i <= high; ++i) {
         int key = arr[i];
         int j = i - 1;
-        while (j >= low && arr[j] > key) {
+        while (j >= low && is_less(key, arr[j])) {
             arr[j + 1] = arr[j];
             j = j - 1;
         }
@@ -58,56 +83,85 @@ void insertion_sort(int arr[], int low, int high) {
     }
 }
 
+
+void sort(int A[], int lo, int hi) {
+    if (lo >=0 && hi >= 0 && lo < hi) {
+        int p;
+        p = partition_for_sort(A, lo, hi);
+
+        sort(A, lo, p);
+        sort(A, p + 1, hi);
+    }
+ }
+
 int partition(int arr[], int p, int q, int pivot) {
-  //znajdujemy indeks pivota (bo przy tablicy median go utraciliśmy)
-  int pivotIndex;
+  int index;
+
   for(int i = p; i <= q; i++) {
     if(is_equal(pivot, arr[i])) {
-      pivotIndex = i;
+      index = i;
       break;
     }
   }
-  if(pivotIndex != p)
-    exchange(&arr[pivotIndex], &arr[p]);
-  pivotIndex = p;
+
+  if(index != p)
+    exchange(&arr[index], &arr[p]);
+
+  index = p;
   int j = p;
   for(int i = p+1; i <= q; i++) {
-    if(is_less(arr[i], arr[pivotIndex])) {
+    if(is_less(arr[i], arr[index])) {
       j++;
       exchange(&arr[j], &arr[i]);
     }
   }
+
   exchange(&arr[j], &arr[p]);
   return j;
 }
 
 
-int select_algorithm(int arr[], int p, int q, int i) {
-     if (p == q){
-    return arr[p];
+int select_algorithm(int A[], int p, int q, int i) {
+  if (p == q) {
+    if (should_print) {
+        printf("Jednoelementowa podtablica z: %d\n", A[p]);
+    }
+
+    return A[p];
   }
-  //zadeklarowanie tablicy median o rozmiarze sufit z rozmiaru tablicy przez 5
-  int medianTabSize = ( ((q-p+1)%5 == 0) ? ((q-p+1)/5): (((q-p+1)/5)+1) );
-  int medianTab[medianTabSize];
+
+
+  int number_of_groups = ( ((q-p+1)%5 == 0) ? ((q-p+1)/5): (((q-p+1)/5)+1) );
+  int medians[number_of_groups];
   int index = 0;
-  for(int i = p; i <= q; i += 5) {
+
+  for (int i = p; i <= q; i += 5) {   
     if(i + 4 <= q) {
-      insertion_sort(arr, i, i+4);
-      medianTab[index] = arr[i+2];
+      insertion_sort(A, i, i+4);
+      medians[index] = A[i+2];
       index++;
     }
     else {
-      insertion_sort(arr, i, q);
-      medianTab[index] = arr[i + ((q-i)/2)];
+      insertion_sort(A, i, q);
+      medians[index] = A[i + ((q-i)/2)];
     }
   }
-  int medianOfMedian = select_algorithm(medianTab, 0, medianTabSize-1, ((medianTabSize + 1)/2));
-  int r = partition(arr, p, q, medianOfMedian);
+
+  int median_of_medians = select_algorithm(medians, 0, number_of_groups-1, ((number_of_groups + 1)/2));
+  int r = partition(A, p, q, median_of_medians);
   int k = r - p + 1;
+
+  if (should_print) {
+      printf("Obecna mediana median: %d\n", A[r]);
+  } 
   
-  if (k == i) return arr[r];
-  else if (i < k) return select_algorithm(arr, p, r-1, i);
-  else return select_algorithm(arr, r+1, q, i-k);
+  if (k == i) {
+      return A[r];
+  } else if (i < k) {
+      return select_algorithm(A, p, r-1, i);
+  } else {
+      return select_algorithm(A, r+1, q, i-k);
+  } 
 }
 
 bool is_ok(int A[], int stat, int value) {
@@ -117,7 +171,6 @@ bool is_ok(int A[], int stat, int value) {
         return false;
     }
 }
-
 
 int main() {
     printf("Podaj dlugosc tablicy: \n");
@@ -182,7 +235,7 @@ int main() {
         printf("Znalezniona statystyka: %d\n", value);
 
         printf("Posortowana tablica:\n");
-        insertion_sort(A, 0, length - 1);
+        sort(A, 0, length - 1);
         for (int k = 0; k < length; k++) {
             if(A[k]/10 < 1) {
                 printf("0%d ", A[k]);
