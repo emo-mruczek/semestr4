@@ -81,6 +81,27 @@ void sort(int A[], int lo, int hi ) {
     }
  }
 
+int partition_count(int A[], int lo, int hi) {
+    int pivot = A[lo];
+    int i = lo - 1;
+    int j = hi + 1;
+
+    while (true) {
+        do {
+            i++;
+        } while(is_less(A[i], pivot));
+
+        do {
+            j--;
+        } while (is_less(pivot, A[j]));
+
+        if (i >= j) {
+            return j;
+        }
+
+        exchange(&A[i], &A[j]);
+    }
+}
 
 
 int rand_partition(int A[], int p, int q) {
@@ -89,17 +110,25 @@ int rand_partition(int A[], int p, int q) {
     srandom(seed);
     int r = (p + random() % (q - p));
     exchange(&A[p], &A[r]);
-    return partition(A, p, q);
+    return partition_count(A, p, q);
 }
 
 
 int select_algorithm(int A[], int p, int r, int i) {
     if (is_equal(p, r)) {
+        if (should_print) {
+            printf("Podtablica ma tylko jeden element: %d\n", A[p]);
+        }
+
         return A[p];
     }
 
     int q = rand_partition(A, p, r);
     int k = q - p + 1;
+
+    if (should_print) {
+        printf("Wybano pivot: %d\n", A[q]);
+    }
 
     if (is_less_equal(i, k)) {
         return select_algorithm(A, p, q, i);
@@ -115,7 +144,6 @@ bool is_ok(int A[], int stat, int value) {
         return false;
     }
 }
-
 
 int main() {
     //printf("Podaj dlugosc tablicy: \n");
@@ -200,7 +228,7 @@ int main() {
     }*/
 
 
-    print("%d %d", comp, swap);
+    printf("%d %d ", comp, swap);
 
     return 0;
 }
