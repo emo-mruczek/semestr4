@@ -74,13 +74,13 @@ void calculate_keys(struct key_pair *priv, struct key_pair *pub) {
 }
 
 int main() {
-    printf("First prime number: \n");
+    //printf("First prime number: \n");
     scanf("%" PRIu32, &prime1);
-    printf("Entered: %" PRIu32 "\n", prime1);
+    //printf("Entered: %" PRIu32 "\n", prime1);
 
-    printf("Second prime number: \n");
+    //printf("Second prime number: \n");
     scanf("%" PRIu32, &prime2);
-    printf("Entered: %" PRIu32 "\n", prime2);
+    //printf("Entered: %" PRIu32 "\n", prime2);
 
 
     if (!check_prime(prime1) || !check_prime(prime2) || prime1 == prime2) {
@@ -88,17 +88,17 @@ int main() {
         return 0;
     }
 
-    printf("gitgut wszystko jest pierwsze :3\n");
+    //printf("gitgut wszystko jest pierwsze :3\n");
 
     struct key_pair priv, pub;
     calculate_keys(&priv, &pub);
 
     //printing
 
-    printf("Your keys: {key}, {n} \n");
-    printf("Public: %" PRIu32 ", %" PRIu32 "\n", pub.key, pub.n);
-    printf("Private: %" PRIu32 ", %" PRIu32 "\n", priv.key, priv.n);
-
+    //printf("Your keys: {key}, {n} \n");
+    //printf("Public: %d, %d\n", pub.key, pub.n);
+    //printf("Private: %d, %d\n", priv.key, priv.n);
+    printf("%" PRIu32 " %" PRIu32 " %" PRIu32 " %" PRIu32 "\n", pub.key, pub.n, priv.key, priv.n );
 
     return 0;
 }

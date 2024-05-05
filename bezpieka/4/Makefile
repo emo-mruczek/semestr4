@@ -1,5 +1,5 @@
-RSA: RSA.c
-	gcc -o RSA RSA.c -lm
+RSA_lib: RSA_lib.c
+	gcc -o RSA_lib RSA_lib.c -lm
 
 clean: 
-	rm -f RSA
+	rm -f RSA_lib
