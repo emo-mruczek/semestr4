@@ -1,0 +1,36 @@
+Użyć podpisu zaufanego można, gdy posiada się Profil Zaufany (trzeba mieć pesel)
+z gov.pl:
+>podpisac mozna dokumenty na dysku, jak i formularze elektroniczne
+>podpisanie polega na kliknieciu "podpisz podpisem zaufanym' i potwierdzeniem kodem sms
+>system generuje plik .xml z podpisem
+
+pz jest bezplatny, kwalifikowany nie
+
+autentycznosc pz zapewnia pieczec elektroniczna ministra cyfryzacji. Zawiera dane np: pesel, identyfikator srodka identyfikacji, czas. (podpisano w imieniu)
+
+
+xades - XML Advanced Electronic Signature - format uniwersalny, podpisze sie nim wiekszosc rzeczy, od pdf po jakies jpg czy zip
+pades - PDF Advanced Electronic Signature - tylko do PDF
+
+
+weryfikacjapodpisu.pl
+widac hash, format podpisu (xades czy pades), kto podpisal, kiedy, rodzaj uwierzytelnienia (Minister do spraw informatyzacji - pieczęć podpisu zaufanego), nazwe dokumentu
+info z profilu zaufanego: imie, nazwisko, pesel, id 
+informacje o wystawcy certyfikatu
+"Certyfikat został zweryfikowany za pomocą:
+weryfikacja podpisu elektronicznegoCertyfikat nie znajduje się na liście CRL"
+
+crl - certificate revocation list - lista uniewaznionych certyfikatow - jest publikowana przez wystawce certyfikatów, zawiera numery seryjne tych uniewaznionych (np przez ujawnienie klucza prywatnego); są dwa stany: wstrzymany, unieważniony
+
+po dostawieniu kropki krzyczy, ze integralnosc nie jest zachowana
+
+https://www.nccert.pl/tsl.htm 
+
+
+https://www.ur.edu.pl/files/ur/import/private/87/Akty-prawne/Mini-poradnik-Podpis-osobisty-zaufany-i-kwalifikowany-podpis-elektroniczny.pdf
+
+podpis osobisty: jest to podpis z e-dowodu, ma taką samą moc jak podpis własnoręczny ALE tylko dla podmiotow publicznych, moze byc wykorzystywany w kontaktach z podmiotami innymi niz publiczne, ale tylko, jesli obie strony sie na to zgodza. podpisuje sie w eDO App
+
+podpis zaufany: dwa formaty, podpisuje sie przez gov.pl, trzeba miec do tego profil zaufany, znacznik graficzny przy pdf, pz jest bezplatny, na okres trzy lat, trzeba przedluzac
+
+podpis kwalifikowany: niczym podpis własnoręczny, poswiadczany za pomocą certyfikatu kwalifikowanego, mozna wgrac na nowy dowod, jest platny, mozna wybrac wydawce (wolny rynek)
