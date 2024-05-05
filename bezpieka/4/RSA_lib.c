@@ -6,11 +6,7 @@
 #include <sys/random.h>
 #include <time.h>
 #include <inttypes.h>
-
-struct key_pair {
-    uint32_t n;
-    uint32_t key;
-};
+#include "RSA_lib.h"
 
 uint32_t prime1, prime2;
 
@@ -73,32 +69,14 @@ void calculate_keys(struct key_pair *priv, struct key_pair *pub) {
     pub->key = e;
 }
 
-int main() {
-    //printf("First prime number: \n");
-    scanf("%" PRIu32, &prime1);
-    //printf("Entered: %" PRIu32 "\n", prime1);
-
-    //printf("Second prime number: \n");
-    scanf("%" PRIu32, &prime2);
-    //printf("Entered: %" PRIu32 "\n", prime2);
-
+void insert_primes(uint32_t primea, uint32_t primeb, struct key_pair *priv, struct key_pair *pub) {
+    prime1 = primea;
+    prime2 = primeb;
 
     if (!check_prime(prime1) || !check_prime(prime2) || prime1 == prime2) {
         printf("Numbers are not prime or are the same!");
-        return 0;
+        return;
     }
 
-    //printf("gitgut wszystko jest pierwsze :3\n");
-
-    struct key_pair priv, pub;
-    calculate_keys(&priv, &pub);
-
-    //printing
-
-    //printf("Your keys: {key}, {n} \n");
-    //printf("Public: %d, %d\n", pub.key, pub.n);
-    //printf("Private: %d, %d\n", priv.key, priv.n);
-    printf("%" PRIu32 " %" PRIu32 " %" PRIu32 " %" PRIu32 "\n", pub.key, pub.n, priv.key, priv.n );
-
-    return 0;
+    calculate_keys(priv, pub);
 }
