@@ -202,6 +202,10 @@ void alghorithm(int A[], int lo, int hi) {
         alghorithm(A, lo, p - 1);
         alghorithm(A, p + 1, q - 1);
         alghorithm(A, q + 1, hi);
+    } else if (lo == hi - 1) {
+        if(is_less(A[hi], A[lo])) {
+            exchange(&A[lo], &A[hi]);
+        }
     }
 }
 
