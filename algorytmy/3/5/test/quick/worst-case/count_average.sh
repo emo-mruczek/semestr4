@@ -9,6 +9,6 @@ END {
     for (key in sumSQ) {
         print key, sumCH[key] / count[key], sumSH[key] / count[key], sumCQ[key] / count[key], sumSQ[key] / count[key]
     }
-}' random.txt > average.txt
+}' random.txt | sort -n > average.txt
 
 
