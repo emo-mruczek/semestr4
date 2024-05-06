@@ -1,0 +1,3 @@
+sudo tshark -D
+sudo tshard -i any -f "port 110"
+
