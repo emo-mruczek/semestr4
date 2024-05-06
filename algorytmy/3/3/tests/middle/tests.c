@@ -44,7 +44,7 @@ int main() {
         }
     }*/
 
-   for (int n = 100; n <= 50000; n = n + 100) {
+   for (int n = 1000; n <= 50000; n = n + 1000) {
 
         int index;
         //index = 1;

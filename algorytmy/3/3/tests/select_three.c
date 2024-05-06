@@ -258,7 +258,7 @@ int main() {
    // printf("Łączna liczba przestawień kluczy: %d\n", swap);
    // printf("Czas dzialania: %f\n", t_ns);
 
-    printf("%d %d %f", comp, swap, t_ns);
+    printf("%d %d %f ", comp, swap, t_ns);
 
 //    if (is_ok(A, stat, value)) {
 //        printf("Znaleziono prawidlowa statystyka.");
