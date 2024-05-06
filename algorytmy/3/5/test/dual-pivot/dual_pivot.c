@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <time.h>
 
 int comp = 0;
 int swap = 0;
@@ -36,16 +37,12 @@ void exchange(int* a, int* b) {
     *b = temp;
 }
 
-void insertion_sort(int arr[], int low, int high) {
-    for (int i = low + 1; i <= high; ++i) {
-        int key = arr[i];
-        int j = i - 1;
-        while (j >= low && is_less(key, arr[j])) {
-            arr[j + 1] = arr[j];
-            j = j - 1;
-        }
-        arr[j + 1] = key;
-    }
+void rotate(int* a, int* b, int* c) {
+    swap += 2;
+    int temp = *a;
+    *a = *b;
+    *b = *c;
+    *c = temp;
 }
 
 int partition(int A[], int p, int q, int* ret) {
@@ -129,7 +126,7 @@ void alghoritm(int A[], int p, int q, bool should_print) {
 }
 
 int main(int argc, char *argv[]) {
-    printf("Podaj dlugosc tablicy: ");
+//    printf("Podaj dlugosc tablicy: ");
     int length;
     scanf("%d", &length);
     int A[length];
@@ -143,9 +140,9 @@ int main(int argc, char *argv[]) {
 
     bool should_print = false;
 
-    if (length < 40) {
-        should_print = true;
-    }
+//    if (length < 40) {
+//        should_print = true;
+//    }
 
     if (should_print ) {
         printf("Tablica wejsciowa: ");
@@ -158,7 +155,12 @@ int main(int argc, char *argv[]) {
     }
 
     //właściwy algorytm
+    struct timespec start, end;
+    clock_gettime(CLOCK_REALTIME, &start);
     alghoritm(A, 0, length - 1, should_print);
+    clock_gettime(CLOCK_REALTIME, &end);
+    double t_ns = (double)(end.tv_sec - start.tv_sec) * 1.0e9 + (double)(end.tv_nsec - start.tv_nsec);
+
 
    if (should_print) {
         printf("Tablica poczatkowa:\n");
@@ -181,14 +183,15 @@ int main(int argc, char *argv[]) {
         printf("\n");
     }
 
-    printf("Łączna liczba porównan między kluczami: %d\n", comp);
-    printf("Łączna liczba przestawień kluczy: %d\n", swap);
+//    printf("Łączna liczba porównan między kluczami: %d\n", comp);
+//    printf("Łączna liczba przestawień kluczy: %d\n", swap);
+    printf("%d %f ", comp, t_ns);
 
-      if (is_sorted(A, length)) {
+/*      if (is_sorted(A, length)) {
         printf("Tablica zostala posortowana prawidlowo.");
     } else {
         printf("Tablica zostala posortowana blednie.");
-    }
+    }*/
 
     return 0;
 }
