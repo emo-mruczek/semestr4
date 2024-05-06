@@ -14,6 +14,6 @@ awk '{
    count[$1]++
 }
 END {
-    for (key in sumCH) {
+    for (key in sumCT) {
         print key, sumCT[key] / count[key], sumST[key] / count[key], sumTT[key] / count[key],  sumCF[key] / count[key], sumSF[key] / count[key], sumTF[key] / count[key],  sumCS[key] / count[key], sumSS[key] / count[key], sumTS[key] / count[key],  sumCN[key] / count[key], sumSN[key] / count[key], sumTN[key] / count[key]  }
 }' random.txt | sort -n > average.txt
