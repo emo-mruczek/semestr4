@@ -4,4 +4,4 @@ set xlabel "n"
 set ylabel "Average swaps"
 
 plot "average.txt" using 1:3 t "SelectRandom", \
-"" using !;% t "SelectFive"
+"" using 1:5 t "SelectFive"
