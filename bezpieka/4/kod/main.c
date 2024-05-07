@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <inttypes.h>
 #include <stdbool.h>
+#include "bigint.h"
 
 // from geeksforgeeks
 uint64_t power(uint64_t a, uint64_t b, uint64_t n){
@@ -59,7 +60,7 @@ uint64_t find_priv(struct key_pair priv_a, struct key_pair pub_a, uint64_t *p_in
 	}
 	uint64_t a = 2;
 	uint64_t k, x, r, p, q, temp1, temp2;
-	while(a < 100) {
+	while(a<100) {
 		k = t;
         //printf("k: %" PRIu64 "kphi: %" PRIu64 "/n", k, kphi );
 		while(k < kphi) { //tu tez nie, bo zawsze k = kphi, czemu?
@@ -109,8 +110,9 @@ uint64_t crack(uint64_t p, uint64_t q, uint64_t e) {
 }
 
 int main() {
-    uint64_t prime1 = 37;
-    uint64_t prime2 = 53;
+
+    uint64_t prime1 = 53;
+    uint64_t prime2 = 23;
 
     struct key_pair pub_a;
     struct key_pair pub_b;
@@ -130,18 +132,18 @@ int main() {
     printf("Public: %" PRIu64 ", %" PRIu64 "\n", pub_b.key, pub_b.n);
     printf("Private: %" PRIu64 ", %" PRIu64 "\n", priv_b.key, priv_b.n);
 
-    printf("I have only pub_a, priv_a, pub_b.\n I'm looking for priv_b...\n");
+    printf("I have only pub_a, priv_a, pub_b. I'm looking for priv_b...\n");
     uint64_t p, q;
     q = find_priv(priv_a, pub_a, &p);
     printf("I've found: %" PRIu64 " as p and %" PRIu64 " as q\n", p, q);
     
-    uint64_t dupa = crack(p, q, pub_b.key);
-    printf("DUPA: %" PRIu64 "\n", dupa);
-  /*  if(found_key == priv_b.key) {
+    uint64_t very_secret_key = crack(p, q, pub_b.key);
+    printf("Very secret key: %" PRIu64 "\n", very_secret_key);
+    if(very_secret_key == priv_b.key) {
 	    printf(" - it's correct!\n");
 	} else {
 		printf(" - it's not correct :(\n");
-	}*/
+	}
 
     return 0;
 }
