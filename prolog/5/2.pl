@@ -1,19 +1,18 @@
 
 board(X):-
-    length(X,L),
-    rysuj(X,1,L).
+    length(X, L),
+    rysuj(X, 1, L).
 
 % z poprzedniej listy
-hetmany(N, P):-
+hetmany(N, P):-    % generuje permutacje w liscie P o dlugosci N
     between(1, 100, N),
     numlist(1, N, L),
-    permutation(L,P),
-
+    permutation(L, P),
     dobra(P).
 
 dobra(P) :-
     \+ zla(P).
-
+ 
 zla(P) :-
     append(_, [Wi | L1], P),
     append(L2, [Wj | _ ], L1),
@@ -28,7 +27,7 @@ rysuj(_, Nk, Rozmiar):-
 
 rysuj(Tab, Nk, Rozmiar):-
     przerywana(Rozmiar),
-    Y is Rozmiar - Nk +1,
+    Y is Rozmiar - Nk + 1,
     prosta(1, Y, Tab, Rozmiar),
     prosta(1, Y, Tab, Rozmiar),
     Nk1 is Nk +1,
@@ -45,7 +44,7 @@ prosta(Nw, Nk, Tab, Rozmiar):-
     nth1(Nw, Tab, Nk),
     (   ((Nw mod 2 =:= 0, Nk mod 2 =:= 1)
         ;(Nw mod 2 =:= 1, Nk mod 2 =:= 0)
-        ) -> write('|:###:') ; write('| ### ')
+        ) -> write('| ### ') ; write('|:###:')
     ),
     Nw1 is Nw + 1,
     prosta(Nw1, Nk, Tab, Rozmiar),
@@ -54,7 +53,7 @@ prosta(Nw, Nk, Tab, Rozmiar):-
 prosta(Nw, Nk, Tab, Rozmiar):-
     (   ((Nw mod 2 =:= 0, Nk mod 2 =:= 1)
         ;(Nw mod 2 =:= 1, Nk mod 2 =:= 0)
-        ) -> write('|:::::') ; write('|     ')
+        ) -> write('|     ') ; write('|:::::')
     ),
     Nw1 is Nw + 1,
     prosta(Nw1, Nk, Tab, Rozmiar),
@@ -65,9 +64,9 @@ przerywana(0):-
     nl,
     !.
 
-przerywana(Rozmiarmiar):-
+przerywana(Rozmiar):-
     write('+-----'),
-    R is Rozmiarmiar -1,
+    R is Rozmiar - 1,
     przerywana(R).
 
 

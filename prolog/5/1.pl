@@ -13,12 +13,13 @@ key(or).
 key(mod).
 
 % liczba naturalna
-int([H|T]) :- char_type(H,digit), int(T).
+int([H|T]) :- 
+    char_type(H, digit), int(T).
 int([]) :- !.
 
 % nazwa zmiennej
 id([H|T]) :-
-	char_type(H,upper), id(T).
+	char_type(H, upper), id(T).
 id([]) :-!.
 
 % separator
@@ -45,34 +46,38 @@ bialy('\n').
 czytaj('end_of_file',_,[],[]):-
 		!.
 
-czytaj(Char1,Char2,L,Output) :-
-		bialy(Char2),
-		get_char(Char3),czytaj(Char2,Char3,T,Output2),
-		prawo(T,Output2,Output),L=[Char1].
+czytaj(C1, C2, L, Output) :-
+		bialy(C2),
+		get_char(C3),
+        czytaj(C2, C3, T, Output2),
+		dodaj(T, Output2, Output),
+        L=[C1].
 
-czytaj(Char1,Char2,L,[OutputH|OutputT]) :-
-		sep(Char2),
-		get_char(Char3),czytaj(Char2,Char3,T,Output2),
+czytaj(C1, C2, L, [OutputH|OutputT]) :-
+		sep(C2),
+		get_char(C3), czytaj(C2, C3, T, Output2),
 		(	
-			(atom_chars(S,[Char1,Char2]),sep(S),prawo(T,Output2,OutputT),OutputH=sep(S),L=[]);
-			(prawo(T,Output2,OutputT),OutputH=sep(Char2),L=[Char1])
+			(atom_chars(S, [C1,C2]), sep(S), dodaj(T,Output2,OutputT),OutputH=sep(S),L=[]);
+			(dodaj(T,Output2,OutputT),OutputH=sep(C2),L=[C1])
 		).
 
-czytaj(Char1,Char2,[Char1|T],Output) :-
-		get_char(Char3),czytaj(Char2,Char3,T,Output).
+czytaj(C1, C2, [C1 | T], Output) :-
+		get_char(C3),
+        czytaj(C2, C3, T, Output).
 
-prawo([_|[]],X,X).
-prawo([_|T],IN,Output) :- 
-		atom_token(T,TOKEN),Output=[TOKEN|IN].	
+dodaj([_|[]],X,X).
+dodaj([_|T], Input, Output) :- 
+		token(T, TOKEN),
+        Output = [TOKEN | Input].	
 
-atom_token(L,Tokeny) :-
-			(id(L),atom_chars(T,L),Tokeny=id(T));
-			(int(L),atom_chars(T,L),Tokeny=int(T));
-			(atom_chars(T,L),key(T),Tokeny=key(T)).
+token(L,Tokeny) :-
+			(id(L), atom_chars(T, L), Tokeny=id(T));
+			(int(L), atom_chars(T, L), Tokeny=int(T));
+			(atom_chars(T, L), key(T), Tokeny=key(T)).
 
-scanner(Strumień,Tokeny) :-
-		set_input(Strumień),
-		get_char(Char),
-		czytaj(' ',Char,L,P),!,
-		prawo(L,P,Tokeny),!.
+scanner(Strumień, Tokeny) :-
+		set_input(Strumień), % do czytania z pliku
+		get_char(C), % odczytuje pojedynczy znak ze strumienia
+		czytaj(' ',C,L,P),!,
+		dodaj(L,P,Tokeny),!.
  
