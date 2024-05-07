@@ -22,19 +22,35 @@ bool check_prime(uint32_t n) {
     return true;
 }
 
+bool is_coprime(int a, int b) {
+
+    if (!b) {
+        return a == 1;
+    }
+
+    return is_coprime(b, a % b);
+}
+
 // znajdz takie e, ze z euler jest coprime -> czy znajduje poprawnie?
 uint32_t find_e(uint32_t euler) {
     uint32_t seed;
     getrandom(&seed, sizeof(seed), 0);
     srandom(seed);
-    uint32_t e;
+    uint32_t e, _e;
+    e = rand() % (euler - 2) + 2;
 
-    do {    
-        e = (2 + random() % (euler));
-        if (check_prime(e) && e != prime1 && e != prime2) {
-            return e;
-        }
-    } while(euler % e == 0);
+    if (!is_coprime(e, euler)) {
+        _e = e;
+
+        do {
+            _e = (_e == (euler - 1)) ? 2 : (_e + 1);
+        } while ((_e != e) && !is_coprime(_e, euler));
+
+        e = _e;
+    }
+
+    return e;
+    //return 0;
 }
 
 // znajdz d jako modular multiplicative inverse e mod euler(n)

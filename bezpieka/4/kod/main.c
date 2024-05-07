@@ -6,23 +6,25 @@
 
 // from geeksforgeeks
 uint64_t power(uint64_t a, uint64_t b, uint64_t n){
-	  // Initialize answer
-    uint64_t res = 1;
- 
-    // Check till the number becomes zero
-    while (b > 0) {
- 
-        // If y is odd, multiply x with result
-        if (b % 2 == 1)
-            res = (res * a);
- 
-        // y = y/2
-        b = b >> 1;
- 
-        // Change x to x^2
-        a = (a * a);
+    if (a == 0){
+        return 0;
     }
-    return res % n;
+    if (b == 0) {
+        return 1;
+    }
+
+    uint64_t y;
+    if (b % 2 == 0) {
+        y = power(a, b/2, n);
+        y = (y * y) % n;
+    }
+
+    else {
+        y = a % n;
+        y = (y * power(a, b - 1, n) % n) % n;
+    }
+
+    return ((y % n ) % n);
 }
 
 // from geeksforgeeks (again)
@@ -46,7 +48,7 @@ uint64_t gcdExtended(uint64_t a, uint64_t b, uint64_t *x, uint64_t *y) {
 }
 
 
-uint64_t find_priv(struct key_pair priv_a, struct key_pair pub_a, struct key_pair pub_b) {
+uint64_t find_priv(struct key_pair priv_a, struct key_pair pub_a, uint64_t *p_in) {
 	uint64_t t = priv_a.key * pub_a.key - 1;
 	printf("%" PRIu64 "\n", t);
 	uint64_t n = priv_a.n;
@@ -57,7 +59,7 @@ uint64_t find_priv(struct key_pair priv_a, struct key_pair pub_a, struct key_pai
 	}
 	uint64_t a = 2;
 	uint64_t k, x, r, p, q, temp1, temp2;
-	while(true) {
+	while(a < 100) {
 		k = t;
         //printf("k: %" PRIu64 "kphi: %" PRIu64 "/n", k, kphi );
 		while(k < kphi) { //tu tez nie, bo zawsze k = kphi, czemu?
@@ -66,19 +68,19 @@ uint64_t find_priv(struct key_pair priv_a, struct key_pair pub_a, struct key_pai
             
 			if(x != 1 && x != (n-1) && power(x, 2, n) == 1) {
 					p = gcdExtended(x-1, n, &temp1, &temp2);
-					return n >> r;
 					}
 					k = k*2;
 		}
 					a = a+2;
 					}
-	//	q = n / p;
-	//	return q;
+		q = n / p;
+        *p_in = p; 
+		return q;
 }
 
 int main() {
-    uint64_t prime1 = 1234567891;
-    uint64_t prime2 = 1234577;
+    uint64_t prime1 = 37;
+    uint64_t prime2 = 53;
 
     struct key_pair pub_a;
     struct key_pair pub_b;
@@ -99,15 +101,15 @@ int main() {
     printf("Private: %" PRIu64 ", %" PRIu64 "\n", priv_b.key, priv_b.n);
 
     printf("I have only pub_a, priv_a, pub_b.\n I'm looking for priv_b...\n");
+    uint64_t p, q;
+    q = find_priv(priv_a, pub_a, &p);
+    printf("I've found: %" PRIu64 " as p and %" PRIu64 " as q\n", p, q);
 
-    uint64_t found_key = find_priv(priv_a, pub_a, pub_b);
-    printf("I've found: %" PRIu64, found_key);
-
-    if(found_key == priv_b.key) {
+  /*  if(found_key == priv_b.key) {
 	    printf(" - it's correct!\n");
 	} else {
 		printf(" - it's not correct :(\n");
-	}
+	}*/
 
     return 0;
 }
