@@ -138,7 +138,7 @@ int select_algorithm(int A[], int p, int q, int i) {
   int medians[number_of_groups];
   int index = 0;
 
-  for (int i = p; i <= q; i += 5) {   
+  for (int i = p; i <= q; i += GROUPS) {   
     if(i + (GROUPS - 1) <= q) {
       insertion_sort(A, i, i+ (GROUPS - 1));
       medians[index] = A[i+2];
@@ -262,7 +262,7 @@ int main() {
 //    printf("Czas dzialania: %f\n", t_ns);
 
     
-printf("%d %d %f", comp, swap, t_ns);
+printf("%d %d %f ", comp, swap, t_ns);
 
 
   //  if (is_ok(A, stat, value)) {
