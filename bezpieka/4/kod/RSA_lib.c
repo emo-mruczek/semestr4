@@ -22,6 +22,7 @@ bool check_prime(uint32_t n) {
     return true;
 }
 
+// znajdz takie e, ze z euler jest coprime -> czy znajduje poprawnie?
 uint32_t find_e(uint32_t euler) {
     uint32_t seed;
     getrandom(&seed, sizeof(seed), 0);
@@ -36,6 +37,8 @@ uint32_t find_e(uint32_t euler) {
     } while(euler % e == 0);
 }
 
+// znajdz d jako modular multiplicative inverse e mod euler(n)
+// tj rozwiaz rownanie e * d = 1 mod euler(n) dla niewiadomej d
 uint32_t euclide(uint32_t a, uint32_t b) {
     int16_t s0 = 1, s1 = 0, t0 = 0, t1 = 1, r0 = a, r1 = b;
 

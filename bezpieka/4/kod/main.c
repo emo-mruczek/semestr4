@@ -47,12 +47,12 @@ uint64_t gcdExtended(uint64_t a, uint64_t b, uint64_t *x, uint64_t *y) {
 
 
 uint64_t find_priv(struct key_pair priv_a, struct key_pair pub_a, struct key_pair pub_b) {
-	uint64_t kphi = priv_a.key * pub_a.key - 1;
-	printf("%" PRIu64 "\n", kphi);
+	uint64_t t = priv_a.key * pub_a.key - 1;
+	printf("%" PRIu64 "\n", t);
 	uint64_t n = priv_a.n;
-	uint64_t t = kphi;
+	uint64_t kphi = t;
 	while(t % 2 == 0) {  // nie wchodzi nigdy tutaj
-		t = t/2;
+		t = t >> 1;
         printf("t: %" PRIu64 "\n", t);
 	}
 	uint64_t a = 2;
@@ -62,22 +62,19 @@ uint64_t find_priv(struct key_pair priv_a, struct key_pair pub_a, struct key_pai
         //printf("k: %" PRIu64 "kphi: %" PRIu64 "/n", k, kphi );
 		while(k < kphi) { //tu tez nie, bo zawsze k = kphi, czemu?
 			x = power(a, k, n);
+            printf("dupa\n");
             
 			if(x != 1 && x != (n-1) && power(x, 2, n) == 1) {
 					p = gcdExtended(x-1, n, &temp1, &temp2);
-					break;
+					return n >> r;
 					}
 					k = k*2;
 		}
 					a = a+2;
 					}
-		q = n / p;
-		return q;
+	//	q = n / p;
+	//	return q;
 }
-
-
-
-
 
 int main() {
     uint64_t prime1 = 1234567891;
