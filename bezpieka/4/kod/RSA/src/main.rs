@@ -32,13 +32,8 @@ fn is_coprime(a: &BigUint, b: &BigUint) -> bool {
 fn generate_random(lo: &BigUint, hi: &BigUint) -> BigUint {
    println!("Im generating a random number..."); 
   let mut rng = rand::thread_rng();
-
-    loop {
-        let random_biguint: BigUint = rng.gen_biguint(256);
-        if &random_biguint >= lo && &random_biguint <= hi {
-            return random_biguint;
-        }
-    }
+  let mut random_biguint = rng.gen_biguint_range(lo, hi);
+  return random_biguint;
 }
 
 fn find_e(euler: &BigUint) -> BigUint {
@@ -48,12 +43,9 @@ fn find_e(euler: &BigUint) -> BigUint {
     let hi = euler - BigUint::from(2_u32);
 
     let mut e = generate_random(&lo, &hi);
-    println!("DUPA");
 
     if !is_coprime(&e, euler) {
         let mut _e = e.clone();
-
-        println!("Dupa");
 
         loop {
 
