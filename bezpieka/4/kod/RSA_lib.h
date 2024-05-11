@@ -3,7 +3,6 @@
 
 #include <stdint.h>
 #include <inttypes.h>
-#include "bigint.h"
 
 struct key_pair {
     uint32_t n;

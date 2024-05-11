@@ -3,12 +3,9 @@
 #include <stdio.h>
 #include <inttypes.h>
 #include <stdbool.h>
-#include "bigint.h"
-
-using namespace std;
 
 // from geeksforgeeks
-bigint power(bigint a, bigint b, bigint n){
+uint64_t power(uint64_t a, uint64_t b, uint64_t n){
     if (a == 0){
         return 0;
     }
@@ -16,7 +13,7 @@ bigint power(bigint a, bigint b, bigint n){
         return 1;
     }
 
-    bigint y;
+    uint64_t y;
     if (b % 2 == 0) {
         y = power(a, b/2, n);
         y = (y * y) % n;
@@ -31,7 +28,7 @@ bigint power(bigint a, bigint b, bigint n){
 }
 
 // from geeksforgeeks (again)
-bigint gcdExtended(bigint a, bigint b, bigint *x, bigint *y) {
+uint64_t gcdExtended(uint64_t a, uint64_t b, uint64_t *x, uint64_t *y) {
 
  if (a == 0) {
         *x = 0;
@@ -39,8 +36,8 @@ bigint gcdExtended(bigint a, bigint b, bigint *x, bigint *y) {
         return b;
     }
  
-    bigint x1, y1; // To store results of recursive call
-    bigint gcd = gcdExtended(b % a, a, &x1, &y1);
+    uint64_t x1, y1; // To store results of recursive call
+    uint64_t gcd = gcdExtended(b % a, a, &x1, &y1);
  
     // Update x and y using results of recursive
     // call
@@ -51,20 +48,18 @@ bigint gcdExtended(bigint a, bigint b, bigint *x, bigint *y) {
 }
 
 
-bigint find_priv(struct key_pair priv_a, struct key_pair pub_a, bigint *p_in) {
-	bigint t = priv_a.key * pub_a.key - 1;
-    cout << t << endl;
-    //printf("%" PRIu64 "\n", t);
-	bigint n = priv_a.n;
-	bigint kphi = t;
+uint64_t find_priv(struct key_pair priv_a, struct key_pair pub_a, uint64_t *p_in) {
+	uint64_t t = priv_a.key * pub_a.key - 1;
+	printf("%" PRIu64 "\n", t);
+	uint64_t n = priv_a.n;
+	uint64_t kphi = t;
 	while(t % 2 == 0) {  // nie wchodzi nigdy tutaj
 		t = t >> 1;
-        cout << "t: " << t << endl;
-        //printf("t: %" PRIu64 "\n", t);
+        printf("t: %" PRIu64 "\n", t);
 	}
-	bigint a = 2;
-	bigint k, x, r, p, q, temp1, temp2;
-	while(a<100) {
+	uint64_t a = 2;
+	uint64_t k, x, r, p, q, temp1, temp2;
+	while(a < 100) {
 		k = t;
         //printf("k: %" PRIu64 "kphi: %" PRIu64 "/n", k, kphi );
 		while(k < kphi) { //tu tez nie, bo zawsze k = kphi, czemu?
@@ -83,13 +78,13 @@ bigint find_priv(struct key_pair priv_a, struct key_pair pub_a, bigint *p_in) {
 }
 
 
-bigint euclide_test(bigint a, bigint b) {
-    bigint s0 = 1, s1 = 0, t0 = 0, t1 = 1, r0 = a, r1 = b;
+uint32_t euclide_test(uint32_t a, uint32_t b) {
+    int16_t s0 = 1, s1 = 0, t0 = 0, t1 = 1, r0 = a, r1 = b;
 
     while (r1 != 0) {
-        bigint q = r0 / r1;
+        int16_t q = r0 / r1;
 
-        bigint temp = r1;
+        int16_t temp = r1;
         r1 = r0 - q * r1;
         r0 = temp;
 
@@ -106,17 +101,16 @@ bigint euclide_test(bigint a, bigint b) {
 }
 
 
-bigint crack(bigint p, bigint q, bigint e) {
-    bigint n = p * q;
-    bigint euler = (p - 1) * (q - 1);
-    bigint d = euclide_test(e, euler);
+uint64_t crack(uint64_t p, uint64_t q, uint64_t e) {
+    uint64_t n = p * q;
+    uint64_t euler = (p - 1) * (q - 1);
+    uint64_t d = euclide_test(e, euler);
     return d;
 }
 
 int main() {
-
-    bigint prime1 = 1234567891;
-    bigint prime2 = 1234577;
+    uint64_t prime1 = 37;
+    uint64_t prime2 = 53;
 
     struct key_pair pub_a;
     struct key_pair pub_b;
@@ -126,14 +120,8 @@ int main() {
     insert_primes(prime1, prime2, &priv_a, &pub_a);
     insert_primes(prime1, prime2, &priv_b, &pub_b);
 
-    cout << "Your keys A: {key}, {n}" << endl;
-    cout << "Public: " << pub_a.key << ", " << pub_a.n;
-    cout << "Private " << priv_a.key << ", " << priv_a.n;
-
-    cout << "Your keys B: {key}, {n}" << endl;
-    cout << "Public: " << pub_b.key << ", " << pub_b.n;
-    cout << "Private " << priv_b.key << ", " << priv_b.n;
- /*  printf("Your keys A: {key}, {n} \n");
+    
+    printf("Your keys A: {key}, {n} \n");
     printf("Public: %" PRIu64 ", %" PRIu64 "\n", pub_a.key, pub_a.n);
     printf("Private: %" PRIu64 ", %" PRIu64 "\n", priv_a.key, priv_a.n);
 
@@ -141,20 +129,19 @@ int main() {
     printf("Your keys B: {key}, {n} \n");
     printf("Public: %" PRIu64 ", %" PRIu64 "\n", pub_b.key, pub_b.n);
     printf("Private: %" PRIu64 ", %" PRIu64 "\n", priv_b.key, priv_b.n);
-    */
 
-    cout << "I have only pub_a, priv_a, pub_b. I'm looking for priv_b...\n");
-    bigint p, q;
+    printf("I have only pub_a, priv_a, pub_b.\n I'm looking for priv_b...\n");
+    uint64_t p, q;
     q = find_priv(priv_a, pub_a, &p);
-    cout << "I've found: " << p << " as p and " << q << " as q\n";
+    printf("I've found: %" PRIu64 " as p and %" PRIu64 " as q\n", p, q);
     
-    bigint very_secret_key = crack(p, q, pub_b.key);
-    cout << "Very secret key: %" << very_secret_key << endl;
-    if(very_secret_key == priv_b.key) {
+    uint64_t dupa = crack(p, q, pub_b.key);
+    printf("DUPA: %" PRIu64 "\n", dupa);
+  /*  if(found_key == priv_b.key) {
 	    printf(" - it's correct!\n");
 	} else {
 		printf(" - it's not correct :(\n");
-	}
+	}*/
 
     return 0;
 }

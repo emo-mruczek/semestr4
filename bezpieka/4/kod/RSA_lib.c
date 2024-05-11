@@ -7,7 +7,6 @@
 #include <time.h>
 #include <inttypes.h>
 #include "RSA_lib.h"
-#include "bigint.h"
 
 uint32_t prime1, prime2;
 
