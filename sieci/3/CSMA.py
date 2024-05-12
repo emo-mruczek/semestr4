@@ -16,7 +16,10 @@ class Sender:
 
     def received(self):
         self.sent = False
-        receive(self.number)
+        if self.number == 1:
+            print("\n2: otrzymałem przesyłkę od 1\n")
+        else:
+            print("\n1: otrzymałem przesyłkę od 2\n")
     def move(self, channel):
         if self.remove:
             make_move(channel, self.number)
@@ -43,21 +46,11 @@ class Sender:
             self.collide = 0
             self.wait = 0
 
-def create_channel():
-    return [" " for _ in range(LENGTH)]
-
 def print_channel(channel):
     obj = ""
     for elem in channel:
         obj += "[" + elem[0] + "]"
     print(obj)
-
-def collision_in_channel():
-    print("\nNastąpiła kolizja\n")
-    return list(" " for _ in range(LENGTH))
-
-def remove_channel(channel):
-    return channel[0] == " "
 
 def make_move(channel, number):
     if number == 1:
@@ -101,17 +94,10 @@ def process(channel):
 
     return receive_left, receive_right, collision, channel_temp
 
-def receive(number):
-    if number == 1:
-        print("\n2: otrzymałem przesyłkę od 1\n")
-    else:
-        print("\n1: otrzymałem przesyłkę od 2\n")
-
-
 def main():
     tries = 5
 
-    channel = create_channel()
+    channel = [" " for _ in range(LENGTH)]
 
     Alice = Sender(1)
     Bob = Sender(2)
@@ -130,7 +116,8 @@ def main():
                 Alice.received()
                 break
             if collision:
-                channel = collision_in_channel()
+                print("\nNastąpiła kolizja\n")
+                channel = list(" " for _ in range(LENGTH))
                 sleep(0.5)
                 Alice.collision()
                 Bob.collision()
