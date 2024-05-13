@@ -1,9 +1,9 @@
 from zlib import crc32
 
-INPUT = "Z.txt" # hehe
+INPUT = "Z.txt"
 OUTPUT = "W.txt"
 #CRC = 32 
-FRAME = '01111110' # is it even called frame in english? xD
+FRAME = '01111110'
 
 
 def encoding():
@@ -29,10 +29,6 @@ def encoding():
         else:
             encoded += "0"
             i = 0
-        #else:    # how to check EOF in this shit?
-        #    if val:
-        #        print("Unexpected Item in Bagging Area: " + val)
-        #        return
 
     final_message = FRAME + encoded + FRAME
 
@@ -50,7 +46,7 @@ def decoding():
         message = f.read()
 
     print("Decoding...")
-    code = message[8:-8] # getting rid of frame
+    code = message[8:-8] 
     decoded = ""
     i = 0 
     for val in code:
@@ -62,7 +58,7 @@ def decoding():
             decoded += "1"
             i += 1
 
-    final_message = decoded[32:] # what does it do?
+    final_message = decoded[32:] 
     crc = decoded[:32]
     check_crc = '{0:b}'.format(crc32(final_message.encode()))
     check_crc = '0'*(32-len(check_crc)) + check_crc

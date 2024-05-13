@@ -1,9 +1,6 @@
 from random import random, randint
 from time import sleep
 
-# kolorki
-# z terminala ile razy ma sie wykonac
-
 SIZE = 1
 LENGTH = 10
 MESSAGE = "X"
@@ -20,6 +17,7 @@ class Sender:
             print("\n2: otrzymałem przesyłkę od 1\n")
         else:
             print("\n1: otrzymałem przesyłkę od 2\n")
+
     def move(self, channel):
         if self.remove:
             make_move(channel, self.number)
@@ -35,7 +33,7 @@ class Sender:
         else:
             self.wait -= 1
 
-    def collision(self): # to jest wazna funkcja
+    def collision(self): 
         self.remove = False
         self.collide += 1
         self.sent = False
