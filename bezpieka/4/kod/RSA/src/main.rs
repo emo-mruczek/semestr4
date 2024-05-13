@@ -6,6 +6,7 @@ use num_bigint::{BigUint, RandBigInt, BigInt, ToBigInt};
 //use num_integer::Integer
 use num::Integer;
 use rand::thread_rng;
+use num_traits::{One, Zero};
 
 struct key_pair {
     n: BigUint,
@@ -22,12 +23,12 @@ fn check_prime(n: &BigUint) -> bool {
     }
 
     return true;*/  
-    let mut i = BigUint::from(2u32);
+    let mut i = BigUint::from(2_u32);
         while &i < &n.sqrt() {
            if n % &i == BigUint::from(0_u32) {
              return false;
            }
-        i += 1u32;
+        i += 1_u32;
     }
     return true
 }
@@ -38,13 +39,6 @@ fn is_coprime(a: &BigUint, b: &BigUint) -> bool {
     }
 
     return is_coprime(b, &(a.mod_floor(b)));
-}
-
-fn generate_random(lo: &BigUint, hi: &BigUint) -> BigUint {
-   println!("Im generating a random number..."); 
-  let mut rng = rand::thread_rng();
-  let mut random_biguint = rng.gen_biguint_range(lo, hi);
-  return random_biguint;
 }
 
 fn find_e(euler: &BigUint) -> BigUint {
@@ -73,7 +67,7 @@ fn find_e(euler: &BigUint) -> BigUint {
         e = _e;
     }
     return e;*/
-   let mut e = thread_rng().gen_biguint_range(&BigUint::from(0_u32), &(euler - 2u32)) + 2u32;
+  /* let mut e = thread_rng().gen_biguint_range(&BigUint::from(0_u32), &(euler - 2u32)) + 2u32;
     let mut _e = e.clone();
 
     if !is_coprime(&e, euler) {
@@ -86,7 +80,31 @@ fn find_e(euler: &BigUint) -> BigUint {
         }
         e = _e;
     }
-   return e
+   return e*/ 
+
+  let mut e = thread_rng().gen_biguint_range(&1_u32.into(), euler);
+    let mut g = gcd(&e, euler);
+    while g != 1_u32.into() {
+        e = thread_rng().gen_biguint_range(&1_u32.into(), euler);
+        g = gcd(&e, euler);
+    }
+
+    e
+}
+
+fn gcd(a: &BigUint, b: &BigUint) -> BigUint {
+    if b > a {
+        return gcd(b, a);
+    }
+    let mut a = a.clone();
+    let mut b = b.clone();
+    let mut r;
+    while b != BigUint::zero() {
+        r = a % &b;
+        a = b;
+        b = r;
+    }
+    return a
 }
 
 fn euclide(a: &BigUint, b: &BigUint) -> BigUint {
@@ -159,7 +177,7 @@ fn calculate_keys(prime1: &BigUint, prime2: &BigUint) -> (key_pair, key_pair) {
 }
 
 fn power(a: &BigUint, b: &BigUint, n: &BigUint) -> BigUint {
-    if a == &BigUint::from(0_u32) {
+    /*if a == &BigUint::from(0_u32) {
         return BigUint::from(0_u32);
     } 
     if b == &BigUint::from(0_u32) {
@@ -174,7 +192,20 @@ fn power(a: &BigUint, b: &BigUint, n: &BigUint) -> BigUint {
         y = a * n;
         y = ((&y * power(a, &(b - &BigUint::from(1_u32)), n)).mod_floor(&n)).mod_floor(&n);
     }
-    return ((y.mod_floor(&n)).mod_floor(&n));
+    return ((y.mod_floor(&n)).mod_floor(&n));*/  
+
+    let mut a = a.clone();
+    let mut b = b.clone();
+    let mut res = BigUint::one();
+    while b > BigUint::zero() {
+        if &b % 2u32 == 1u32.into() {
+            res = (res * &a) % n;
+        }
+        a = (&a * &a) % n;
+        b /= 2u32;
+    }
+
+    return res
 }
 
 
@@ -217,13 +248,14 @@ fn gcde(a: &BigUint, b: &BigUint) -> (BigUint, BigUint, BigUint) {
 }
 
 
+
+
 fn find_primes(priv_a: &key_pair, pub_a: &key_pair) -> (BigUint, BigUint) {
     let mut t: BigUint = &priv_a.key * &pub_a.key - &BigUint::from(1_u32);
     let mut n: BigUint = priv_a.n.clone();
     let mut kphi: BigUint = t.clone();
 
     while t.mod_floor(&BigUint::from(2_u32)) == BigUint::from(0_u32) {
-        println!("Dupa");
         t = &t / BigUint::from(2_u32);
     }
 
@@ -234,8 +266,6 @@ fn find_primes(priv_a: &key_pair, pub_a: &key_pair) -> (BigUint, BigUint) {
     let mut r: BigUint;
     let mut q: BigUint;
     let mut p: BigUint = BigUint::from(1_u32);
-    let mut temp1: BigUint;
-    let mut temp2: BigUint;
 
     while (a < BigUint::from(100_u32)) {
         k = t.clone();
@@ -243,7 +273,7 @@ fn find_primes(priv_a: &key_pair, pub_a: &key_pair) -> (BigUint, BigUint) {
             x = power(&a, &k, &n);
 
             if x != BigUint::from(1_u32) && x != (&n - BigUint::from(1_u32)) && power(&x, &BigUint::from(2_u32), &n) == BigUint::from(1_u32) {
-                (p, temp1, temp2) = gcde(&(&x - BigUint::from(1_u32)), &n);
+                (p) = gcd(&(&x - BigUint::from(1_u32)), &n);
             }
             k = &k * BigUint::from(2_u32);
         }
@@ -254,10 +284,17 @@ fn find_primes(priv_a: &key_pair, pub_a: &key_pair) -> (BigUint, BigUint) {
   
 }
 
+fn crack(p: &BigUint, q: &BigUint, e: &BigUint) -> BigUint {
+    let mut n: BigUint = p * q;
+    let mut euler: BigUint = (p - 1_u32) * (q - 1_u32);
+    let mut d = euclide(&e, &euler);
+    return d;
+} 
+
 
 fn main() {
-    let prime1: BigUint = "37".parse().unwrap();
-    let prime2: BigUint = "53".parse().unwrap();
+    let prime1: BigUint = "1234577".parse().unwrap();
+    let prime2: BigUint = "1234567891".parse().unwrap();
 
     let mut pub_a: key_pair;
     let mut priv_a: key_pair;
@@ -288,5 +325,9 @@ fn main() {
     let mut q: BigUint;
     (p, q) = find_primes(&priv_a, &pub_a);
     println!("Your keys: {}, {}", p, q);
+    println!("Now, I'm calculating private key.");
+
+    let mut calculated_priv: BigUint = crack(&p, &q, &pub_b.key);
+    println!("Private key: {}", calculated_priv);
 
 }
