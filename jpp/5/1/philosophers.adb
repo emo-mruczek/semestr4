@@ -1,7 +1,8 @@
-
 with Ada.Text_IO; use Ada.Text_IO;
 with Ada.Numerics.Discrete_Random;
 with Ada.Real_Time; use Ada.Real_Time;
+
+-- Dijkstra's solution
 
 package body Philosophers is
 
@@ -34,7 +35,6 @@ package body Philosophers is
         end Signal;
     end Binary_Semaphore;
 
-    -- Array of access to Binary_Semaphore objects
     type Semaphore_Access is access all Binary_Semaphore;
 
     Forks : array (1 .. Number_Of_Philosophers) of Semaphore_Access;
@@ -150,7 +150,7 @@ package body Philosophers is
         delay until Clock + Delay_Time;
     end Eat;
 
-    -- the philosopher task
+    -- the guy themselves
     task type Philosopher (Number: Integer);
     task body Philosopher is
     begin
@@ -169,7 +169,6 @@ package body Philosophers is
         Phi4 : Philosopher(4);
         Phi5 : Philosopher(5);
     begin
-        -- Initialize the Forks array with Binary_Semaphore instances
         for I in Forks'Range loop
             Forks(I) := new Binary_Semaphore(True);
         end loop;
