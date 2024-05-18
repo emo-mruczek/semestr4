@@ -6,14 +6,43 @@ with Ada.Real_Time; use Ada.Real_Time;
 
 package body Philosophers is
 
+Number_Of_Philosophers : constant Integer := 5;
+
 Min_Time : constant Integer := 400;
 Max_Time : constant Integer := 1000;
 
+type State is (THINKING, HUNGRY, EATING);
+type Status_Array is 
+    array (1 .. Number_Of_Philosophers) of State;
+Status : Status_Array := (others => THINKING);
+
+-- semaphore
+protected type Binary_Semaphore (Initially_Available : Boolean) is
+    entry Wait;
+    procedure Signal;
+private
+    Available : Boolean := Initially_Available;
+end Binary_Semaphore;
+
+protected body Binary_Semaphore is
+    entry Wait when Available is
+    begin
+    Available := False;
+    end Wait;
+
+    procedure Signal is
+    begin
+        Available := True;
+    end Signal;
+end Binary_Semaphore;
+
+ type Semaphore_Access is access all Binary_Semaphore;
+
+Forks : array (1 .. Number_Of_Philosophers) of Semaphore_Access;
+
 -- just for generating random time
 function Random_Time return Integer is 
-    Loc_Min : Integer := Min_Time;
-    Loc_Max : Integer := Max_Time;
-    subtype Range_Type is Integer range Loc_Min .. Loc_Max;
+    subtype Range_Type is Integer range Min_Time .. Max_Time;
     package Random_Numbers is new Ada.Numerics.Discrete_Random(Range_Type);
     use Random_Numbers;
     G : Generator;
@@ -44,6 +73,26 @@ protected body Print_Mutex is
     end Unlock;
 end Print_Mutex;
 
+-- mutex for taking forks
+protected Forks_Mutex is
+    entry Lock;
+    procedure Unlock;
+private
+    Locked : Boolean := False;
+end Forks_Mutex;
+
+protected body Forks_Mutex is
+    entry Lock when not Locked is
+    begin
+        Locked := True;
+    end Lock;
+
+    procedure Unlock is
+    begin
+        Locked := False;
+    end Unlock;
+end Forks_Mutex;
+
 -- the guy's thinkin!
 procedure Think (Number: Integer) is 
     Duration_Of_Delay : Integer := Random_Time;
@@ -55,12 +104,62 @@ begin
     delay until Clock + Delay_Time;
 end Think;
 
+-- test od state
+procedure Test (Number: Integer) is
+    Left : Integer := (Number - 1 + Number_Of_Philosophers) mod Number_Of_Philosophers;
+    Right : Integer := (Number + 1) mod Number_Of_Philosophers;
+begin
+    if Status(Number) = HUNGRY and then Status(Left) /= EATING and then Status(Right) /= EATING then
+        Status(Number) := EATING;
+        Forks(Number).Signal;
+    end if;
+end Test;
+
+-- gotten hungry
+procedure Take_Forks (Number: Integer) is
+begin
+    Forks_Mutex.Lock;
+    Status(Number) := HUNGRY;
+    Print_Mutex.Lock;
+    Put_Line("The " &Integer'Image(Number) & " philosopher is hungry");
+    Print_Mutex.Unlock;
+    Test(Number);
+    Forks_Mutex.Unlock;
+    Forks(Number).Wait;
+end Take_Forks;
+
+-- eating!
+procedure Eat (Number: Integer) is
+    Duration_Of_Delay : Integer := Random_Time;
+    Delay_Time : Time_Span := Milliseconds(Duration_Of_Delay);
+begin
+    Print_Mutex.Lock;
+    Put_Line("The " & Integer'Image(Number) & " philosopher is eating");
+    Print_Mutex.Unlock;
+    delay until Clock + Delay_Time;
+end Eat;
+
+-- no need to hold forks
+procedure Put_Forks(Number: Integer) is
+    Left : Integer := (Number - 1 + Number_Of_Philosophers) mod Number_Of_Philosophers;
+    Right : Integer := (Number + 1) mod Number_Of_Philosophers;
+begin
+    Forks_Mutex.Lock;
+    Status(Number) := THINKING;
+    Test(Left);
+    Test(Right);
+    Forks_Mutex.Unlock;
+end Put_Forks;
+
 -- the guy themselves
 task type Philosopher (Number: Integer);
 task body Philosopher is
 begin
      loop
         Think(Number);
+        Take_Forks(Number);
+        Eat(Number);
+        Put_Forks(Number);
     end loop;
 end Philosopher;
 
