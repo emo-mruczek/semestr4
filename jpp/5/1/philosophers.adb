@@ -10,7 +10,7 @@ Min_Time : constant Integer := 400;
 Max_Time : constant Integer := 1000;
 
 -- just for generating random time
-function RandomTime return Integer is 
+function Random_Time return Integer is 
     Loc_Min : Integer := Min_Time;
     Loc_Max : Integer := Max_Time;
     subtype Range_Type is Integer range Loc_Min .. Loc_Max;
@@ -22,14 +22,36 @@ begin
     Reset(G);
     Random_Value := Random(G);
     return Random_Value;
-end RandomTime;
+end Random_Time;
+
+-- mutex for relieable printing
+protected Print_Mutex is 
+    entry Lock;
+    procedure Unlock;
+private
+    Locked : Boolean := False;
+end Print_Mutex;
+
+protected body Print_Mutex is 
+    entry Lock when not Locked is
+    begin
+        Locked := True;
+    end Lock;
+
+    procedure Unlock is
+    begin
+        Locked := False;
+    end Unlock;
+end Print_Mutex;
 
 -- the guy's thinkin!
 procedure Think (Number: Integer) is 
-    Duration_Of_Delay : Integer := RandomTime;
+    Duration_Of_Delay : Integer := Random_Time;
     Delay_Time : Time_Span := Milliseconds(Duration_Of_Delay);
 begin
+    Print_Mutex.Lock;
     Put_Line("The " & Integer'Image(Number) & " philosopher is thinking");
+    Print_Mutex.Unlock;
     delay until Clock + Delay_Time;
 end Think;
 
