@@ -22,6 +22,11 @@ weryfikacja podpisu elektronicznegoCertyfikat nie znajduje się na liście CRL"
 
 crl - certificate revocation list - lista uniewaznionych certyfikatow - jest publikowana przez wystawce certyfikatów, zawiera numery seryjne tych uniewaznionych (np przez ujawnienie klucza prywatnego); są dwa stany: wstrzymany, unieważniony
 
+
+Ocsp - online certificate status protocol
+Protokół zwracający informacje o statusie certyfikatu (poprawny, unieważniony, nieznany)
+Wydanie zaświadczenia ze statusem „poprawny” oznacza, że certyfikat jest wystawiony przez jeden z podmiotów, których certyfikaty objęte są usługą OCSP oraz że podmiot ten na moment udzielania odpowiedzi skutecznie nie unieważnił sprawdzanego certyfikatu
+
 po dostawieniu kropki krzyczy, ze integralnosc nie jest zachowana
 
 https://www.nccert.pl/tsl.htm 
