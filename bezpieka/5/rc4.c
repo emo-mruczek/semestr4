@@ -51,4 +51,11 @@ void encode_rc4(char *input, unsigned char *output, char *key) {
     ksa(S, key);
     rpga(S, input, output);
 }
+
+void decode_rc4(unsigned char *input, char *output, char *key) {
+    unsigned char *S = (unsigned char*)malloc(LENGTH);
+
+    ksa(S, key);
+    rpga(S, input, output);
+}
     

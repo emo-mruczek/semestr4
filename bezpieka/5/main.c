@@ -47,6 +47,12 @@ int main(int argc, char **argv) {
         printf("%02hhX ", output[i]);
     }
 
+    char *encoded = (char *)malloc(strlen(input));
+
+    decode_rc4(output, encoded, key);
+
+    printf("%s\n", encoded);
+
     free(output);
     return 0;
 }
