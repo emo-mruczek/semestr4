@@ -2,6 +2,7 @@ use num_bigint::{BigUint, RandBigInt, BigInt, ToBigInt};
 use num::Integer;
 use rand::thread_rng;
 use num_traits::{One, Zero};
+use num_prime::{nt_funcs::is_prime, RandPrime, PrimalityTestConfig};
 
 struct key_pair {
     n: BigUint,
@@ -9,24 +10,27 @@ struct key_pair {
 }
 
 fn check_prime(n: &BigUint) -> bool {
-    let mut i = BigUint::from(2_u32);
+   /* let mut i = BigUint::from(2_u32);
         while &i < &n.sqrt() {
            if n % &i == BigUint::from(0_u32) {
              return false;
            }
         i += 1_u32;
     }
-    return true;
+    return true */
+
+    return is_prime(n, None).probably()
 }
 
+// znajdz takie e, ze z euler jest coprime
 fn find_e(euler: &BigUint) -> BigUint {
   let mut e = thread_rng().gen_biguint_range(&1_u32.into(), euler);
     let mut g = gcd(&e, euler);
-    while g != 1_u32.into() {
+    while g != BigUint::one() {
         e = thread_rng().gen_biguint_range(&1_u32.into(), euler);
         g = gcd(&e, euler);
     }
-   return  e;
+   return  e
 }
 
 
@@ -45,6 +49,8 @@ fn gcd(a: &BigUint, b: &BigUint) -> BigUint {
     return a
 }
 
+// znajdz d jako modular multiplicative inverse e mod euler(n)
+// tj rozwiaz roznanie e * d = 1 mod euler(n) dla niewiadomej d
 fn euclide(a: &BigUint, b: &BigUint) -> BigUint {
     let mut s0: BigInt = BigInt::one();
     let mut s1: BigInt = BigInt::zero();
@@ -78,13 +84,13 @@ fn euclide(a: &BigUint, b: &BigUint) -> BigUint {
         ret = s0.clone();
     }
 
-    return ret.to_biguint().unwrap();
+    return ret.to_biguint().unwrap()
 }
 
 fn calculate_keys(prime1: &BigUint, prime2: &BigUint) -> (key_pair, key_pair) {
     let calculated_n: BigUint = prime1 * prime2;
     println!("N was calculated: {}", calculated_n);
-    let euler: BigUint = (prime1 - 1_u32) * (prime2 - 1_u32);
+    let euler: BigUint = (prime1 - 1_u32) * (prime2 - 1_u32); // ile liczb jest relative prime
     println!("Euler was calculated: {}", euler);
     let e: BigUint = find_e(&euler);
     println!("E was calculated: {}", e);
@@ -101,7 +107,7 @@ fn calculate_keys(prime1: &BigUint, prime2: &BigUint) -> (key_pair, key_pair) {
         key: e.clone(),
     };
 
-    return (priv_key, pub_key);
+    return (priv_key, pub_key)
 }
 
 fn power(a: &BigUint, b: &BigUint, n: &BigUint) -> BigUint {
@@ -148,39 +154,51 @@ fn find_primes(priv_a: &key_pair, pub_a: &key_pair) -> (BigUint, BigUint) {
         a = &a + BigUint::from(2_u32);
     }
     q = &n / &p;
-    return (q, p);
+    return (q, p)
   
 }
 
 fn crack(p: &BigUint, q: &BigUint, e: &BigUint) -> BigUint {
     let euler: BigUint = (p - 1_u32) * (q - 1_u32);
     let d = euclide(&e, &euler);
-    return d;
+    return d
 } 
 
 
 fn main() {
 
-    let arg1 = std::env::args().nth(1).expect("no prime1 given");
+    // https://docs.rs/num-prime/0.4.4/num_prime/trait.RandPrime.html#tymethod.gen_prime_exact
+    //https://docs.rs/num-prime/0.4.4/num_prime/trait.RandPrime.html#tymethod.gen_prime_exact
+
+    /* let arg1 = std::env::args().nth(1).expect("no prime1 given");
     let arg2 = std::env::args().nth(2).expect("no prime2 given");
 
     let prime1: BigUint = arg1.parse().unwrap();
     let prime2: BigUint = arg2.parse().unwrap();
+    */
 
-   // let prime1: BigUint = "1234577".parse().unwrap();
-   // let prime2: BigUint = "1234567891".parse().unwrap();
+    // let prime1: BigUint = "1234577".parse().unwrap();
+    // let prime2: BigUint = "1234567891".parse().unwrap();
 
     let pub_a: key_pair;
     let priv_a: key_pair;
     let pub_b: key_pair;
     let priv_b: key_pair;
 
-    if !check_prime(&prime1) || !check_prime(&prime2) || prime1 == prime2 {
+    /*if !check_prime(&prime1) || !check_prime(&prime2) || prime1 == prime2 {
         println!("Numbers are not prime or are not the same!!!");
         return;
-    }
+    }*/
 
-    println!("Numbers are ok :)");
+    let arg =  std::env::args().nth(1).expect("specify lenght of a prime").parse::<usize>().expect("prime length must be usize");
+
+    let prime1: BigUint = thread_rng().gen_prime_exact(arg, Some(PrimalityTestConfig::strict()));
+    let mut prime2: BigUint = BigUint::zero();
+    while prime2 == BigUint::zero() || prime2 == prime1 {
+        prime2 = thread_rng().gen_prime_exact(arg, Some(PrimalityTestConfig::strict())); }
+
+    //println!("Numbers are ok :)");
+    println!("Your primes: \n{}\n{} ", prime1, prime2);
 
     (pub_a, priv_a) = calculate_keys(&prime1, &prime2);
     (pub_b, priv_b) = calculate_keys(&prime1, &prime2);

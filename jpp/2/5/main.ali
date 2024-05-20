@@ -1,0 +1,132 @@
+V "GNAT Lib v13"
+M P W=b
+A -mtune=generic
+A -march=x86-64
+P ZX
+
+RN
+RV NO_IO
+RV NO_STANDARD_STORAGE_POOLS
+RV NO_DYNAMIC_SIZED_OBJECTS
+
+U main%b		main.adb		2c9d4743 NE OO SU
+W ada%s			ada.ads			ada.ali
+Z ada.strings.text_buffers%s  a-sttebu.adb	a-sttebu.ali
+W ada.text_io%s		a-textio.adb		a-textio.ali
+W interfaces%s		interfac.ads		interfac.ali
+W interfaces.c%s	i-c.adb			i-c.ali
+Z system.concat_2%s	s-conca2.adb		s-conca2.ali
+Z system.concat_3%s	s-conca3.adb		s-conca3.ali
+Z system.img_int%s	s-imgint.ads		s-imgint.ali
+Z system.img_lli%s	s-imglli.ads		s-imglli.ali
+
+D ada.ads		19700101000001 76789da1 ada%s
+D a-assert.ads		19700101000001 ba465f5c ada.assertions%s
+D a-except.ads		19700101000001 2a7d8d70 ada.exceptions%s
+D a-ioexce.ads		19700101000001 40018c65 ada.io_exceptions%s
+D a-numeri.ads		19700101000001 84bea7a3 ada.numerics%s
+D a-nubinu.ads		19700101000001 93f1f3d1 ada.numerics.big_numbers%s
+D a-nbnbig.ads		19700101000001 711e0174 ada.numerics.big_numbers.big_integers_ghost%s
+D a-stream.ads		19700101000001 119b8fb3 ada.streams%s
+D a-string.ads		19700101000001 90ac6797 ada.strings%s
+D a-sttebu.ads		19700101000001 f1ad67a2 ada.strings.text_buffers%s
+D a-stuten.ads		19700101000001 c6ced0ae ada.strings.utf_encoding%s
+D a-tags.ads		19700101000001 9eaa38c6 ada.tags%s
+D a-textio.ads		19700101000001 5c2c6153 ada.text_io%s
+D a-unccon.ads		19700101000001 0e9b276f ada.unchecked_conversion%s
+D interfac.ads		19700101000001 15f799c2 interfaces%s
+D i-c.ads		19700101000001 5c5a6c17 interfaces.c%s
+D i-cstrea.ads		19700101000001 e53d8b8e interfaces.c_streams%s
+D main.adb		20240506170415 2ceb4a07 main%b
+D system.ads		19700101000001 426dafb8 system%s
+D s-assert.ads		19700101000001 9c4520c7 system.assertions%s
+D s-casuti.ads		19700101000001 cf13d755 system.case_util%s
+D s-conca2.ads		19700101000001 b5fb73f7 system.concat_2%s
+D s-conca3.ads		19700101000001 8a7a19a2 system.concat_3%s
+D s-crtl.ads		19700101000001 8a0692f8 system.crtl%s
+D s-exctab.ads		19700101000001 91bef6ef system.exception_table%s
+D s-ficobl.ads		19700101000001 dc5161d4 system.file_control_block%s
+D s-imagei.ads		19700101000001 c707dfd0 system.image_i%s
+D s-imgint.ads		19700101000001 d4a52a9b system.img_int%s
+D s-imglli.ads		19700101000001 0dc8acc3 system.img_lli%s
+D s-parame.ads		19700101000001 d494a4a6 system.parameters%s
+D s-putima.ads		19700101000001 17291fe4 system.put_images%s
+D s-secsta.ads		19700101000001 578279f5 system.secondary_stack%s
+D s-soflin.ads		19700101000001 df77073e system.soft_links%s
+D s-stache.ads		19700101000001 0b81c1fe system.stack_checking%s
+D s-stalib.ads		19700101000001 1c9580f6 system.standard_library%s
+D s-stoele.ads		19700101000001 ab5468e4 system.storage_elements%s
+D s-stoele.adb		19700101000001 8f5a9db6 system.storage_elements%b
+D s-traent.ads		19700101000001 c81cbf8c system.traceback_entries%s
+D s-unstyp.ads		19700101000001 fa2a7f59 system.unsigned_types%s
+D s-valint.ads		19700101000001 1f610d7a system.val_int%s
+D s-vallli.ads		19700101000001 b4c16804 system.val_lli%s
+D s-valllu.ads		19700101000001 ca6e26ce system.val_llu%s
+D s-valuns.ads		19700101000001 e8a1f424 system.val_uns%s
+D s-valuti.ads		19700101000001 fcd603d8 system.val_util%s
+D s-valuei.ads		19700101000001 11081e09 system.value_i%s
+D s-vaispe.ads		19700101000001 44130d39 system.value_i_spec%s
+D s-valueu.ads		19700101000001 18770347 system.value_u%s
+D s-vauspe.ads		19700101000001 a67b2f28 system.value_u_spec%s
+D s-wchcon.ads		19700101000001 d9032363 system.wch_con%s
+D s-widllu.ads		19700101000001 a6620b19 system.wid_llu%s
+D s-widuns.ads		19700101000001 866a5800 system.wid_uns%s
+D s-widthu.ads		19700101000001 b32f15e2 system.width_u%s
+G a e
+G c Z b b [main standard 4 11 none]
+X 1 ada.ads
+16K9*Ada 20e8 18|2r6 2r23
+X 13 a-textio.ads
+58K13*Text_IO 787e16 18|2w10 2r27
+566U14*Put_Line 18|85s5 86s5 87s5 88s5 89s5 90s5 92s6 93s5 94s5 95s5 96s5
+. 97s5
+X 15 interfac.ads
+38K9*Interfaces 232e15 18|1r6 1r24
+X 16 i-c.ads
+29K20*C 597e17 18|1w17 1r35
+X 18 main.adb
+4U11*Main 4b11 99l5 99t9
+6R6 solutionLoop 11e1 34r66 72r13
+7i5 x{integer} 88r44
+8i5 y{integer} 89r44
+9i5 comment{integer} 90r42
+13R6 solutionRec 18e1 58r65 75r13
+14i5 x{integer} 95r44
+15i5 y{integer} 96r44
+16i5 comment{integer} 97r42
+20P6 A_Integer(integer) 40r56 40r71 64r55 64r70
+22V10*factorialLoop{long_integer} 22>25 77s12
+22i25 n{integer}
+28V10*gcdLoop{integer} 28>19 28>32 78s12
+28i19 a{integer}
+28i32 b{integer}
+34V10*diofLoop{6R6} 34>20 34>33 34>46 79s14
+34i20 a{integer}
+34i33 b{integer}
+34i46 c{integer}
+40V10*gcdExtendedLoop{integer} 40>26 40>39 40>52 40>67
+40i26 a{integer}
+40i39 b{integer}
+40p52 x{20P6}
+40p67 y{20P6}
+46V10*factorialRec{long_integer} 46>24 81s15
+46i24 n{integer}
+52V10*gcdRec{integer} 52>18 52>31 82s13
+52i18 a{integer}
+52i31 b{integer}
+58V10*diofRec{13R6} 58>19 58>32 58>45 83s14
+58i19 a{integer}
+58i32 b{integer}
+58i45 c{integer}
+64V10*gcdExtendedRec{integer} 64>25 64>38 64>51 64>66
+64i25 a{integer}
+64i38 b{integer}
+64p51 x{20P6}
+64p66 y{20P6}
+70i5 fac{long_integer} 77m5 86r43
+71i5 gcd{integer} 78m5 87r38
+72r5 diofL{6R6} 79m5 88r38 89r38 90r36
+73i5 facRec{long_integer} 81m5 93r43
+74i5 gcdR{integer} 82m5 94r38
+75r5 diofR{13R6} 83m5 95r38 96r38 97r36
+
