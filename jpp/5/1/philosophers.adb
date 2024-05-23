@@ -6,6 +6,7 @@ with Ada.Real_Time; use Ada.Real_Time;
 
 package body Philosophers is
 
+    Number_Of_Meals : constant Integer := 3;
     Number_Of_Philosophers : constant Integer := 5;
 
     Min_Time : constant Integer := 400;
@@ -14,6 +15,9 @@ package body Philosophers is
     type State is (THINKING, HUNGRY, EATING);
     type Status_Array is array (1 .. Number_Of_Philosophers) of State;
     Status : Status_Array := (others => THINKING);
+
+    type Meals_Eaten_Array is array (1 .. Number_Of_Philosophers) Of Integer;
+    Meal_Eaten : Meals_Eaten_Array := (others => 0);
 
     -- semaphore
     protected type Binary_Semaphore (Initially_Available : Boolean) is
@@ -150,6 +154,14 @@ package body Philosophers is
         delay until Clock + Delay_Time;
     end Eat;
 
+    -- to prevent whatevere
+    procedure Test_All is 
+    begin
+        for I in 1 .. Number_Of_Philosophers loop
+            Test(I);
+        end loop;
+    end Test_All;
+
     -- the guy themselves
     task type Philosopher (Number: Integer);
     task body Philosopher is
@@ -159,6 +171,16 @@ package body Philosophers is
             Take_Forks(Number);
             Eat(Number);
             Give_Forks(Number);
+
+            Meal_Eaten(Number) := Meal_Eaten(Number) + 1;
+            if Meal_Eaten(Number) = Number_Of_Meals
+            then
+                Print_Mutex.Lock;
+                Put_Line("Finished eating!" & Integer'Image(Number));
+                Test_All;
+                Print_Mutex.Unlock;
+                exit;
+            end if;
         end loop;
     end Philosopher;
 
