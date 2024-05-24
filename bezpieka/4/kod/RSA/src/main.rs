@@ -168,7 +168,6 @@ fn crack(p: &BigUint, q: &BigUint, e: &BigUint) -> BigUint {
 fn main() {
 
     // https://docs.rs/num-prime/0.4.4/num_prime/trait.RandPrime.html#tymethod.gen_prime_exact
-    //https://docs.rs/num-prime/0.4.4/num_prime/trait.RandPrime.html#tymethod.gen_prime_exact
 
     /* let arg1 = std::env::args().nth(1).expect("no prime1 given");
     let arg2 = std::env::args().nth(2).expect("no prime2 given");

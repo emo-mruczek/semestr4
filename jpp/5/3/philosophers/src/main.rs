@@ -67,11 +67,6 @@ fn put_forks(n: u16, forks_mu: Arc<Mutex<()>>, status: &mut [State; NUM_PHILOSOP
     test(right, status);
 }
 
-fn test_all(status: &mut [State; NUM_PHILOSOPHERS_USIZE]) {
-    for i in NUM_PHILOSOPHERS_USIZE {
-        test(i, &mut *status.lock().unwrap());
-    }
-}
 
 
 fn philosopher(n: u16, print_mu: Arc<Mutex<()>>, forks_mu: Arc<Mutex<()>>, status: Arc<Mutex<[State; NUM_PHILOSOPHERS_USIZE]>>) {
@@ -89,7 +84,6 @@ fn philosopher(n: u16, print_mu: Arc<Mutex<()>>, forks_mu: Arc<Mutex<()>>, statu
             { let _lock = print_mu.lock().unwrap();
             println!("Finished eating! {}", n);
             }
-            test_all(&mut *status.lock().unwrap());
 
             return
         }

@@ -3,6 +3,8 @@ with Ada.Numerics.Discrete_Random;
 with Ada.Real_Time; use Ada.Real_Time;
 
 -- Dijkstra's solution
+--
+-- possibly worth adding mutex for accessing Meal_Eaten??
 
 package body Philosophers is
 
@@ -75,6 +77,27 @@ package body Philosophers is
             Locked := False;
         end Unlock;
     end Print_Mutex;
+
+    -- mutex for accessing array of meals 
+    protected Meal_Mutex is
+        entry Lock;
+        procedure Unlock;
+    private
+        Locked: Boolean := False;
+    end Meal_Mutex;
+
+    protected body Meal_Mutex is
+        entry Lock when not Locked is
+        begin 
+            Locked := True;
+        end Lock;
+
+        procedure Unlock is
+        begin
+            Locked := False;
+        end Unlock;
+    end Meal_Mutex;
+
 
     -- mutex for taking forks
     protected Forks_Mutex is
@@ -154,7 +177,7 @@ package body Philosophers is
         delay until Clock + Delay_Time;
     end Eat;
 
-    -- to prevent whatevere
+    -- 
     procedure Test_All is 
     begin
         for I in 1 .. Number_Of_Philosophers loop
@@ -171,16 +194,19 @@ package body Philosophers is
             Take_Forks(Number);
             Eat(Number);
             Give_Forks(Number);
-
+            
+            --Meal_Mutex.Lock;
             Meal_Eaten(Number) := Meal_Eaten(Number) + 1;
             if Meal_Eaten(Number) = Number_Of_Meals
             then
                 Print_Mutex.Lock;
                 Put_Line("Finished eating!" & Integer'Image(Number));
-                Test_All;
                 Print_Mutex.Unlock;
+                Test_All;
+            --    Meal_Mutex.Unlock;
                 exit;
             end if;
+            --Meal_Mutex.Unlock;
         end loop;
     end Philosopher;
 

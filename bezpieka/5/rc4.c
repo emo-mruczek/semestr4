@@ -1,6 +1,8 @@
 //https://stackoverflow.com/questions/4337217/difference-between-signed-unsigned-char 
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <stdio.h>
 
 #include "rc4.h"
 
@@ -28,7 +30,7 @@ void ksa(unsigned char *S, char *key) {
 }
 
 // pseudo-random generation algorithm
-void rpga(unsigned char *S, char *input, char* output) {
+void rpga(unsigned char *S, char *input, unsigned char *output) {
     int i = 0;
     int j = 0;
     int index = 0;
@@ -57,5 +59,22 @@ void decode_rc4(unsigned char *input, char *output, char *key) {
 
     ksa(S, key);
     rpga(S, input, output);
+}
+
+// strlen unsigned char?
+// 0x80 -> most significant bit
+bool is_same_key(unsigned char *input1, unsigned char *input2) {
+    size_t len1 = strlen(input1);
+    size_t len2 = strlen(input2);
+    size_t len = (len1 < len2) ? len1 : len;
+
+    for (int i = 0; i < len; i++) {
+        unsigned char test = input1[i] ^ input2[i];
+        printf("%02hhX\n", test);
+        if (test >= 0x80) {
+            return false;
+        }
+    }
+    return true;
 }
     

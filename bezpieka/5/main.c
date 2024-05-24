@@ -2,8 +2,30 @@
 #include <string.h>
 #include <stdlib.h>
 #include <inttypes.h>
+#include <stdbool.h>
 
 #include "rc4.h"
+
+void test_key() {
+    char *input1 = "hahapapiez";
+    char *input2 = "twojastara";
+    char *key = "dupa";
+
+    unsigned char *output1 = malloc(sizeof(int) * strlen(input1));
+    unsigned char *output2 = malloc(sizeof(int) * strlen(input2));
+
+    encode_rc4(input1, output1, key);
+    encode_rc4(input2, output2, key);
+
+    bool ok = is_same_key(output1, output2);
+    
+    if (ok) {
+        printf("Git");
+    } else {
+        printf("Niegit");
+    }
+} 
+
 
 int main(int argc, char **argv) {
     
@@ -52,6 +74,9 @@ int main(int argc, char **argv) {
     decode_rc4(output, encoded, key);
 
     printf("%s\n", encoded);
+
+
+    test_key();
 
     free(output);
     return 0;

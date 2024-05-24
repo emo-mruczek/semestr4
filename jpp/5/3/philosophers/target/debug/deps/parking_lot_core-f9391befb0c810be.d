@@ -1,0 +1,10 @@
+/home/felix/semestr4/jpp/5/3/philosophers/target/debug/deps/parking_lot_core-f9391befb0c810be.rmeta: /home/felix/.cargo/registry/src/index.crates.io-6f17d22bba15001f/parking_lot_core-0.2.14/src/lib.rs /home/felix/.cargo/registry/src/index.crates.io-6f17d22bba15001f/parking_lot_core-0.2.14/src/thread_parker/unix.rs /home/felix/.cargo/registry/src/index.crates.io-6f17d22bba15001f/parking_lot_core-0.2.14/src/util.rs /home/felix/.cargo/registry/src/index.crates.io-6f17d22bba15001f/parking_lot_core-0.2.14/src/spinwait.rs /home/felix/.cargo/registry/src/index.crates.io-6f17d22bba15001f/parking_lot_core-0.2.14/src/word_lock.rs /home/felix/.cargo/registry/src/index.crates.io-6f17d22bba15001f/parking_lot_core-0.2.14/src/parking_lot.rs
+
+/home/felix/semestr4/jpp/5/3/philosophers/target/debug/deps/parking_lot_core-f9391befb0c810be.d: /home/felix/.cargo/registry/src/index.crates.io-6f17d22bba15001f/parking_lot_core-0.2.14/src/lib.rs /home/felix/.cargo/registry/src/index.crates.io-6f17d22bba15001f/parking_lot_core-0.2.14/src/thread_parker/unix.rs /home/felix/.cargo/registry/src/index.crates.io-6f17d22bba15001f/parking_lot_core-0.2.14/src/util.rs /home/felix/.cargo/registry/src/index.crates.io-6f17d22bba15001f/parking_lot_core-0.2.14/src/spinwait.rs /home/felix/.cargo/registry/src/index.crates.io-6f17d22bba15001f/parking_lot_core-0.2.14/src/word_lock.rs /home/felix/.cargo/registry/src/index.crates.io-6f17d22bba15001f/parking_lot_core-0.2.14/src/parking_lot.rs
+
+/home/felix/.cargo/registry/src/index.crates.io-6f17d22bba15001f/parking_lot_core-0.2.14/src/lib.rs:
+/home/felix/.cargo/registry/src/index.crates.io-6f17d22bba15001f/parking_lot_core-0.2.14/src/thread_parker/unix.rs:
+/home/felix/.cargo/registry/src/index.crates.io-6f17d22bba15001f/parking_lot_core-0.2.14/src/util.rs:
+/home/felix/.cargo/registry/src/index.crates.io-6f17d22bba15001f/parking_lot_core-0.2.14/src/spinwait.rs:
+/home/felix/.cargo/registry/src/index.crates.io-6f17d22bba15001f/parking_lot_core-0.2.14/src/word_lock.rs:
+/home/felix/.cargo/registry/src/index.crates.io-6f17d22bba15001f/parking_lot_core-0.2.14/src/parking_lot.rs:
