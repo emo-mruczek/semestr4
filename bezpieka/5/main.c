@@ -9,13 +9,14 @@
 void test_key() {
     char *input1 = "hahapapiez";
     char *input2 = "twojastara";
-    char *key = "dupa";
+    char *key = "taki";
+    char *key2 = "inny";
 
     unsigned char *output1 = malloc(sizeof(int) * strlen(input1));
     unsigned char *output2 = malloc(sizeof(int) * strlen(input2));
 
     encode_rc4(input1, output1, key);
-    encode_rc4(input2, output2, key);
+    encode_rc4(input2, output2, key2);
 
     bool ok = is_same_key(output1, output2);
     

@@ -58,15 +58,15 @@ void decode_rc4(unsigned char *input, char *output, char *key) {
     unsigned char *S = (unsigned char*)malloc(LENGTH);
 
     ksa(S, key);
-    rpga(S, input, output);
+    rpga(S, (char *)input, (unsigned char *)output);
 }
 
 // strlen unsigned char?
 // 0x80 -> most significant bit
 bool is_same_key(unsigned char *input1, unsigned char *input2) {
-    size_t len1 = strlen(input1);
-    size_t len2 = strlen(input2);
-    size_t len = (len1 < len2) ? len1 : len;
+    size_t len1 = strlen((char *)input1);
+    size_t len2 = strlen((char *)input2);
+    size_t len = (len1 < len2) ? len1 : len2;
 
     for (int i = 0; i < len; i++) {
         unsigned char test = input1[i] ^ input2[i];
