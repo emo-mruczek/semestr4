@@ -1,5 +1,6 @@
 use std::env;
 use rand::Rng;
+use itertools::Itertools;
 
 const LENGTH: usize = 256;
 
@@ -129,7 +130,7 @@ fn generate_nbr(bank_num: &[u8]) -> String {
     res.push_str(&final_ctrl_str);
 
 
-    println!("{}", ctrl_str);
+    println!("{}", final_ctrl_str);
 
     return res;
 
@@ -173,8 +174,22 @@ fn main() {
 
     //test_key();
     
-    let result = generate_nbr(&bank_numbers[0]);
-    println!("{:?}", result);
+    let mut generated_bank_numbers: Vec<String> = Vec::new();
 
-    // Freeing memory is handled automatically in Rust
+    for i in 0..5 {
+        for j in 0..10 {
+            let result = generate_nbr(&bank_numbers[i]);
+            let result_bytes = result.as_bytes();
+            let mut encrypted = [0u8; 26];
+
+            encode_rc4(&result_bytes, &mut encrypted, &key);
+            let encrypted_str = String::from_utf8_lossy(&encrypted);
+            generated_bank_numbers.push(encrypted_str.to_string());
+        }
+    }
+
+    for (c0, c1) in generated_bank_numbers.iter().tuple_combinations() {
+    let xored: Vec<u8> = c0.bytes().zip(c1.bytes()).map(|(i0, i1)| i0 ^ i1).collect();
+    println!("{:?}", &xored[2..10]); 
+}
 }
