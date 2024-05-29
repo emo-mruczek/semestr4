@@ -218,7 +218,6 @@ int main() {
     // cli
     char command;
     int value;
-    printf("dupa");
 
     while (1) {
         scanf("%s", &command);
@@ -239,11 +238,15 @@ int main() {
         case 'e':
             free_subtree(&root);
 
-            printf("%d %d %d ", comp, read, repl);
+            int h_avg = 0;
 
             for (int i = 0; i < ind; i++) {
-                printf("%d ", heights[i]);
+                h_avg += heights[i];
             }
+
+            h_avg /= ind;
+
+            printf("%d %d %d %d ", comp, read, repl, h_avg);
 
             free(heights);
             return 1;

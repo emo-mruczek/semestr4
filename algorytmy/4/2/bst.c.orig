@@ -115,9 +115,9 @@ node *getMax(node *root) {
     return root;
 }
 
-void transplant(node *root, node *to_trans) {
-    node *tmp = root;
-    root = to_trans;
+void transplant(node **root, node **to_trans) {
+    node *tmp = *root;
+    *root = *to_trans;
     free(tmp);
     repl++;
 }
@@ -138,13 +138,13 @@ node *delete (node *root, int element) {
             return NULL;
         } else if (root->left == NULL) {
             // jeden lisc
-            transplant(root, root->right);
+            transplant(&root, &root->right);
             //node *tmp = root;
             //root = root->right;
-           // free(tmp);
+            // free(tmp);
             return root;
         } else if (root->right == NULL) {
-             transplant(root, root->left);
+            transplant(&root, &root->left);
             //node *tmp = root;
             //root = root->left;
             //free(tmp);
@@ -162,7 +162,6 @@ node *delete (node *root, int element) {
 
     return root;
 }
-
 
 int height(node *root) {
     if (root == NULL) {
@@ -239,12 +238,15 @@ int main() {
 
         case 'e':
             free_subtree(&root);
-
-            printf("%d %d %d ", comp, read, repl);
-
+            
+            int h_avg = 0;
             for (int i = 0; i < ind; i++) {
-                printf("%d ", heights[i]);
+                h_avg += heights[i];
             }
+
+            h_avg /= ind;
+
+            printf("%d %d %d %d ", comp, read, repl, h_avg);
 
             free(heights);
             return 1;
