@@ -31,24 +31,20 @@ void results(char generator_type[30], char sort_type[20], int n) {
 }
 
 int main() {
+    #pragma omp parallel for
 
-    /* int tab[100];
-     #pragma omp parallel for
+    for (int n = 10; n <= 20; n = n + 1) {
+        #pragma omp critical
 
-     for (int i = 0; i < 100; i++) {
-         tab[i] = i;
-     }
+        for (int k = 1; k < 2; k++) {
+            {
+                printf("%d ", n);
+            }
 
-     for (int i = 0; i < 100; i++) {
-         printf("%d ", tab[i]);
-     }*/
-
-    for (int n = 10000; n <= 100000; n = n + 10000) {
-
-        for (int k = 0; k < K_MAX; k++) {
-            printf("%d ", n);
             results("./generate_random", "./bst", n);
-            printf("\n");
+            {
+                printf("\n");
+            }
         }
     }
 

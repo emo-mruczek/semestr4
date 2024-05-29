@@ -246,10 +246,10 @@ int main() {
 
             h_avg /= ind;
 
-            printf("%d %d %d %d ", comp, read, repl, h_avg);
+            printf("%d %d %d %d", comp, read, repl, h_avg);
 
             free(heights);
-            return 1;
+            return 0;
 
         default:
             printf("Nieistniejaca komenda\n");
