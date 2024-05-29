@@ -58,16 +58,20 @@ typedef struct node {
 
 node *root = NULL;
 
+// counts
 void insert(node **root, node *node_ptr) {
     if (node_ptr == NULL) {
+        repl++;
         return;
     }
 
     if (*root == NULL) {
         *root = node_ptr;
     } else if (is_less(node_ptr->element, (*root)->element)) {
+        read++;
         insert(&(*root)->left, node_ptr);
     } else {
+        read++;
         insert(&(*root)->right, node_ptr);
     }
 }
@@ -101,6 +105,7 @@ node *newNode(int element) {
     return tmp;
 }
 
+// counts
 node *getMax(node *root) {
     // jesli nie ma lisci po prawej, to ten node jest maksymalny
     if (root->right != NULL) {
@@ -110,12 +115,21 @@ node *getMax(node *root) {
     return root;
 }
 
+void transplant(node **root, node **to_trans) {
+    node *tmp = *root;
+    *root = *to_trans;
+    free(tmp);
+    repl++;
+}
+// counts
 node *delete (node *root, int element) {
     if (root == NULL) {
         return root;
     } else if (is_less( root->element, element)) {
+        read++;
         root->right = delete (root->right, element);
     } else if (is_less(element, root->element)) {
+        read++;
         root->left = delete (root->left, element);
     } else if (is_equal(element, root->element)) {
         if ((root->left == NULL) && (root->right == NULL)) {
@@ -124,19 +138,24 @@ node *delete (node *root, int element) {
             return NULL;
         } else if (root->left == NULL) {
             // jeden lisc
-            node *tmp = root;
-            root = root->right;
-            free(tmp);
+            transplant(&root, &root->right);
+            //node *tmp = root;
+            //root = root->right;
+            // free(tmp);
             return root;
         } else if (root->right == NULL) {
-            node *tmp = root;
-            root = root->left;
-            free(tmp);
+            transplant(&root, &root->left);
+            //node *tmp = root;
+            //root = root->left;
+            //free(tmp);
             return root;
         } else {
             //dwa liscie
+            //transplant
             node *tmp = getMax(root->left);
             root->element = tmp->element;
+            repl++;
+            read++;
             root->left = delete (root->left, tmp->element);
         }
     }
@@ -199,6 +218,7 @@ int main() {
     // cli
     char command;
     int value;
+    printf("dupa");
 
     while (1) {
         scanf("%s", &command);
@@ -218,6 +238,8 @@ int main() {
 
         case 'e':
             free_subtree(&root);
+
+            printf("%d %d %d ", comp, read, repl);
 
             for (int i = 0; i < ind; i++) {
                 printf("%d ", heights[i]);
