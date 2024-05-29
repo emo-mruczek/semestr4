@@ -162,8 +162,8 @@ void purge(node *root) {
 int tree_size = 0;
 
 void print_init() {
-    left_trace = malloc(tree_size * sizeof(char));
-    right_trace = malloc(tree_size * sizeof(char));
+    left_trace = malloc((tree_size + 1)* sizeof(char));
+    right_trace = malloc((tree_size + 1) * sizeof(char));
     for (int i = 0; i <= tree_size; i++) {
         left_trace[i] = ' ';
         left_trace[i] = ' ';
