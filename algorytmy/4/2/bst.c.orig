@@ -189,7 +189,7 @@ void delete_from_command(int element) {
 }
 
 int main() {
-    heights = (int *)malloc(sizeof(int) * BLOCK_SIZE);
+    heights = malloc(sizeof(int) * BLOCK_SIZE);
 
     if (heights == NULL) {
         perror("some error");
@@ -215,7 +215,6 @@ int main() {
             delete_from_command(value);
             add_height(height(root));
             break;
-
         case 'e':
             free_subtree(&root);
 
