@@ -32,14 +32,13 @@ node *newnode(int element, node *parent) {
 void insert_fixup(node *n) {
     //czy node jest rootem?
     if (n == NULL || n->parent == NULL) {
-        return;
+    return;
     }
 
     node *child = n;
-
     // jesli jest czarny albo jego rodzic jest czarny
     if (n->color == BLACK || (n->parent)->color == BLACK) {
-        return;
+    return;
     }
 
     // rodzic i dziecko sa czerwoni, wtedy sprawdz wujka
@@ -53,8 +52,9 @@ void insert_fixup(node *n) {
     }
 
     // oba dzieci dziadka sa czerwone
-    if (grandparent->right != NULL && (grandparent->right)->color == RED &&
-            grandparent->left != NULL && (grandparent->left)->color == RED) {
+if (grandparent->right != NULL && (grandparent->right)->color == RED &&
+        grandparent->left != NULL && (grandparent->left)->color == RED)
+    {
         // dziadek zostaje czerwonym a jego dzieci czarne
         (grandparent->right)->color = BLACK;
         (grandparent->left)->color = BLACK;
@@ -63,29 +63,32 @@ void insert_fixup(node *n) {
     } else {
         // rotacja
 
-        node *greatgrandparent = grandparent->parent;
-
+    node *greatgrandparent = grandparent->parent;
         // przypadek ze ojciec to prawy syn
-        if (grandparent->right == par) {
+        if (grandparent->right == par)
+        {
             // node jest prawym synem
-            if (par->right == n) {
+            if (par->right == n)
+            {
                 grandparent->right = par->left;
-
-                if (par->left != NULL) {
+                if (par->left != NULL)
+                {
                     (par->left)->parent = grandparent;
                 }
-
                 par->left = grandparent;
                 grandparent->parent = par;
 
                 // dodaj do drzewa
                 par->parent = greatgrandparent;
-
-                if (greatgrandparent != NULL) {
+                if (greatgrandparent != NULL)
+                {
                     if (greatgrandparent->left != NULL &&
-                            greatgrandparent->left == grandparent) {
+                        greatgrandparent->left == grandparent)
+                    {
                         greatgrandparent->left = par;
-                    } else {
+                    }
+                    else
+                    {
                         greatgrandparent->right = par;
                     }
                 }
@@ -93,36 +96,38 @@ void insert_fixup(node *n) {
                 // cyk kolory
                 par->color = BLACK;
                 grandparent->color = RED;
-            } else {
-                // przypadek ze ojcec jest lewym synem
+            }
+            else
+            {  // przypadek ze ojcec jest lewym synem
                 // rotacja parent z child
                 par->left = child->right;
-
-                if (child->right != NULL) {
+                if (child->right != NULL)
+                {
                     (child->right)->parent = par;
                 }
-
                 child->right = par;
                 par->parent = child;
 
                 // rotacja dziecka z dziadkiem
                 grandparent->right = child->left;
-
-                if (child->left != NULL) {
+                if (child->left != NULL)
+                {
                     (child->left)->parent = grandparent;
                 }
-
                 child->left = grandparent;
                 grandparent->parent = child;
 
                 // dodaj do drzewa
                 child->parent = greatgrandparent;
-
-                if (greatgrandparent != NULL) {
+                if (greatgrandparent != NULL)
+                {
                     if (greatgrandparent->left != NULL &&
-                            greatgrandparent->left == grandparent) {
+                        greatgrandparent->left == grandparent)
+                    {
                         greatgrandparent->left = child;
-                    } else {
+                    }
+                    else
+                    {
                         greatgrandparent->right = child;
                     }
                 }
@@ -131,58 +136,66 @@ void insert_fixup(node *n) {
                 child->color = BLACK;
                 grandparent->color = RED;
             }
-        } else {
-            // to co powyzej analogicznie dla lewego przypadku
-            if (par->left == n) {
+        }
+        else
+        {  // to co powyzej analogicznie dla lewego przypadku
+            if (par->left == n)
+            {
                 grandparent->left = par->right;
-
-                if (par->right != NULL) {
+                if (par->right != NULL)
+                {
                     (par->right)->parent = grandparent;
                 }
-
                 par->right = grandparent;
                 grandparent->parent = par;
 
                 par->parent = greatgrandparent;
-
-                if (greatgrandparent != NULL) {
+                if (greatgrandparent != NULL)
+                {
                     if (greatgrandparent->left != NULL &&
-                            greatgrandparent->left == grandparent) {
+                        greatgrandparent->left == grandparent)
+                    {
                         greatgrandparent->left = par;
-                    } else {
+                    }
+                    else
+                    {
                         greatgrandparent->right = par;
                     }
                 }
 
+    
                 par->color = BLACK;
                 grandparent->color = RED;
-            } else {
+            }
+            else
+            {  
 
                 par->right = child->left;
-
-                if (child->left != NULL) {
+                if (child->left != NULL)
+                {
                     (child->left)->parent = par;
                 }
-
                 child->left = par;
                 par->parent = child;
 
                 grandparent->left = child->right;
-
-                if (child->right != NULL) {
+                if (child->right != NULL)
+                {
                     (child->right)->parent = grandparent;
                 }
-
                 child->right = grandparent;
                 grandparent->parent = child;
 
                 child->parent = greatgrandparent;
-
-                if (greatgrandparent != NULL) {
+                if (greatgrandparent != NULL)
+                {
                     if (greatgrandparent->left != NULL &&
-                            greatgrandparent->left == grandparent) {
+                        greatgrandparent->left == grandparent)
+                    {
                         greatgrandparent->left = child;
-                    } else {
+                    }
+                    else
+                    {
                         greatgrandparent->right = child;
                     }
                 }
@@ -193,29 +206,40 @@ void insert_fixup(node *n) {
             }
         }
 
+
     }
 
 }
 
-void insert(int elem, node **root) {
+void insert(int elem, node **root)
+{
     node *temp_root = *root;
-
-    while (temp_root) {
-        if (temp_root->element > elem) {
-
-            if (temp_root->left != NULL) {
-                temp_root = temp_root->left;
-            } else {
+    while (temp_root)
+    {
+        if (temp_root->element > elem)
+        {
+            
+            if (temp_root->left != NULL)
+            {
+               temp_root = temp_root->left;
+            }
+            else
+            {
                 node *to_in = newnode(elem, temp_root);
                 temp_root->left = to_in;
                 temp_root = to_in;
 
                 break;
             }
-        } else {
-            if (temp_root->right != NULL) {
+        }
+        else
+        {
+            if (temp_root->right != NULL)
+            {
                 temp_root = temp_root->right;
-            } else {
+            }
+            else
+            {
                 // Insert The node
                 node *to_in = newnode(elem, temp_root);
                 temp_root->right = to_in;
@@ -225,18 +249,19 @@ void insert(int elem, node **root) {
         }
     }
 
-    // fixup
-    while (temp_root != *root) {
-        insert_fixup(temp_root);
 
-        if (temp_root->parent == NULL) {
+    // fixup
+    while (temp_root != *root)
+    {
+        insert_fixup(temp_root);
+        if (temp_root->parent == NULL)
+        {
             *root = temp_root;
             break;
         }
-
         temp_root = temp_root->parent;
-
-        if (temp_root == *root) {
+        if (temp_root == *root)
+        {
             temp_root->color = BLACK;
         }
     }
@@ -264,69 +289,78 @@ node *left_rotate(node *n) {
     node *grandparent = par->parent;
 
     par->right = n->left;
-
-    if (n->left != NULL) {
+    if (n->left != NULL)
+    {
         n->left->parent = par;
     }
-
     n->parent = grandparent;
     par->parent = n;
     n->left = par;
-
-    if (grandparent != NULL) {
-        if (grandparent->right == par) {
+    if (grandparent != NULL)
+    {
+        if (grandparent->right == par)
+        {
             grandparent->right = n;
-        } else {
+        }
+        else
+        {
             grandparent->left = n;
         }
     }
-
     return n;
 }
 
-node *right_rotate(node *n) {
+node *right_rotate(node *n)
+{
     node *par = n->parent;
     node *grandparent = par->parent;
 
     par->left = n->right;
-
-    if (n->right != NULL) {
+    if (n->right != NULL)
+    {
         n->right->parent = par;
     }
-
     n->parent = grandparent;
     par->parent = n;
     n->right = par;
-
-    if (grandparent != NULL) {
-        if (grandparent->right == par) {
+    if (grandparent != NULL)
+    {
+        if (grandparent->right == par)
+        {
             grandparent->right = n;
-        } else {
+        }
+        else
+        {
             grandparent->left = n;
         }
     }
-
     return n;
 }
 void delete_fixup(node *for_deletion, int delete, int dir, node **root) {
     // usuwany jest rootem
-    if (for_deletion == (*root)) {
+    if (for_deletion == (*root))
+    {
         (*root)->color = BLACK;
         return;
     }
 
     // usuwany jest czarny
-    if (!delete && for_deletion->color == RED) {
-        if (!dir) {
-            if (for_deletion->right != NULL) {
+    if (!delete &&for_deletion->color == RED)
+    {
+        if (!dir)
+        {
+            if (for_deletion->right != NULL)
+            {
                 for_deletion->right->color = RED;
             }
-        } else {
-            if (for_deletion->left != NULL) {
+        }
+        else
+        {
+            if (for_deletion->left != NULL)
+            {
                 for_deletion->left->color = RED;
             }
         }
-
         for_deletion->color = BLACK;
         return;
     }
@@ -334,21 +368,26 @@ void delete_fixup(node *for_deletion, int delete, int dir, node **root) {
     // sprawdzamy braci
     node *sibling;
     node *par = for_deletion->parent;
-    int locateChild = 0;  // 0 jest do usuniecia jest lewym synem
-
-    if (par->right == for_deletion) {
+    int locateChild = 0;  // 0 jest do usuniecia jest lewym synem 
+    if (par->right == for_deletion)
+    {
         sibling = par->left;
         locateChild = 1;
-    } else {
+    }
+    else
+    {
         sibling = par->right;
     }
 
     // ktorys z braci jest czerwony
     if ((sibling->right != NULL && sibling->right->color == RED) ||
-            (sibling->left != NULL && sibling->left->color == RED)) {
-        if (sibling->right != NULL && sibling->right->color == RED) {
+        (sibling->left != NULL && sibling->left->color == RED))
+    {
+        if (sibling->right != NULL && sibling->right->color == RED)
+        {
             // brat jest lewy a dziecko prawe -> rotacja w lewo
-            if (locateChild == 1) {
+            if (locateChild == 1)
+            {
                 int parColor = par->color;
 
                 sibling = left_rotate(sibling->right);
@@ -356,7 +395,8 @@ void delete_fixup(node *for_deletion, int delete, int dir, node **root) {
                 par = right_rotate(sibling);
 
                 // czy root byl obracany
-                if (par->parent == NULL) {
+                if (par->parent == NULL)
+                {
                     *root = par;
                 }
 
@@ -366,47 +406,57 @@ void delete_fixup(node *for_deletion, int delete, int dir, node **root) {
                 par->right->color = BLACK;
 
                 // usun
-                if (delete) {
-                    if (for_deletion->left != NULL) {
+                if (delete)
+                {
+                    if (for_deletion->left != NULL)
+                    {
                         for_deletion->left->parent = par->right;
                     }
-
                     par->right->right = for_deletion->left;
                     free(for_deletion);
                 }
-            } else {
-                // ananlogiczny przypadek
+            }
+            else
+            {  // ananlogiczny przypadek
 
                 int parColor = par->color;
 
+                
                 par = left_rotate(sibling);
 
-                if (par->parent == NULL) {
+                if (par->parent == NULL)
+                {
                     *root = par;
                 }
 
+                
                 par->color = parColor;
                 par->left->color = BLACK;
                 par->right->color = BLACK;
 
-                if (delete) {
-                    if (for_deletion->right != NULL) {
+                if (delete)
+                {
+                    if (for_deletion->right != NULL)
+                    {
                         for_deletion->right->parent = par->left;
                     }
-
                     par->left->left = for_deletion->left;
                     free(for_deletion);
                 }
             }
-        } else {
-            if (locateChild == 0) {
+        }
+        else
+        {
+            if (locateChild == 0)
+            {
                 int parColor = par->color;
 
                 sibling = right_rotate(sibling->left);
 
                 par = left_rotate(sibling);
 
-                if (par->parent == NULL) {
+                if (par->parent == NULL)
+                {
                     *root = par;
                 }
 
@@ -414,101 +464,121 @@ void delete_fixup(node *for_deletion, int delete, int dir, node **root) {
                 par->left->color = BLACK;
                 par->right->color = BLACK;
 
-                if (delete) {
-                    if (for_deletion->right != NULL) {
+                if (delete)
+                {
+                    if (for_deletion->right != NULL)
+                    {
                         for_deletion->right->parent = par->left;
                     }
-
                     par->left->left = for_deletion->right;
                     free(for_deletion);
                 }
-            } else {
+            }
+            else
+            {  
 
                 int parColor = par->color;
 
                 par = right_rotate(sibling);
 
-                if (par->parent == NULL) {
+                if (par->parent == NULL)
+                {
                     *root = par;
                 }
 
+                
                 par->color = parColor;
                 par->left->color = BLACK;
                 par->right->color = BLACK;
 
-                if (delete) {
-                    if (for_deletion->left != NULL) {
+        
+                if (delete)
+                {
+                    if (for_deletion->left != NULL)
+                    {
                         for_deletion->left->parent = par->right;
                     }
-
                     par->right->right = for_deletion->left;
                     free(for_deletion);
                 }
             }
         }
-    } else if (sibling->color == BLACK) {
-        // zrob brata czerwonym
+    }
+    else if (sibling->color == BLACK)
+    {  // zrob brata czerwonym
 
+        
         sibling->color = RED;
 
         // Delete if necessary
-        if (delete) {
-            if (locateChild) {
+        if (delete)
+        {
+            if (locateChild)
+            {
                 for_deletion->parent->right = for_deletion->left;
-
-                if (for_deletion->left != NULL) {
+                if (for_deletion->left != NULL)
+                {
                     for_deletion->left->parent = for_deletion->parent;
                 }
-            } else {
+            }
+            else
+            {
                 for_deletion->parent->left = for_deletion->right;
-
-                if (for_deletion->right != NULL) {
+                if (for_deletion->right != NULL)
+                {
                     for_deletion->right->parent = for_deletion->parent;
                 }
             }
         }
 
         delete_fixup(par, 0, locateChild, root);
-    } else {
-        // przenies brata wyzej
-        if (locateChild) {
+    }
+    else
+    {  // przenies brata wyzej
+        if (locateChild)
+        {  
 
             for_deletion->parent->right = for_deletion->left;
-
-            if (for_deletion->left != NULL) {
+            if (for_deletion->left != NULL)
+            {
                 for_deletion->left->parent = for_deletion->parent;
             }
 
             par = right_rotate(sibling);
 
-            if (par->parent == NULL) {
+                     if (par->parent == NULL)
+            {
                 *root = par;
             }
 
             par->color = BLACK;
             par->right->color = RED;
             delete_fixup(par->right, 0, 1, root);
-        } else {
+        }
+        else
+        {  
 
             for_deletion->parent->left = for_deletion->right;
-
-            if (for_deletion->right != NULL) {
+            if (for_deletion->right != NULL)
+            {
                 for_deletion->right->parent = for_deletion->parent;
             }
-
             par = left_rotate(sibling);
 
-            if (par->parent == NULL) {
+        
+            if (par->parent == NULL)
+            {
                 *root = par;
             }
 
-            // printf("\nroot - %d - %d\n", parent->val, parent->left->val);
+           // printf("\nroot - %d - %d\n", parent->val, parent->left->val);
 
             par->color = 0;
             par->left->color = 1;
             delete_fixup(par->left, 0, 0, root);
         }
     }
+
 
 }
 
@@ -556,11 +626,11 @@ void print_BST(node *root, int depth, char prefix) {
     }
 }
 
+
 bool is_leaf(node *node) {
     if (node->left == NULL && node->right == NULL) {
         return true;
-    }
-
+    } 
     return false;
 }
 
@@ -573,27 +643,41 @@ node *getMax(node *root) {
     return root;
 }
 
+
+
+
 void delete (int element, node **root) {
     node *temp_root = *root;
 
     // szukaj elementu
-    while (1) {
-        if (element == temp_root->element) {
+    while (1)
+    {
+        if (element == temp_root->element)
+        {
             // znalezniono
             break;
         }
 
-        if (element > temp_root->element) {
-            if (temp_root->right != NULL) {
+        if (element > temp_root->element)
+        {
+            if (temp_root->right != NULL)
+            {
                 temp_root = temp_root->right;
-            } else {
+            }
+            else
+            {
                 printf("Node nie istnieje");
                 return;
             }
-        } else {
-            if (temp_root->left != NULL) {
+        }
+        else
+        {
+            if (temp_root->left != NULL)
+            {
                 temp_root = temp_root->left;
-            } else {
+            }
+            else
+            {
                 printf("Node nie istnieje");
                 return;
             }
@@ -602,57 +686,73 @@ void delete (int element, node **root) {
 
     node *for_deletion = temp_root;
 
-    if (for_deletion->left != NULL) {
+    if (for_deletion->left != NULL)
+    {
         for_deletion = for_deletion->left;
-
-        while (for_deletion->right != NULL) {
+        while (for_deletion->right != NULL)
+        {
             for_deletion = for_deletion->right;
         }
-    } else if (for_deletion->right != NULL) {
+    }
+    else if (for_deletion->right != NULL)
+    {
         for_deletion = for_deletion->right;
-
-        while (for_deletion->left != NULL) {
+        while (for_deletion->left != NULL)
+        {
             for_deletion = for_deletion->left;
         }
     }
 
-    if (for_deletion == *root) {
+    if (for_deletion == *root)
+    {
         *root = NULL;
         return;
     }
 
-    temp_root->element = for_deletion->element;
+       temp_root->element = for_deletion->element;
     for_deletion->element = element;
 
     // case 1 z cormena
     if (for_deletion->color == RED ||
-            (for_deletion->left != NULL && for_deletion->left->color == RED) ||
-            (for_deletion->right != NULL && for_deletion->right->color == RED)) {
+        (for_deletion->left != NULL && for_deletion->left->color == RED) ||
+        (for_deletion->right != NULL && for_deletion->right->color == RED))
+    {
         // jest lisciem
-        if (for_deletion->left == NULL && for_deletion->right == NULL) {
+        if (for_deletion->left == NULL && for_deletion->right == NULL)
+        {
             // po prostu usun
-            if (for_deletion->parent->left == for_deletion) {
+            if (for_deletion->parent->left == for_deletion)
+            {
                 for_deletion->parent->left = NULL;
-            } else {
+            }
+            else
+            {
                 for_deletion->parent->right = NULL;
             }
-        } else {
+        }
+        else
+        {  
 
             // czy ma lewego syna
-            if (for_deletion->left != NULL) {
-                for_deletion->parent->right = for_deletion->left;
+            if (for_deletion->left != NULL)
+            {
+                                for_deletion->parent->right = for_deletion->left;
                 for_deletion->left->parent = for_deletion->parent;
                 for_deletion->left->color = RED;
-            } else {
+            }
+            else
+            {  
                 for_deletion->parent->left = for_deletion->right;
                 for_deletion->right->parent = for_deletion->parent;
                 for_deletion->right->color = RED;
             }
         }
 
+        
         free(for_deletion);
-    } else {
-        // przypadek 2 z cormena
+    }
+    else
+    {  // przypadek 2 z cormena
         delete_fixup(for_deletion, 1, ((for_deletion->parent->right == for_deletion)), root);
     }
 }
@@ -712,10 +812,9 @@ void insert_from_command(int element) {
         root = newnode(element, NULL);
         root->color = BLACK;
     } else {
-        insert(element, &root);
+    insert(element, &root);
 
     }
-
     printf("INSERT: [%d]\n\n", element);
     tree_size++;
     print_init();
