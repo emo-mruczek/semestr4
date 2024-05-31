@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-typedef enum color_type {
-    RED,
-    BLACK
-} color_type;
+#define ANSI_RED "\x1b[31m"
+#define ANSI_RESET "\x1b[0m"
+
+typedef enum color_type { RED, BLACK } color_type;
 
 typedef struct node {
     color_type color;
@@ -17,569 +17,399 @@ typedef struct node {
 
 node *root = NULL;
 
-node *newnode(int element, node *parent) {
+node *newnode(int element) {
     node *tmp = (node *)malloc(sizeof(node));
 
     tmp->element = element;
     tmp->left = NULL;
     tmp->right = NULL;
-    tmp->parent = parent;
+    tmp->parent = NULL;
     tmp->color = RED;
-
     return tmp;
 }
 
-void insert_fixup(node *n) {
-    //czy node jest rootem?
-    if (n == NULL || n->parent == NULL) {
-    return;
-    }
+void rotate_left(node *n) {
+    node *right = n->right;
+    n->right = right->left;
 
-    node *child = n;
-    // jesli jest czarny albo jego rodzic jest czarny
-    if (n->color == BLACK || (n->parent)->color == BLACK) {
-    return;
-    }
+    if (right->left != NULL)
+        right->left->parent = n;
 
-    // rodzic i dziecko sa czerwoni, wtedy sprawdz wujka
-    node *par = n->parent;
-    node *grandparent = par->parent;
+    right->parent = n->parent;
 
-    // jesli dziadek to null, wtedy rodzic to root -> pokoloruj root
-    if (grandparent == NULL) {
-        par->color = BLACK;
-        return;
-    }
-
-    // oba dzieci dziadka sa czerwone
-if (grandparent->right != NULL && (grandparent->right)->color == RED &&
-        grandparent->left != NULL && (grandparent->left)->color == RED)
-    {
-        // dziadek zostaje czerwonym a jego dzieci czarne
-        (grandparent->right)->color = BLACK;
-        (grandparent->left)->color = BLACK;
-        grandparent->color = RED;
-        return;
+    if (n->parent != NULL) {
+        if (n == n->parent->left) {
+            n->parent->left = right;
+        } else  {
+            n->parent->right = right;
+        }
     } else {
-        // rotacja
-
-    node *greatgrandparent = grandparent->parent;
-        // przypadek ze ojciec to prawy syn
-        if (grandparent->right == par)
-        {
-            // node jest prawym synem
-            if (par->right == n)
-            {
-                grandparent->right = par->left;
-                if (par->left != NULL)
-                {
-                    (par->left)->parent = grandparent;
-                }
-                par->left = grandparent;
-                grandparent->parent = par;
-
-                // dodaj do drzewa
-                par->parent = greatgrandparent;
-                if (greatgrandparent != NULL)
-                {
-                    if (greatgrandparent->left != NULL &&
-                        greatgrandparent->left == grandparent)
-                    {
-                        greatgrandparent->left = par;
-                    }
-                    else
-                    {
-                        greatgrandparent->right = par;
-                    }
-                }
-
-                // cyk kolory
-                par->color = BLACK;
-                grandparent->color = RED;
-            }
-            else
-            {  // przypadek ze ojcec jest lewym synem
-                // rotacja parent z child
-                par->left = child->right;
-                if (child->right != NULL)
-                {
-                    (child->right)->parent = par;
-                }
-                child->right = par;
-                par->parent = child;
-
-                // rotacja dziecka z dziadkiem
-                grandparent->right = child->left;
-                if (child->left != NULL)
-                {
-                    (child->left)->parent = grandparent;
-                }
-                child->left = grandparent;
-                grandparent->parent = child;
-
-                // dodaj do drzewa
-                child->parent = greatgrandparent;
-                if (greatgrandparent != NULL)
-                {
-                    if (greatgrandparent->left != NULL &&
-                        greatgrandparent->left == grandparent)
-                    {
-                        greatgrandparent->left = child;
-                    }
-                    else
-                    {
-                        greatgrandparent->right = child;
-                    }
-                }
-
-                // kolorki
-                child->color = BLACK;
-                grandparent->color = RED;
-            }
-        }
-        else
-        {  // to co powyzej analogicznie dla lewego przypadku
-            if (par->left == n)
-            {
-                grandparent->left = par->right;
-                if (par->right != NULL)
-                {
-                    (par->right)->parent = grandparent;
-                }
-                par->right = grandparent;
-                grandparent->parent = par;
-
-                par->parent = greatgrandparent;
-                if (greatgrandparent != NULL)
-                {
-                    if (greatgrandparent->left != NULL &&
-                        greatgrandparent->left == grandparent)
-                    {
-                        greatgrandparent->left = par;
-                    }
-                    else
-                    {
-                        greatgrandparent->right = par;
-                    }
-                }
-
-    
-                par->color = BLACK;
-                grandparent->color = RED;
-            }
-            else
-            {  
-
-                par->right = child->left;
-                if (child->left != NULL)
-                {
-                    (child->left)->parent = par;
-                }
-                child->left = par;
-                par->parent = child;
-
-                grandparent->left = child->right;
-                if (child->right != NULL)
-                {
-                    (child->right)->parent = grandparent;
-                }
-                child->right = grandparent;
-                grandparent->parent = child;
-
-                child->parent = greatgrandparent;
-                if (greatgrandparent != NULL)
-                {
-                    if (greatgrandparent->left != NULL &&
-                        greatgrandparent->left == grandparent)
-                    {
-                        greatgrandparent->left = child;
-                    }
-                    else
-                    {
-                        greatgrandparent->right = child;
-                    }
-                }
-
-                // Change The Colors
-                child->color = BLACK;
-                grandparent->color = RED;
-            }
-        }
-
-
+        root = right;
     }
 
+    right->left = n;
+    n->parent = right;
 }
 
-void insert(int elem, node **root)
-{
-    node *temp_root = *root;
-    while (temp_root)
-    {
-        if (temp_root->element > elem)
-        {
-            
-            if (temp_root->left != NULL)
-            {
-               temp_root = temp_root->left;
-            }
-            else
-            {
-                node *to_in = newnode(elem, temp_root);
-                temp_root->left = to_in;
-                temp_root = to_in;
+void rotate_right(node *n) {
 
-                break;
-            }
+    node *left = n->left;
+    n->left = left->right;
+
+    if (left->right != NULL)
+        left->right->parent = n;
+
+    left->parent = n->parent;
+
+    if (n->parent != NULL) {
+        if (n == n->parent->right) {
+            n->parent->right = left;
+        } else  {
+            n->parent->left = left;
         }
-        else
-        {
-            if (temp_root->right != NULL)
-            {
-                temp_root = temp_root->right;
+    } else {
+        root = left;
+    }
+
+    left->right = n;
+    n->parent = left;
+}
+void insert_fixup(node *n) {
+    node *uncle;
+
+    // n nie jest rootem
+    // jak w cormenie zaczynamy
+    while (n != root && n->parent->color == RED) {
+        // czy parent n jest lewym dzieckiem?
+        if (n->parent == n->parent->parent->left) {
+            // wtedy bierzemy wujka
+            uncle = n->parent->parent->right;
+
+            // jezeli oboje - wujek i parent - sa czerwoni
+            // case 1 z cormena
+            if (uncle != NULL && uncle->color == RED) {
+                // pokoloruj
+                n->parent->color = BLACK;
+                uncle->color = BLACK;
+
+                // dziadek musi byc czerwonny,
+                n->parent->parent->color = RED;
+
+                // przepinamy na dziadka i robimy dalej fixup w razie potrzeby
+                n = n->parent->parent;
+            } else {
+                // case 2
+                if (n == n->parent->right) {
+                    n = n->parent;
+                    rotate_left(n);
+                }
+
+                // case 3
+                n->parent->color = BLACK;
+                n->parent->parent->color = RED;
+                rotate_right(n->parent->parent);
             }
-            else
-            {
-                // Insert The node
-                node *to_in = newnode(elem, temp_root);
-                temp_root->right = to_in;
-                temp_root = to_in;
-                break;
+
+            // to samo ale right i left sa zamienione
+        } else {
+            uncle = n->parent->parent->left;
+
+            if (uncle != NULL && uncle->color == RED) {
+                n->parent->color = BLACK;
+                uncle->color = BLACK;
+
+                n->parent->parent->color = RED;
+
+                n = n->parent->parent;
+            } else {
+                if (n == n->parent->left) {
+                    n = n->parent;
+                    rotate_right(n);
+                }
+
+                n->parent->color = BLACK;
+                n->parent->parent->color = RED;
+                rotate_left(n->parent->parent);
             }
         }
     }
 
+    //zeby miec pewnosc, ze zachowana zostaje wlasnosc
+    root->color = BLACK;
+}
 
-    // fixup
-    while (temp_root != *root)
-    {
-        insert_fixup(temp_root);
-        if (temp_root->parent == NULL)
-        {
-            *root = temp_root;
-            break;
+node *insert(node *in) {
+    node *n = root; // node ktory bedziemy porownywac z in
+    node *parent = NULL; // przyszly parent in
+
+    // szukam miejsca do wstawienia
+    while (n != NULL) {
+        parent = n;
+
+        if (in->element < n->element) {
+            n = n->left;
+        } else {
+            n = n->right;
         }
-        temp_root = temp_root->parent;
-        if (temp_root == *root)
-        {
-            temp_root->color = BLACK;
+    }
+
+    // ostateczne wstawienie
+    if (parent != NULL) {
+        if (in->element < parent->element) {
+            parent->left = in;
+        } else {
+            parent->right = in;
         }
+    } else {
+        // drzewo bylo puste
+        root = in;
+    }
+
+    // przypinam rzeczy do nowego node
+    in->parent = parent;
+    in->left = in->right = NULL;
+    in->color = RED;
+
+    // na koniec fixup
+    insert_fixup(in);
+
+    return in;
+}
+
+bool find(int key, node **result) {
+
+    node *n;
+
+    // szukam od roota
+    n = root;
+
+    *result = NULL;
+
+    while (n != NULL) {
+        if (key == n->element) {
+            *result = n;
+            return true;
+        }
+
+        if (key < n->element) {
+            n = n->left;
+        } else {
+            *result = n;
+            n = n->right;
+        }
+    }
+
+    return false;
+}
+
+node *search (int key) {
+    node *n;
+
+    if (find(key, &n)) {
+        return n;
+    } else {
+        return NULL;
     }
 }
 
-void free_subtree(node **root) {
-    if (*root == NULL) {
+void delete_fixup(node *child, node *child_parent) {
+    while (child != root && (child == NULL || child->color == BLACK)) {
+        // czy child jest lewym dzieckiem
+        if (child == child_parent->left) {
+            node *sibling = child_parent->right;
+
+            // case 1 tj brat jest czerwony
+            if (sibling != NULL && sibling->color == RED) {
+                sibling->color = BLACK;
+                child_parent->color = RED;
+                rotate_left(child_parent);
+                sibling = child_parent->right;
+            }
+
+            // case 2 tj brat ma czerwone dzieci
+            if ((sibling->left == NULL || sibling->left->color == BLACK) &&
+                    (sibling->right == NULL || sibling->right->color == BLACK)) {
+                if (sibling != NULL) {
+                    sibling->color = RED;
+                }
+
+                child = child_parent;
+                child_parent = child_parent->parent;
+            } else {
+                // case 3
+                if (sibling->right == NULL || sibling->right->color == BLACK) {
+                    if (sibling->left != NULL) sibling->left->color = BLACK;
+
+                    sibling->color = RED;
+                    rotate_right(sibling);
+                    sibling = child_parent->right;
+                }
+
+                // case 4
+                sibling->color = child_parent->color;
+                child_parent->color = BLACK;
+
+                if (sibling->right != NULL) {
+                    sibling->right->color = BLACK;
+                }
+
+                rotate_left(child_parent);
+                child = root;
+            }
+        } else {
+            // doslownie to samo ale right i left zamienione
+            node *sibling = child_parent->left;
+
+            if (sibling != NULL && sibling->color == RED) {
+                sibling->color = BLACK;
+                child_parent->color = RED;
+                rotate_right(child_parent);
+                sibling = child_parent->left;
+            }
+
+            if ((sibling->left == NULL || sibling->left->color == BLACK) &&
+                    (sibling->right == NULL || sibling->right->color == BLACK)) {
+                if (sibling != NULL) {
+                    sibling->color = RED;
+                }
+
+                child = child_parent;
+                child_parent = child_parent->parent;
+            } else {
+                if (sibling->left == NULL || sibling->left->color == BLACK) {
+                    if (sibling->right != NULL) sibling->right->color = BLACK;
+
+                    sibling->color = RED;
+                    rotate_left(sibling);
+                    sibling = child_parent->left;
+                }
+
+                sibling->color = child_parent->color;
+                child_parent->color = BLACK;
+
+                if (sibling->left != NULL) {
+                    sibling->left->color = BLACK;
+                }
+
+                rotate_right(child_parent);
+                child = root;
+            }
+        }
+    }
+
+    if (child != NULL) {
+        child->color = BLACK;
+    }
+}
+
+static void swap_colors(color_type *x, color_type *y) {
+
+    color_type t = *x;
+    *x = *y;
+    *y = t;
+}
+
+static void swap_parents(node *parent, node *old, node *new) {
+    if (parent == NULL) {
+        if (root == old) {
+            root = new;
+        }
+
         return;
     }
 
-    if ((*root)->left != NULL) {
-        free_subtree(&(*root)->left);
+    if (parent->left == old) {
+        parent->left = new;
     }
 
-    if ((*root)->right != NULL) {
-        free_subtree(&(*root)->right);
+    if (parent->right == old) {
+        parent->right = new;
     }
-
-    free(*root);
-    *root = NULL;
 }
 
-node *left_rotate(node *n) {
-    node *par = n->parent;
-    node *grandparent = par->parent;
-
-    par->right = n->left;
-    if (n->left != NULL)
-    {
-        n->left->parent = par;
-    }
-    n->parent = grandparent;
-    par->parent = n;
-    n->left = par;
-    if (grandparent != NULL)
-    {
-        if (grandparent->right == par)
-        {
-            grandparent->right = n;
-        }
-        else
-        {
-            grandparent->left = n;
-        }
-    }
-    return n;
-}
-
-node *right_rotate(node *n)
-{
-    node *par = n->parent;
-    node *grandparent = par->parent;
-
-    par->left = n->right;
-    if (n->right != NULL)
-    {
-        n->right->parent = par;
-    }
-    n->parent = grandparent;
-    par->parent = n;
-    n->right = par;
-    if (grandparent != NULL)
-    {
-        if (grandparent->right == par)
-        {
-            grandparent->right = n;
-        }
-        else
-        {
-            grandparent->left = n;
-        }
-    }
-    return n;
-}
-void delete_fixup(node *for_deletion, int delete, int dir, node **root) {
-    // usuwany jest rootem
-    if (for_deletion == (*root))
-    {
-        (*root)->color = BLACK;
+static void swap_child(node *child, node *old, node *new) {
+    if (child == NULL) {
         return;
     }
 
-    // usuwany jest czarny
-    if (!delete &&for_deletion->color == RED)
-    {
-        if (!dir)
-        {
-            if (for_deletion->right != NULL)
-            {
-                for_deletion->right->color = RED;
-            }
-        }
-        else
-        {
-            if (for_deletion->left != NULL)
-            {
-                for_deletion->left->color = RED;
-            }
-        }
-        for_deletion->color = BLACK;
-        return;
+    if (child->parent == old) {
+        child->parent = new;
+    }
+}
+
+static void swap_nodes(node **x, node **y) {
+    node *t = *x;
+    *x = *y;
+    *y = t;
+}
+node *delete (int element) {
+    node *to_delete = search(element); //szukam gdzie jest element do usuniecia
+
+    // nie ma co usuwac, bo taki element nie istnieje
+    if (to_delete == NULL) {
+        return NULL;
     }
 
-    // sprawdzamy braci
-    node *sibling;
-    node *par = for_deletion->parent;
-    int locateChild = 0;  // 0 jest do usuniecia jest lewym synem 
-    if (par->right == for_deletion)
-    {
-        sibling = par->left;
-        locateChild = 1;
-    }
-    else
-    {
-        sibling = par->right;
-    }
+    node *child;
 
-    // ktorys z braci jest czerwony
-    if ((sibling->right != NULL && sibling->right->color == RED) ||
-        (sibling->left != NULL && sibling->left->color == RED))
-    {
-        if (sibling->right != NULL && sibling->right->color == RED)
-        {
-            // brat jest lewy a dziecko prawe -> rotacja w lewo
-            if (locateChild == 1)
-            {
-                int parColor = par->color;
+    // ma oboje synow
+    if (to_delete->left != NULL && to_delete->right != NULL) {
 
-                sibling = left_rotate(sibling->right);
-                // Step 2: Right rotate updated sibling
-                par = right_rotate(sibling);
+        // szukam nastepnika
+        node *root_right = to_delete->right;
 
-                // czy root byl obracany
-                if (par->parent == NULL)
-                {
-                    *root = par;
-                }
-
-                // kolorkiiii
-                par->color = parColor;
-                par->left->color = BLACK;
-                par->right->color = BLACK;
-
-                // usun
-                if (delete)
-                {
-                    if (for_deletion->left != NULL)
-                    {
-                        for_deletion->left->parent = par->right;
-                    }
-                    par->right->right = for_deletion->left;
-                    free(for_deletion);
-                }
-            }
-            else
-            {  // ananlogiczny przypadek
-
-                int parColor = par->color;
-
-                
-                par = left_rotate(sibling);
-
-                if (par->parent == NULL)
-                {
-                    *root = par;
-                }
-
-                
-                par->color = parColor;
-                par->left->color = BLACK;
-                par->right->color = BLACK;
-
-                if (delete)
-                {
-                    if (for_deletion->right != NULL)
-                    {
-                        for_deletion->right->parent = par->left;
-                    }
-                    par->left->left = for_deletion->left;
-                    free(for_deletion);
-                }
-            }
-        }
-        else
-        {
-            if (locateChild == 0)
-            {
-                int parColor = par->color;
-
-                sibling = right_rotate(sibling->left);
-
-                par = left_rotate(sibling);
-
-                if (par->parent == NULL)
-                {
-                    *root = par;
-                }
-
-                par->color = parColor;
-                par->left->color = BLACK;
-                par->right->color = BLACK;
-
-                if (delete)
-                {
-                    if (for_deletion->right != NULL)
-                    {
-                        for_deletion->right->parent = par->left;
-                    }
-                    par->left->left = for_deletion->right;
-                    free(for_deletion);
-                }
-            }
-            else
-            {  
-
-                int parColor = par->color;
-
-                par = right_rotate(sibling);
-
-                if (par->parent == NULL)
-                {
-                    *root = par;
-                }
-
-                
-                par->color = parColor;
-                par->left->color = BLACK;
-                par->right->color = BLACK;
-
-        
-                if (delete)
-                {
-                    if (for_deletion->left != NULL)
-                    {
-                        for_deletion->left->parent = par->right;
-                    }
-                    par->right->right = for_deletion->left;
-                    free(for_deletion);
-                }
-            }
-        }
-    }
-    else if (sibling->color == BLACK)
-    {  // zrob brata czerwonym
-
-        
-        sibling->color = RED;
-
-        // Delete if necessary
-        if (delete)
-        {
-            if (locateChild)
-            {
-                for_deletion->parent->right = for_deletion->left;
-                if (for_deletion->left != NULL)
-                {
-                    for_deletion->left->parent = for_deletion->parent;
-                }
-            }
-            else
-            {
-                for_deletion->parent->left = for_deletion->right;
-                if (for_deletion->right != NULL)
-                {
-                    for_deletion->right->parent = for_deletion->parent;
-                }
-            }
+        while (root_right->left != NULL) {
+            root_right = root_right->left;
         }
 
-        delete_fixup(par, 0, locateChild, root);
-    }
-    else
-    {  // przenies brata wyzej
-        if (locateChild)
-        {  
+        swap_colors(&to_delete->color, &root_right->color);
+        swap_parents(to_delete->parent, to_delete, root_right);
 
-            for_deletion->parent->right = for_deletion->left;
-            if (for_deletion->left != NULL)
-            {
-                for_deletion->left->parent = for_deletion->parent;
-            }
-
-            par = right_rotate(sibling);
-
-                     if (par->parent == NULL)
-            {
-                *root = par;
-            }
-
-            par->color = BLACK;
-            par->right->color = RED;
-            delete_fixup(par->right, 0, 1, root);
+        if (to_delete->right != root_right) {
+            swap_parents(root_right->parent, root_right, to_delete);
         }
-        else
-        {  
 
-            for_deletion->parent->left = for_deletion->right;
-            if (for_deletion->right != NULL)
-            {
-                for_deletion->right->parent = for_deletion->parent;
-            }
-            par = left_rotate(sibling);
+        swap_child(root_right->left, root_right, to_delete);
+        swap_child(root_right->left, root_right, to_delete);
+        swap_child(root_right->right, root_right, to_delete);
+        swap_child(root_right->right, root_right, to_delete);
+        swap_child(to_delete->left, to_delete, root_right);
 
-        
-            if (par->parent == NULL)
-            {
-                *root = par;
-            }
-
-           // printf("\nroot - %d - %d\n", parent->val, parent->left->val);
-
-            par->color = 0;
-            par->left->color = 1;
-            delete_fixup(par->left, 0, 0, root);
+        if (to_delete->right != root_right) {
+            swap_child(to_delete->right, to_delete, root_right);
         }
+
+        if (to_delete->right == root_right) {
+            to_delete->right = to_delete;
+            root_right->parent = root_right;
+        }
+
+        swap_nodes(&to_delete->parent, &root_right->parent);
+        swap_nodes(&to_delete->left, &root_right->left);
+        swap_nodes(&to_delete->right, &root_right->right);
     }
 
+    if (to_delete->left != NULL) {
+        child = to_delete->left;
+    } else {
+        child = to_delete->right;
+    }
 
+    swap_parents(to_delete->parent, to_delete, child);
+    swap_child(child, to_delete, to_delete->parent);
+
+    if (child != NULL && child->color == RED) {
+        child->color = BLACK;
+    } else if (to_delete->color != RED) {
+        delete_fixup(child, to_delete->parent);
+    }
+
+    // usuwanie node
+    to_delete->parent = NULL;
+    to_delete->left = NULL;
+    to_delete->right = NULL;
+    to_delete->color = BLACK;
+    return to_delete;
 }
 
 // global variables used in `print_BST`
@@ -617,7 +447,12 @@ void print_BST(node *root, int depth, char prefix) {
     if (depth > 0)
         printf("%c-", prefix);
 
-    printf("[%d]\n", root->element);
+    if (root->color == RED) {
+        printf(ANSI_RED "[%d]" ANSI_RESET "\n", root->element);
+    } else {
+        printf("[%d]\n", root->element);
+    }
+
     left_trace[depth] = ' ';
 
     if (root->right != NULL) {
@@ -626,136 +461,6 @@ void print_BST(node *root, int depth, char prefix) {
     }
 }
 
-
-bool is_leaf(node *node) {
-    if (node->left == NULL && node->right == NULL) {
-        return true;
-    } 
-    return false;
-}
-
-node *getMax(node *root) {
-    // jesli nie ma lisci po prawej, to ten node jest maksymalny
-    if (root->right != NULL) {
-        return getMax(root->right);
-    }
-
-    return root;
-}
-
-
-
-
-void delete (int element, node **root) {
-    node *temp_root = *root;
-
-    // szukaj elementu
-    while (1)
-    {
-        if (element == temp_root->element)
-        {
-            // znalezniono
-            break;
-        }
-
-        if (element > temp_root->element)
-        {
-            if (temp_root->right != NULL)
-            {
-                temp_root = temp_root->right;
-            }
-            else
-            {
-                printf("Node nie istnieje");
-                return;
-            }
-        }
-        else
-        {
-            if (temp_root->left != NULL)
-            {
-                temp_root = temp_root->left;
-            }
-            else
-            {
-                printf("Node nie istnieje");
-                return;
-            }
-        }
-    }
-
-    node *for_deletion = temp_root;
-
-    if (for_deletion->left != NULL)
-    {
-        for_deletion = for_deletion->left;
-        while (for_deletion->right != NULL)
-        {
-            for_deletion = for_deletion->right;
-        }
-    }
-    else if (for_deletion->right != NULL)
-    {
-        for_deletion = for_deletion->right;
-        while (for_deletion->left != NULL)
-        {
-            for_deletion = for_deletion->left;
-        }
-    }
-
-    if (for_deletion == *root)
-    {
-        *root = NULL;
-        return;
-    }
-
-       temp_root->element = for_deletion->element;
-    for_deletion->element = element;
-
-    // case 1 z cormena
-    if (for_deletion->color == RED ||
-        (for_deletion->left != NULL && for_deletion->left->color == RED) ||
-        (for_deletion->right != NULL && for_deletion->right->color == RED))
-    {
-        // jest lisciem
-        if (for_deletion->left == NULL && for_deletion->right == NULL)
-        {
-            // po prostu usun
-            if (for_deletion->parent->left == for_deletion)
-            {
-                for_deletion->parent->left = NULL;
-            }
-            else
-            {
-                for_deletion->parent->right = NULL;
-            }
-        }
-        else
-        {  
-
-            // czy ma lewego syna
-            if (for_deletion->left != NULL)
-            {
-                                for_deletion->parent->right = for_deletion->left;
-                for_deletion->left->parent = for_deletion->parent;
-                for_deletion->left->color = RED;
-            }
-            else
-            {  
-                for_deletion->parent->left = for_deletion->right;
-                for_deletion->right->parent = for_deletion->parent;
-                for_deletion->right->color = RED;
-            }
-        }
-
-        
-        free(for_deletion);
-    }
-    else
-    {  // przypadek 2 z cormena
-        delete_fixup(for_deletion, 1, ((for_deletion->parent->right == for_deletion)), root);
-    }
-}
 int height(node *root) {
     if (root == NULL) {
         return 0;
@@ -787,6 +492,23 @@ void purge(node *root) {
     }
 }
 
+void free_subtree(node **root) {
+    if (*root == NULL) {
+        return;
+    }
+
+    if ((*root)->left != NULL) {
+        free_subtree(&(*root)->left);
+    }
+
+    if ((*root)->right != NULL) {
+        free_subtree(&(*root)->right);
+    }
+
+    free(*root);
+    *root = NULL;
+}
+
 int tree_size = 0;
 
 void print_init() {
@@ -807,14 +529,9 @@ void print_init() {
 }
 
 void insert_from_command(int element) {
+    node *node_ptr = newnode(element);
+    insert(node_ptr);
 
-    if (root == NULL) {
-        root = newnode(element, NULL);
-        root->color = BLACK;
-    } else {
-    insert(element, &root);
-
-    }
     printf("INSERT: [%d]\n\n", element);
     tree_size++;
     print_init();
@@ -823,9 +540,11 @@ void insert_from_command(int element) {
 void delete_from_command(int element) {
     if (root != NULL) {
         printf("DELETE: [%d]\n\n", element);
-        delete (element, &root);
+        node *n = delete (element);
+        if (n != NULL) {
         tree_size--;
         print_init();
+        } 
     } else {
         printf("Drzewo nie ma elementow\n");
     }

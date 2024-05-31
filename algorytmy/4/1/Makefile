@@ -10,8 +10,8 @@ ran: generate_random.c
 	gcc -Wpedantic -Wall -Wextra -o generate_random generate_random.c
 
 clean:
-	trash bst generate_ascending generate_random
+	trash bst generate_ascending generate_random *.orig
 
 astyle:
-	astyle bst.c generate_ascending.c generate_random.c
+	astyle --style=attach --break-blocks --pad-oper --pad-header --align-pointer=name --align-reference=name bst.c generate_ascending.c generate_random.c
 

@@ -3,6 +3,8 @@
 #include <sys/random.h>
 #include <time.h>
 
+
+
 int main(int argc, char *argv[]) {
     int length = atoi(argv[1]);
     int tab[length];

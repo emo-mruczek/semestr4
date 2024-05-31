@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -11,19 +10,117 @@ typedef struct node {
 
 node *root = NULL;
 
-void insert(node **root, node *node_ptr, node *parent) {
-    if (node_ptr == NULL) {
-        return;
+void rotate_left(node *n) {
+    node *right = n->right;
+    n->right = right->left;
+
+    if (right->left != NULL)
+        right->left->parent = n;
+
+    right->parent = n->parent;
+
+    if (n->parent != NULL) {
+        if (n == n->parent->left) {
+            n->parent->left = right;
+        } else  {
+            n->parent->right = right;
+        }
+    } else {
+        root = right;
     }
 
-    if (*root == NULL) {
-        *root = node_ptr;
-        node_ptr->parent = parent;
-    } else if (node_ptr->element < (*root)->element) {
-        insert(&(*root)->left, node_ptr, *root);
+    right->left = n;
+    n->parent = right;
+}
+
+void rotate_right(node *n) {
+
+    node *left = n->left;
+    n->left = left->right;
+
+    if (left->right != NULL)
+        left->right->parent = n;
+
+    left->parent = n->parent;
+
+    if (n->parent != NULL) {
+        if (n == n->parent->right) {
+            n->parent->right = left;
+        } else  {
+            n->parent->left = left;
+        }
     } else {
-        insert(&(*root)->right, node_ptr, *root);
+        root = left;
     }
+
+    left->right = n;
+    n->parent = left;
+}
+
+void splay(node *n) {
+    // dopoki node nie jest rootem
+    while (n->parent != NULL) {
+        // node jest dzieckiem roota i wystarczy jedna rotacja
+        if (n->parent == root) {
+            if (n == n->parent->left) {
+                rotate_right(n->parent);
+            } else {
+                rotate_left(n->parent);
+            }
+        } else {
+            node *par = n->parent;
+            node *grandparent = par->parent; //grandparent
+
+            // node jest lewym dzieckiem i parent jest lewym dzieckiem
+            // zig zig rotation
+            if (n->parent->left == n && par->parent->left == par) {
+                rotate_right(grandparent);
+                rotate_right(par);
+                // node jest prawym dzieckiem i parent jest prawym dzieckiem
+                // zag zag roation
+            } else if (n->parent->right == n && par->parent->right == par) {
+                rotate_left(grandparent);
+                rotate_left(par);
+                // zag zig rotation
+            } else if (n->parent->right == n && par->parent->left == par) {
+                rotate_left(par);
+                rotate_right(grandparent);
+                // zig zag rotation
+            } else if (n->parent->left == n && par->parent->right == par) {
+                rotate_right(par);
+                rotate_left(grandparent);
+            }
+        }
+    }
+
+}
+
+void insert(node *n) {
+    node *new = NULL;
+    node *temp = root;
+
+    while (temp != NULL) {
+        new = temp;
+
+        if (n->element < temp->element) {
+            temp = temp->left;
+        } else {
+            temp = temp->right;
+        }
+
+        n->parent = new;
+    }
+
+    // jesli jest rootem
+    if (new == NULL) {
+        root = n;
+    } else if (n->element < new->element) {
+        new->left = n;
+    } else {
+        new->right = n;
+    }
+
+    splay(n);
 }
 
 void free_subtree(node **root) {
@@ -41,6 +138,76 @@ void free_subtree(node **root) {
 
     free(*root);
     *root = NULL;
+}
+
+node *minimum(node *n) {
+    while (n->left != NULL) {
+        n = n->left;
+    }
+
+    return n;
+
+}
+
+void replace(node *n, node *m) {
+    if (n->parent == NULL) {
+        root = m;
+    } else if (n == n->parent->left) {
+        n->parent->left = m;
+    } else {
+        n->parent->right = m;
+    }
+
+    if (m != NULL) {
+        m->parent = n->parent;
+    }
+
+}
+
+node *find(int key) {
+
+    node *n = root;
+
+    while (n != NULL) {
+        if (n->element < key) {
+            n = n->right;
+        } else if (key < n->element) {
+
+            n = n->left;
+        } else return n;
+    }
+
+    return NULL;
+}
+
+void delete (int key) {
+    node *n = find(key);
+
+    if (n == NULL) {
+        return;
+    }
+
+    splay(n);
+
+    if (n->left == NULL) {
+        replace(n, n->right);
+    } else if (n->right == NULL) {
+        replace(n, n ->left);
+    } else {
+        node *temp = minimum(n->right);
+
+        if (temp->parent != n) {
+            replace(temp, temp->right);
+            temp->right = n->right;
+            temp->right->parent = temp;
+        }
+
+        replace(n, temp);
+        temp->left = n->left;
+        temp->left->parent = temp;
+    }
+
+    free(n);
 }
 
 // global variables used in `print_BST`
@@ -109,50 +276,6 @@ node *getMax(node *root) {
     return root;
 }
 
-node *delete (node *root, int element) {
-    if (root == NULL) {
-        return root;
-    } else if (element > root->element) {
-        root->right = delete (root->right, element);
-    } else if (element < root->element) {
-        root->left = delete (root->left, element);
-    } else if (element == root->element) {
-        if ((root->left == NULL) && (root->right == NULL)) {
-            // bez lisci
-            free(root);
-            return NULL;
-        } else if (root->left == NULL) {
-            // jeden lisc
-            node *tmp = root;
-            root = root->right;
-
-            if (root != NULL) {
-                root->parent = tmp->parent;
-            }
-
-            free(tmp);
-            return root;
-        } else if (root->right == NULL) {
-            node *tmp = root;
-            root = root->left;
-
-            if (root != NULL) {
-                root->parent = tmp->parent;
-            }
-
-            free(tmp);
-            return root;
-        } else {
-            //dwa liscie
-            node *tmp = getMax(root->left);
-            root->element = tmp->element;
-            root->left = delete (root->left, tmp->element);
-        }
-    }
-
-    return root;
-}
-
 int height(node *root) {
     if (root == NULL) {
         return 0;
@@ -206,7 +329,7 @@ void print_init() {
 void insert_from_command(int element) {
     node *node_ptr = newNode(element);
     printf("INSERT: [%d]\n\n", node_ptr->element);
-    insert(&root, node_ptr, NULL);
+    insert(node_ptr);
     tree_size++;
     print_init();
 }
@@ -214,7 +337,7 @@ void insert_from_command(int element) {
 void delete_from_command(int element) {
     if (root != NULL) {
         printf("DELETE: [%d]\n\n", element);
-        root = delete (root, element);
+        delete (element);
         tree_size--;
         print_init();
     } else {

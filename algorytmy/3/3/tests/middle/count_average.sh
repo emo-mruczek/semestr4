@@ -1,3 +1,4 @@
+#!/bin/bash
 awk '{
     sumCT[$1] += $2
     sumST[$1] += $3

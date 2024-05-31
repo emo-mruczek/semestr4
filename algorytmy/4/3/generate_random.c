@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
     // shuffle
     shuffle(tab, length);
 
-    // deleting
+    //  deleting
     for (int i = 0; i < length; i++) {
         printf("d\n");
         printf("%d\n", tab[i]);
