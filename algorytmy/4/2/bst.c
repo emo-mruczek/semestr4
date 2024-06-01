@@ -3,29 +3,47 @@
 #include <stdbool.h>
 
 // for dynamic array
-#define BLOCK_SIZE 100
-int max_index = BLOCK_SIZE - 1;
-int ind = 0;
+#define BLOCK_SIZE 1000
+int max_index_deletion = BLOCK_SIZE - 1;
+int ind_deletion = 0;
+int max_index_insertion = BLOCK_SIZE - 1;
+int ind_insertion = 0;
 
 int comp = 0;
 int read = 0;
 int repl = 0;
-int *heights; // allocation needed
+int *heights_deletion; // allocation needed
+int *heights_insertion; // here too
 
-void add_height(int h) {
-    if (ind > max_index) {
-        heights = realloc(heights, (max_index + 1 + BLOCK_SIZE) * sizeof(int));
+void add_height_insertion(int h) {
+    if (ind_insertion > max_index_insertion) {
+        heights_insertion = realloc(heights_insertion, (max_index_insertion + 1 + BLOCK_SIZE) * sizeof(int));
 
-        if (heights == NULL) {
+        if (heights_insertion == NULL) {
             perror("brak pamieci");
         }
 
         //printf("realock\n");
-        max_index += BLOCK_SIZE;
+        max_index_insertion += BLOCK_SIZE;
     }
 
-    heights[ind] = h;
-    ind++;
+    heights_insertion[ind_insertion] = h;
+    ind_insertion++;
+}
+void add_height_deletion(int h) {
+    if (ind_deletion > max_index_deletion) {
+        heights_deletion = realloc(heights_deletion, (max_index_deletion + 1 + BLOCK_SIZE) * sizeof(int));
+
+        if (heights_deletion == NULL) {
+            perror("brak pamieci");
+        }
+
+        //printf("realock\n");
+        max_index_deletion += BLOCK_SIZE;
+    }
+
+    heights_deletion[ind_deletion] = h;
+    ind_deletion++;
 }
 
 bool is_less(int a, int b) {
@@ -53,26 +71,28 @@ bool is_equal(int a, int b) {
 typedef struct node {
     struct node *left;
     struct node *right;
+    struct node *parent;
     int element;
 } node;
 
 node *root = NULL;
 
 // counts
-void insert(node **root, node *node_ptr) {
+void insert(node **root, node *node_ptr, node *parent) {
     if (node_ptr == NULL) {
-        repl++;
         return;
     }
 
     if (*root == NULL) {
         *root = node_ptr;
+        node_ptr->parent = parent;
+        repl += 2;
     } else if (is_less(node_ptr->element, (*root)->element)) {
         read++;
-        insert(&(*root)->left, node_ptr);
+        insert(&(*root)->left, node_ptr, *root);
     } else {
         read++;
-        insert(&(*root)->right, node_ptr);
+        insert(&(*root)->right, node_ptr, *root);
     }
 }
 
@@ -101,6 +121,7 @@ node *newNode(int element) {
     tmp->element = element;
     tmp->left = NULL;
     tmp->right = NULL;
+    tmp->parent = NULL;
 
     return tmp;
 }
@@ -108,6 +129,8 @@ node *newNode(int element) {
 // counts
 node *getMax(node *root) {
     // jesli nie ma lisci po prawej, to ten node jest maksymalny
+    read++;
+
     if (root->right != NULL) {
         return getMax(root->right);
     }
@@ -125,13 +148,21 @@ void transplant(node **root, node **to_trans) {
 node *delete (node *root, int element) {
     if (root == NULL) {
         return root;
-    } else if (is_less( root->element, element)) {
+    }
+
+    read++;
+
+    if (is_less( root->element, element)) {
         read++;
+        repl++;
         root->right = delete (root->right, element);
     } else if (is_less(element, root->element)) {
         read++;
+        repl++;
         root->left = delete (root->left, element);
     } else if (is_equal(element, root->element)) {
+        read += 2;
+
         if ((root->left == NULL) && (root->right == NULL)) {
             // bez lisci
             free(root);
@@ -139,15 +170,9 @@ node *delete (node *root, int element) {
         } else if (root->left == NULL) {
             // jeden lisc
             transplant(&root, &root->right);
-            //node *tmp = root;
-            //root = root->right;
-            // free(tmp);
             return root;
         } else if (root->right == NULL) {
             transplant(&root, &root->left);
-            //node *tmp = root;
-            //root = root->left;
-            //free(tmp);
             return root;
         } else {
             //dwa liscie
@@ -155,7 +180,6 @@ node *delete (node *root, int element) {
             node *tmp = getMax(root->left);
             root->element = tmp->element;
             repl++;
-            read++;
             root->left = delete (root->left, tmp->element);
         }
     }
@@ -196,7 +220,7 @@ void purge(node *root) {
 
 void insert_from_command(int element) {
     node *node_ptr = newNode(element);
-    insert(&root, node_ptr);
+    insert(&root, node_ptr, NULL);
 }
 
 void delete_from_command(int element) {
@@ -208,9 +232,15 @@ void delete_from_command(int element) {
 }
 
 int main() {
-    heights = (int *)malloc(sizeof(int) * BLOCK_SIZE);
+    heights_deletion = (int *)malloc(sizeof(int) * BLOCK_SIZE);
+    heights_insertion = (int *)malloc(sizeof(int) * BLOCK_SIZE);
 
-    if (heights == NULL) {
+    if (heights_deletion == NULL) {
+        perror("some error");
+        return 1;
+    }
+
+    if (heights_insertion == NULL) {
         perror("some error");
         return 1;
     }
@@ -226,29 +256,35 @@ int main() {
         case 'i':
             scanf("%d", &value);
             insert_from_command(value);
-            add_height(height(root));
+            add_height_insertion(height(root));
             break;
 
         case 'd':
             scanf("%d", &value);
             delete_from_command(value);
-            add_height(height(root));
+            add_height_deletion(height(root));
             break;
 
         case 'e':
             free_subtree(&root);
 
-            int h_avg = 0;
+            int h_avg_deletion = 0;
+            int h_avg_insertion = 0;
 
-            for (int i = 0; i < ind; i++) {
-                h_avg += heights[i];
+            for (int i = 0; i < ind_deletion; i++) {
+                h_avg_deletion += heights_deletion[i];
             }
 
-            h_avg /= ind;
+            for (int i = 0; i < ind_insertion; i++) {
+                h_avg_insertion += heights_insertion[i];
+            }
 
-            printf("%d %d %d %d", comp, read, repl, h_avg);
+            h_avg_deletion /= ind_deletion;
+            h_avg_insertion /= ind_insertion;
 
-            free(heights);
+            printf("%d %d %d %d %d ", comp, read, repl, h_avg_deletion, h_avg_insertion);
+
+            free(heights_deletion);
             return 0;
 
         default:

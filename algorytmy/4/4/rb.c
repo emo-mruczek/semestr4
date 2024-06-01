@@ -5,6 +5,54 @@
 #define ANSI_RED "\x1b[31m"
 #define ANSI_RESET "\x1b[0m"
 
+// for dynamic array
+#define BLOCK_SIZE 100
+int max_index = BLOCK_SIZE - 1;
+int ind = 0;
+
+int comp = 0;
+int read = 0;
+int repl = 0;
+int *heights; // allocation needed
+
+void add_height(int h) {
+    if (ind > max_index) {
+        heights = realloc(heights, (max_index + 1 + BLOCK_SIZE) * sizeof(int));
+
+        if (heights == NULL) {
+            perror("brak pamieci");
+        }
+
+        //printf("realock\n");
+        max_index += BLOCK_SIZE;
+    }
+
+    heights[ind] = h;
+    ind++;
+}
+
+bool is_less(int a, int b) {
+    comp++;
+
+    if (a < b) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool is_equal(int a, int b) {
+    comp++;
+
+    if (a == b) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+///////////
+
 typedef enum color_type { RED, BLACK } color_type;
 
 typedef struct node {
@@ -32,8 +80,9 @@ void rotate_left(node *n) {
     node *right = n->right;
     n->right = right->left;
 
-    if (right->left != NULL)
+    if (right->left != NULL) {
         right->left->parent = n;
+    }
 
     right->parent = n->parent;
 
@@ -191,7 +240,7 @@ bool find(int key, node **result) {
             return true;
         }
 
-        if (key < n->element) {
+        if (is_less(key, n->element)) {
             n = n->left;
         } else {
             *result = n;
@@ -534,7 +583,6 @@ void insert_from_command(int element) {
 
     printf("INSERT: [%d]\n\n", element);
     tree_size++;
-    print_init();
 }
 
 void delete_from_command(int element) {
@@ -544,7 +592,6 @@ void delete_from_command(int element) {
 
         if (n != NULL) {
             tree_size--;
-            print_init();
         } else {
             printf("Brak elementu w drzewie\n");
         }
@@ -559,35 +606,48 @@ void height_from_command() {
 }
 
 int main() {
+    heights = (int *)malloc(sizeof(int) * BLOCK_SIZE);
+
+    if (heights == NULL) {
+        perror("some error");
+        return 1;
+    }
 
     // cli
     char command;
     int value;
 
     while (1) {
-        printf("Podaj komende: i - insert, d - delete, h - height, e - exit\n");
         scanf("%s", &command);
 
         switch (command) {
         case 'i':
-            printf("Podaj wartosc:\n");
             scanf("%d", &value);
             insert_from_command(value);
+            add_height(height(root));
             break;
 
         case 'd':
-            printf("Podaj wartosc:\n");
             scanf("%d", &value);
             delete_from_command(value);
-            break;
-
-        case 'h':
-            height_from_command();
+            add_height(height(root));
             break;
 
         case 'e':
             free_subtree(&root);
-            return 1;
+
+            int h_avg = 0;
+
+            for (int i = 0; i < ind; i++) {
+                h_avg += heights[i];
+            }
+
+            h_avg /= ind;
+
+            printf("%d %d %d %d", comp, read, repl, h_avg);
+
+            free(heights);
+            return 0;
 
         default:
             printf("Nieistniejaca komenda\n");

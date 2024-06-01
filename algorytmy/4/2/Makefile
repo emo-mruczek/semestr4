@@ -13,7 +13,7 @@ tests: tests.c
 	gcc -Wpedantic -Wall -Wextra -fopenmp -o tests tests.c -ldl
 
 clean:
-	trash bst generate_ascending generate_random tests
+	trash bst generate_ascending generate_random tests *.orig
 
 astyle:
 	astyle --style=attach --break-blocks --pad-oper --pad-header --align-pointer=name --align-reference=name bst.c generate_ascending.c generate_random.c tests.c

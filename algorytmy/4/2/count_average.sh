@@ -4,9 +4,10 @@ awk '{
     sumST[$1] += $3
     sumTT[$1] += $4
     sumCF[$1] += $5
+    sumH[$1] += $6
    count[$1]++
 }
 END {
     for (key in sumCT) {
-        print key, sumCT[key] / count[key], sumST[key] / count[key], sumTT[key] / count[key],  sumCF[key] / count[key] }
+        print key, sumCT[key] / count[key], sumST[key] / count[key], sumTT[key] / count[key],  sumCF[key] / count[key], sumH[key] / count[key] }
 }' random.txt | sort -n > average.txt
