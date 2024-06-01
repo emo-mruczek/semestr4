@@ -6,6 +6,8 @@
 
 #include "rc4.h"
 
+
+
 void test_key() {
     char *input1 = "hahapapiez";
     char *input2 = "twojastara";
@@ -29,9 +31,11 @@ void test_key() {
 
 
 int main(int argc, char **argv) {
+
+    
     
      if (argc < 3) {
-        fprintf(stderr, "Enter name of a file.");
+        fprintf(stderr, "Enter inputs.");
     }
 /*
     char *name = argv[1];
@@ -77,7 +81,19 @@ int main(int argc, char **argv) {
     printf("%s\n", encoded);
 
 
-    test_key();
+
+
+    char bank_numbers[5][8] = {
+    {1, 0, 1, 0, 0, 0, 0, 0}, //NBP
+    {1, 0, 2, 0, 1, 0, 9, 7}, //PKO BP, oddzial 8 w WWA
+    {1, 0, 5, 0, 1, 9, 2, 4}, //ING, oddział pruszków ul Ółowkowa 1d
+    {1, 2, 4, 0, 5, 4, 8, 4}, //Pekao, oddzial w gdansku ul Franciszka Rakoczego 17
+    {1, 7, 5, 0, 1, 2, 8, 1}  //BNP Paribas, oddzial w poznaniu al. solidarnosci 36
+    };
+
+    //test_key();
+    char generated_number[27] = {0};
+    generate_nbr(bank_numbers[0], generated_number);
 
     free(output);
     return 0;

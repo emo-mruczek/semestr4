@@ -3,10 +3,16 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <sys/random.h>
+#include <time.h>
+#include <math.h>
+#include <inttypes.h>
 
 #include "rc4.h"
 
 #define LENGTH 256
+#define NBR 26
+#define BANK 8
 
 void swap(unsigned char *a, unsigned char *b) {
     unsigned char temp = *a;
@@ -77,4 +83,46 @@ bool is_same_key(unsigned char *input1, unsigned char *input2) {
     }
     return true;
 }
-    
+
+// NRB - unikatowy, 26 cyfr
+// 2 - liczba kontrolna
+// 8 - numer rozliczeniowy
+// 16 - numer porzadkowy
+// nr rozliczeniowe: https://bankoweabc.pl/numery-rozliczeniowe-bankow-w-polsce/
+// wyliczanie liczby kontrolnej: https://bankoweabc.pl/2021/05/05/cyfry-w-numerze-rachunku-bankowego/
+//
+// https://pl.wikipedia.org/wiki/Numeracja_rachunku_bankowego
+void generate_nbr(char *number, char *generated_nbr) {
+    generated_nbr[26] = '\0';
+    generated_nbr[0] = 0;
+    generated_nbr[1] = 0;
+
+    // kopiowanie numeru banku
+    for (int i = 2, j = 0; i < 10; i++, j++) {
+        generated_nbr[i] = number[j];
+    }
+
+    //generating random number
+    unsigned int seed;
+    getrandom(&seed, sizeof(seed), 0);
+    srandom(seed);
+    for (int i = 10; i < 26; i++) {
+        generated_nbr[i] = (random() % (10));
+    }
+
+
+    //obliczanie liczby kontrolnej
+    uint64_t ctrl = 0;
+    uint64_t pow_ten = 1;
+
+    for (int j = 25; j >= 0; j--) {
+        printf("%d\n", generated_nbr[j]);
+        ctrl += generated_nbr[j] * (pow_ten);
+        pow_ten *= 10;
+    }
+
+    uint64_t pl = 2521; //numer dla kodu kraju polski
+    ctrl += pl;
+
+    printf("Suma kontrolna: %" PRIu64 "\n", ctrl);
+}
