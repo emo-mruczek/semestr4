@@ -7,28 +7,46 @@
 
 // for dynamic array
 #define BLOCK_SIZE 100
-int max_index = BLOCK_SIZE - 1;
-int ind = 0;
+int max_index_deletion = BLOCK_SIZE - 1;
+int ind_deletion = 0;
+int max_index_insertion = BLOCK_SIZE - 1;
+int ind_insertion = 0;
 
 int comp = 0;
 int read = 0;
 int repl = 0;
-int *heights; // allocation needed
+int *heights_deletion; // allocation needed
+int *heights_insertion; // here too
 
-void add_height(int h) {
-    if (ind > max_index) {
-        heights = realloc(heights, (max_index + 1 + BLOCK_SIZE) * sizeof(int));
+void add_height_insertion(int h) {
+    if (ind_insertion > max_index_insertion) {
+        heights_insertion = realloc(heights_insertion, (max_index_insertion + 1 + BLOCK_SIZE) * sizeof(int));
 
-        if (heights == NULL) {
+        if (heights_insertion == NULL) {
             perror("brak pamieci");
         }
 
         //printf("realock\n");
-        max_index += BLOCK_SIZE;
+        max_index_insertion += BLOCK_SIZE;
     }
 
-    heights[ind] = h;
-    ind++;
+    heights_insertion[ind_insertion] = h;
+    ind_insertion++;
+}
+void add_height_deletion(int h) {
+    if (ind_deletion > max_index_deletion) {
+        heights_deletion = realloc(heights_deletion, (max_index_deletion + 1 + BLOCK_SIZE) * sizeof(int));
+
+        if (heights_deletion == NULL) {
+            perror("brak pamieci");
+        }
+
+        //printf("realock\n");
+        max_index_deletion += BLOCK_SIZE;
+    }
+
+    heights_deletion[ind_deletion] = h;
+    ind_deletion++;
 }
 
 bool is_less(int a, int b) {
@@ -80,13 +98,16 @@ void rotate_left(node *n) {
     node *right = n->right;
     n->right = right->left;
 
+    read++;
     if (right->left != NULL) {
         right->left->parent = n;
     }
 
     right->parent = n->parent;
 
+    read++;
     if (n->parent != NULL) {
+        read++;
         if (n == n->parent->left) {
             n->parent->left = right;
         } else  {
@@ -105,12 +126,15 @@ void rotate_right(node *n) {
     node *left = n->left;
     n->left = left->right;
 
+    read++;
     if (left->right != NULL)
         left->right->parent = n;
 
     left->parent = n->parent;
 
+    read++;
     if (n->parent != NULL) {
+    read++;
         if (n == n->parent->right) {
             n->parent->right = left;
         } else  {
@@ -130,12 +154,14 @@ void insert_fixup(node *n) {
     // jak w cormenie zaczynamy
     while (n != root && n->parent->color == RED) {
         // czy parent n jest lewym dzieckiem?
+        read++;
         if (n->parent == n->parent->parent->left) {
             // wtedy bierzemy wujka
             uncle = n->parent->parent->right;
 
             // jezeli oboje - wujek i parent - sa czerwoni
             // case 1 z cormena
+            read++;
             if (uncle != NULL && uncle->color == RED) {
                 // pokoloruj
                 n->parent->color = BLACK;
@@ -148,6 +174,7 @@ void insert_fixup(node *n) {
                 n = n->parent->parent;
             } else {
                 // case 2
+                read++;
                 if (n == n->parent->right) {
                     n = n->parent;
                     rotate_left(n);
@@ -156,6 +183,7 @@ void insert_fixup(node *n) {
                 // case 3
                 n->parent->color = BLACK;
                 n->parent->parent->color = RED;
+                read++;
                 rotate_right(n->parent->parent);
             }
 
@@ -163,6 +191,7 @@ void insert_fixup(node *n) {
         } else {
             uncle = n->parent->parent->left;
 
+            read++;
             if (uncle != NULL && uncle->color == RED) {
                 n->parent->color = BLACK;
                 uncle->color = BLACK;
@@ -171,6 +200,7 @@ void insert_fixup(node *n) {
 
                 n = n->parent->parent;
             } else {
+                read++;
                 if (n == n->parent->left) {
                     n = n->parent;
                     rotate_right(n);
@@ -178,6 +208,7 @@ void insert_fixup(node *n) {
 
                 n->parent->color = BLACK;
                 n->parent->parent->color = RED;
+                read++;
                 rotate_left(n->parent->parent);
             }
         }
@@ -195,7 +226,8 @@ node *insert(node *in) {
     while (n != NULL) {
         parent = n;
 
-        if (in->element < n->element) {
+        read++;
+        if (is_less(in->element, n->element)) {
             n = n->left;
         } else {
             n = n->right;
@@ -203,8 +235,9 @@ node *insert(node *in) {
     }
 
     // ostateczne wstawienie
+    read++;
     if (parent != NULL) {
-        if (in->element < parent->element) {
+        if (is_less(in->element, parent->element)) {
             parent->left = in;
         } else {
             parent->right = in;
@@ -235,6 +268,7 @@ bool find(int key, node **result) {
     *result = NULL;
 
     while (n != NULL) {
+        read++;
         if (key == n->element) {
             *result = n;
             return true;
@@ -263,11 +297,14 @@ node *search (int key) {
 
 void delete_fixup(node *child, node *child_parent) {
     while (child != root && (child == NULL || child->color == BLACK)) {
+        read++;
         // czy child jest lewym dzieckiem
+        read++;
         if (child == child_parent->left) {
             node *sibling = child_parent->right;
 
             // case 1 tj brat jest czerwony
+            read++;
             if (sibling != NULL && sibling->color == RED) {
                 sibling->color = BLACK;
                 child_parent->color = RED;
@@ -276,8 +313,10 @@ void delete_fixup(node *child, node *child_parent) {
             }
 
             // case 2 tj brat ma czerwone dzieci
+            read++;
             if ((sibling->left == NULL || sibling->left->color == BLACK) &&
                     (sibling->right == NULL || sibling->right->color == BLACK)) {
+                read++;
                 if (sibling != NULL) {
                     sibling->color = RED;
                 }
@@ -286,8 +325,12 @@ void delete_fixup(node *child, node *child_parent) {
                 child_parent = child_parent->parent;
             } else {
                 // case 3
+                read++;
                 if (sibling->right == NULL || sibling->right->color == BLACK) {
-                    if (sibling->left != NULL) sibling->left->color = BLACK;
+                    read++;
+                    if (sibling->left != NULL) {
+                        sibling->left->color = BLACK;
+                    }
 
                     sibling->color = RED;
                     rotate_right(sibling);
@@ -298,6 +341,7 @@ void delete_fixup(node *child, node *child_parent) {
                 sibling->color = child_parent->color;
                 child_parent->color = BLACK;
 
+                read++;
                 if (sibling->right != NULL) {
                     sibling->right->color = BLACK;
                 }
@@ -309,6 +353,7 @@ void delete_fixup(node *child, node *child_parent) {
             // doslownie to samo ale right i left zamienione
             node *sibling = child_parent->left;
 
+            read++;
             if (sibling != NULL && sibling->color == RED) {
                 sibling->color = BLACK;
                 child_parent->color = RED;
@@ -316,8 +361,10 @@ void delete_fixup(node *child, node *child_parent) {
                 sibling = child_parent->left;
             }
 
+            read++;
             if ((sibling->left == NULL || sibling->left->color == BLACK) &&
                     (sibling->right == NULL || sibling->right->color == BLACK)) {
+                read++;
                 if (sibling != NULL) {
                     sibling->color = RED;
                 }
@@ -325,8 +372,12 @@ void delete_fixup(node *child, node *child_parent) {
                 child = child_parent;
                 child_parent = child_parent->parent;
             } else {
+                read++;
                 if (sibling->left == NULL || sibling->left->color == BLACK) {
-                    if (sibling->right != NULL) sibling->right->color = BLACK;
+                    read++;
+                    if (sibling->right != NULL) {
+                        sibling->right->color = BLACK;
+                    }
 
                     sibling->color = RED;
                     rotate_left(sibling);
