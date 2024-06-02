@@ -4,20 +4,20 @@
 
 // for dynamic array
 #define BLOCK_SIZE 1000
-long long max_index_deletion = BLOCK_SIZE - 1;
-long long ind_deletion = 0;
-long long max_index_insertion = BLOCK_SIZE - 1;
-long long ind_insertion = 0;
+int max_index_deletion = BLOCK_SIZE - 1;
+int ind_deletion = 0;
+int max_index_insertion = BLOCK_SIZE - 1;
+int ind_insertion = 0;
 
-long long comp = 0;
-long long read = 0;
-long long repl = 0;
-long long *heights_deletion; // allocation needed
-long long *heights_insertion; // here too
+int comp = 0;
+int read = 0;
+int repl = 0;
+int *heights_deletion; // allocation needed
+int *heights_insertion; // here too
 
 void add_height_insertion(int h) {
     if (ind_insertion > max_index_insertion) {
-        heights_insertion = realloc(heights_insertion, (max_index_insertion + 1 + BLOCK_SIZE) * sizeof(long long));
+        heights_insertion = realloc(heights_insertion, (max_index_insertion + 1 + BLOCK_SIZE) * sizeof(int));
 
         if (heights_insertion == NULL) {
             perror("brak pamieci");
@@ -32,7 +32,7 @@ void add_height_insertion(int h) {
 }
 void add_height_deletion(int h) {
     if (ind_deletion > max_index_deletion) {
-        heights_deletion = realloc(heights_deletion, (max_index_deletion + 1 + BLOCK_SIZE) * sizeof(long long));
+        heights_deletion = realloc(heights_deletion, (max_index_deletion + 1 + BLOCK_SIZE) * sizeof(int));
 
         if (heights_deletion == NULL) {
             perror("brak pamieci");
@@ -232,8 +232,8 @@ void delete_from_command(int element) {
 }
 
 int main() {
-    heights_deletion = (long long *)malloc(sizeof(long long) * BLOCK_SIZE);
-    heights_insertion = (long long *)malloc(sizeof(long long) * BLOCK_SIZE);
+    heights_deletion = (int *)malloc(sizeof(int) * BLOCK_SIZE);
+    heights_insertion = (int *)malloc(sizeof(int) * BLOCK_SIZE);
 
     if (heights_deletion == NULL) {
         perror("some error");
@@ -268,25 +268,23 @@ int main() {
         case 'e':
             free_subtree(&root);
 
-            long long h_avg_deletion = 0;
-            long long h_avg_insertion = 0;
+            int h_avg_deletion = 0;
+            int h_avg_insertion = 0;
 
-            for (long long i = 0; i < ind_deletion; i++) {
+            for (int i = 0; i < ind_deletion; i++) {
                 h_avg_deletion += heights_deletion[i];
             }
 
-            for (long long i = 0; i < ind_insertion; i++) {
+            for (int i = 0; i < ind_insertion; i++) {
                 h_avg_insertion += heights_insertion[i];
             }
 
             h_avg_deletion /= ind_deletion;
             h_avg_insertion /= ind_insertion;
 
-            printf("%lld %lld %lld %lld %lld ", comp, read, repl, h_avg_deletion, h_avg_insertion);
+            printf("%d %d %d %d %d ", comp, read, repl, h_avg_deletion, h_avg_insertion);
 
-            //printf("%lld %lld %lld ", comp, read, repl);
             free(heights_deletion);
-            free(heights_insertion);
             return 0;
 
         default:

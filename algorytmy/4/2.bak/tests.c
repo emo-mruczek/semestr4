@@ -50,9 +50,9 @@ int main() {
 
     #pragma omp parallel for collapse(2) schedule(dynamic)
 
-    for (int n = 10000; n <= 100000; n += 10000) {
+    for (int n = 1000; n <= 5000; n += 1000) {
         for (int k = 1; k < K_MAX; k++) {
-            results("./generate_random", "./rb", n);
+            results("./generate_random", "./bst", n);
         }
     }
 

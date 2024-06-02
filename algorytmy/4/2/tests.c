@@ -4,7 +4,7 @@
 
 #define COMMAND_LEN 100
 #define DATA_SIZE 2048
-#define K_MAX 20
+#define K_MAX 2
 
 void results(const char *generator_type, const char *sort_type, int n) {
     FILE *pf;
@@ -46,13 +46,14 @@ int main() {
     int num_threads = omp_get_max_threads();
     omp_set_num_threads(num_threads);
 
-    //printf("%d watkow\n", num_threads);
+//    printf("%d watkow\n", num_threads);
 
     #pragma omp parallel for collapse(2) schedule(dynamic)
 
-    for (int n = 1000; n <= 5000; n += 1000) {
+    for (int n = 10000; n <= 100000; n += 10000) {
         for (int k = 1; k < K_MAX; k++) {
-            results("./generate_random", "./bst", n);
+            // results("./generate_random", "./bst", n);
+            results("./generate_ascending", "./bst", n);
         }
     }
 
