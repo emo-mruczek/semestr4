@@ -52,7 +52,8 @@ int main() {
 
     for (int n = 10000; n <= 100000; n += 10000) {
         for (int k = 1; k < K_MAX; k++) {
-            results("./generate_random", "./rb", n);
+            //results("./generate_random", "./rb", n);
+            results("./generate_ascending", "./rb", n);
         }
     }
 

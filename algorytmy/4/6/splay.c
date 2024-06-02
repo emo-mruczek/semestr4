@@ -1,5 +1,72 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+
+// for dynamic array
+#define BLOCK_SIZE 1000
+long long max_index_deletion = BLOCK_SIZE - 1;
+long long ind_deletion = 0;
+long long max_index_insertion = BLOCK_SIZE - 1;
+long long ind_insertion = 0;
+
+long long comp = 0;
+long long read = 0;
+long long repl = 0;
+long long *heights_deletion; // allocation needed
+long long *heights_insertion; // here too
+
+void add_height_insertion(int h) {
+    if (ind_insertion > max_index_insertion) {
+        heights_insertion = realloc(heights_insertion, (max_index_insertion + 1 + BLOCK_SIZE) * sizeof(long long));
+
+        if (heights_insertion == NULL) {
+            perror("brak pamieci");
+        }
+
+        //printf("realock\n");
+        max_index_insertion += BLOCK_SIZE;
+    }
+
+    heights_insertion[ind_insertion] = h;
+    ind_insertion++;
+}
+void add_height_deletion(int h) {
+    if (ind_deletion > max_index_deletion) {
+        heights_deletion = realloc(heights_deletion, (max_index_deletion + 1 + BLOCK_SIZE) * sizeof(long long));
+
+        if (heights_deletion == NULL) {
+            perror("brak pamieci");
+        }
+
+        //printf("realock\n");
+        max_index_deletion += BLOCK_SIZE;
+    }
+
+    heights_deletion[ind_deletion] = h;
+    ind_deletion++;
+}
+
+bool is_less(int a, int b) {
+    comp++;
+
+    if (a < b) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool is_equal(int a, int b) {
+    comp++;
+
+    if (a == b) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+///////////
 
 typedef struct node {
     struct node *left;
@@ -210,51 +277,7 @@ void delete (int key) {
     free(n);
 }
 
-// global variables used in `print_BST`
-char *left_trace;  // needs to be allocaded with size
-char *right_trace; // needs to be allocaded with size
 
-void print_BST(node *root, int depth, char prefix) {
-    if (root == NULL) {
-        return;
-    }
-
-    if (root->left != NULL) {
-        print_BST(root->left, depth + 1, '/');
-    }
-
-    if (prefix == '/')
-        left_trace[depth - 1] = '|';
-
-    if (prefix == '\\')
-        right_trace[depth - 1] = ' ';
-
-    if (depth == 0)
-        printf("-");
-
-    if (depth > 0)
-        printf(" ");
-
-    for (int i = 0; i < depth - 1; i++)
-        if (left_trace[i] == '|' || right_trace[i] == '|') {
-            printf("| ");
-        } else {
-            printf("  ");
-        }
-
-    if (depth > 0)
-        printf("%c-", prefix);
-
-    printf("[%d]\n", root->element);
-    left_trace[depth] = ' ';
-
-    if (root->right != NULL) {
-        right_trace[depth] = '|';
-        print_BST(root->right, depth + 1, '\\');
-    }
-}
-
-///////////////////////////
 
 node *newNode(int element) {
     node *tmp = (node *)malloc(sizeof(node));
@@ -307,39 +330,16 @@ void purge(node *root) {
     }
 }
 
-int tree_size = 0;
 
-void print_init() {
-    left_trace = malloc((tree_size + 1) * sizeof(char));
-    right_trace = malloc((tree_size + 1) * sizeof(char));
-
-    for (int i = 0; i <= tree_size; i++) {
-        left_trace[i] = ' ';
-        left_trace[i] = ' ';
-    }
-
-    printf("TREE:\n");
-    print_BST(root, 0, '-');
-    printf("\n\n");
-
-    free(left_trace);
-    free(right_trace);
-}
 
 void insert_from_command(int element) {
     node *node_ptr = newNode(element);
-    printf("INSERT: [%d]\n\n", node_ptr->element);
     insert(node_ptr);
-    tree_size++;
-    print_init();
 }
 
 void delete_from_command(int element) {
     if (root != NULL) {
-        printf("DELETE: [%d]\n\n", element);
         delete (element);
-        tree_size--;
-        print_init();
     } else {
         printf("Drzewo nie ma elementow\n");
     }
@@ -352,6 +352,18 @@ void height_from_command() {
 
 int main() {
 
+heights_deletion = (long long *)malloc(sizeof(long long) * BLOCK_SIZE);
+    heights_insertion = (long long *)malloc(sizeof(long long) * BLOCK_SIZE);
+
+    if (heights_deletion == NULL) {
+        perror("some error");
+        return 1;
+    }
+
+    if (heights_insertion == NULL) {
+        perror("some error");
+        return 1;
+    }
     // cli
     char command;
     int value;
@@ -365,12 +377,14 @@ int main() {
             printf("Podaj wartosc:\n");
             scanf("%d", &value);
             insert_from_command(value);
+                add_height_insertion(height(root));
             break;
 
         case 'd':
             printf("Podaj wartosc:\n");
             scanf("%d", &value);
             delete_from_command(value);
+add_height_deletion(height(root));
             break;
 
         case 'h':
@@ -379,7 +393,27 @@ int main() {
 
         case 'e':
             free_subtree(&root);
-            return 1;
+
+            long long h_avg_deletion = 0;
+            long long h_avg_insertion = 0;
+
+            for (long long i = 0; i < ind_deletion; i++) {
+                h_avg_deletion += heights_deletion[i];
+            }
+
+            for (long long i = 0; i < ind_insertion; i++) {
+                h_avg_insertion += heights_insertion[i];
+            }
+
+            h_avg_deletion /= ind_deletion;
+            h_avg_insertion /= ind_insertion;
+
+            printf("%lld %lld %lld %lld %lld ", comp, read, repl, h_avg_deletion, h_avg_insertion);
+
+            //printf("%lld %lld %lld ", comp, read, repl);
+            free(heights_deletion);
+            free(heights_insertion);
+            return 0;
 
         default:
             printf("Nieistniejaca komenda\n");
