@@ -6,5 +6,5 @@ set title font "Helvetica,14"
 
 plot "maximum.txt" using 1:2 t "RB"
 set terminal png size 400,300
-set output "comp_avg.png"
+set output "comp_max.png"
 replot

@@ -5,7 +5,7 @@ set ylabel "Average height for deletion"
 
 set title font "Helvetica,14"
 
-plot "average.txt" using 1:2 t "RB"
+plot "average.txt" using 1:5 t "RB"
 set terminal png size 400,300
 set output "h_del_avg.png"
 replot
