@@ -429,6 +429,7 @@ void height_from_command() {
 }
 long long find_max(long long tab[], long long ind) {
     long long max_val = -1;
+
     for (long long i = 0; i < ind; i++) {
         if (tab[i] > max_val) {
             max_val = tab[i];
@@ -492,11 +493,9 @@ int main() {
 
             h_avg_deletion /= ind_deletion;
             h_avg_insertion /= ind_insertion;
- long long h_max_del = find_max(heights_deletion, ind_deletion);
+            long long h_max_del = find_max(heights_deletion, ind_deletion);
             long long h_max_ins = find_max(heights_insertion, ind_insertion);
 
-
-            
             printf("%lld %lld %lld %lld %lld %lld %lld ", comp, read, repl, h_avg_deletion, h_avg_insertion,  h_max_del, h_max_ins);
 
             //printf("%lld %lld %lld ", comp, read, repl);
