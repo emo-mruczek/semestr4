@@ -1,3 +1,5 @@
+#pragma GCC optimize("O3")
+#pragma GCC optimize("unroll-loops")
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -80,80 +82,138 @@ node *root = NULL;
 void rotate_left(node *n) {
     node *right = n->right;
     n->right = right->left;
+    read += 3;
+    repl++;
 
-    if (right->left != NULL)
+    read++;
+
+    if (right->left != NULL) {
         right->left->parent = n;
+        read += 2;
+        repl++;
+    }
 
     right->parent = n->parent;
+    read += 2;
+    repl++;
+
+    read++;
 
     if (n->parent != NULL) {
+        read += 2;
+
         if (n == n->parent->left) {
             n->parent->left = right;
+            read += 2;
+            repl++;
         } else  {
             n->parent->right = right;
+            read += 2;
+            repl++;
         }
     } else {
         root = right;
+        repl++;
     }
 
     right->left = n;
     n->parent = right;
+    read += 2;
+    repl++;
 }
 
 void rotate_right(node *n) {
 
     node *left = n->left;
     n->left = left->right;
+    read += 3;
+    repl++;
 
-    if (left->right != NULL)
+    read++;
+
+    if (left->right != NULL) {
         left->right->parent = n;
+        read += 2;
+        repl++;
+    }
 
     left->parent = n->parent;
+    read += 2;
+    repl++;
+
+    read++;
 
     if (n->parent != NULL) {
+        read += 2;
+
         if (n == n->parent->right) {
             n->parent->right = left;
+            read += 2;
+            repl++;
+
         } else  {
             n->parent->left = left;
+            read += 2;
+            repl++;
+
         }
     } else {
         root = left;
+        repl++;
     }
 
     left->right = n;
     n->parent = left;
+    read += 2;
+    repl++;
+
 }
 
 void splay(node *n) {
     // dopoki node nie jest rootem
+    read++;
+
     while (n->parent != NULL) {
+        read++;
         // node jest dzieckiem roota i wystarczy jedna rotacja
+        read++;
+
         if (n->parent == root) {
+            read += 2;
+
             if (n == n->parent->left) {
+                read++;
                 rotate_right(n->parent);
             } else {
+                read++;
                 rotate_left(n->parent);
             }
         } else {
             node *par = n->parent;
             node *grandparent = par->parent; //grandparent
+            read += 2;
 
             // node jest lewym dzieckiem i parent jest lewym dzieckiem
             // zig zig rotation
+            read += 4;
+
             if (n->parent->left == n && par->parent->left == par) {
                 rotate_right(grandparent);
                 rotate_right(par);
                 // node jest prawym dzieckiem i parent jest prawym dzieckiem
                 // zag zag roation
             } else if (n->parent->right == n && par->parent->right == par) {
+                read += 4;
                 rotate_left(grandparent);
                 rotate_left(par);
                 // zag zig rotation
             } else if (n->parent->right == n && par->parent->left == par) {
+                read += 8;
                 rotate_left(par);
                 rotate_right(grandparent);
                 // zig zag rotation
             } else if (n->parent->left == n && par->parent->right == par) {
+                read += 12;
                 rotate_right(par);
                 rotate_left(grandparent);
             }
@@ -169,22 +229,27 @@ void insert(node *n) {
     while (temp != NULL) {
         new = temp;
 
-        if (n->element < temp->element) {
+        if (is_less(n->element, temp->element)) {
             temp = temp->left;
         } else {
             temp = temp->right;
         }
 
-        n->parent = new;
     }
+
+    n->parent = new;
+    read++;
+    repl++;
 
     // jesli jest rootem
     if (new == NULL) {
         root = n;
-    } else if (n->element < new->element) {
+    } else if (is_less(n->element, new->element)) {
         new->left = n;
+        repl++;
     } else {
         new->right = n;
+        repl++;
     }
 
     splay(n);
@@ -208,8 +273,12 @@ void free_subtree(node **root) {
 }
 
 node *minimum(node *n) {
+    read++;
+
     while (n->left != NULL) {
+        read++;
         n = n->left;
+        read++;
     }
 
     return n;
@@ -217,16 +286,26 @@ node *minimum(node *n) {
 }
 
 void replace(node *n, node *m) {
+    read++;
+
     if (n->parent == NULL) {
         root = m;
     } else if (n == n->parent->left) {
+        read += 2;
         n->parent->left = m;
+        read += 2;
+        repl++;
     } else {
+        read += 2;
         n->parent->right = m;
+        read += 2;
+        repl++;
     }
 
     if (m != NULL) {
         m->parent = n->parent;
+        read += 2;
+        repl++;
     }
 
 }
@@ -236,9 +315,9 @@ node *find(int key) {
     node *n = root;
 
     while (n != NULL) {
-        if (n->element < key) {
+        if (is_less(n->element, key)) {
             n = n->right;
-        } else if (key < n->element) {
+        } else if (is_less(key, n->element)) {
 
             n = n->left;
         } else return n;
@@ -256,28 +335,38 @@ void delete (int key) {
 
     splay(n);
 
+    read++;
+
     if (n->left == NULL) {
+        read++;
         replace(n, n->right);
     } else if (n->right == NULL) {
+        read += 2;
         replace(n, n ->left);
     } else {
+        read += 2;
         node *temp = minimum(n->right);
 
+        read++;
+
         if (temp->parent != n) {
+            read++;
             replace(temp, temp->right);
             temp->right = n->right;
             temp->right->parent = temp;
+            read += 4;
+            repl += 2;
         }
 
         replace(n, temp);
         temp->left = n->left;
         temp->left->parent = temp;
+        read += 4;
+        repl += 2;
     }
 
     free(n);
 }
-
-
 
 node *newNode(int element) {
     node *tmp = (node *)malloc(sizeof(node));
@@ -288,15 +377,6 @@ node *newNode(int element) {
     tmp->parent = NULL;
 
     return tmp;
-}
-
-node *getMax(node *root) {
-    // jesli nie ma lisci po prawej, to ten node jest maksymalny
-    if (root->right != NULL) {
-        return getMax(root->right);
-    }
-
-    return root;
 }
 
 int height(node *root) {
@@ -330,8 +410,6 @@ void purge(node *root) {
     }
 }
 
-
-
 void insert_from_command(int element) {
     node *node_ptr = newNode(element);
     insert(node_ptr);
@@ -352,7 +430,7 @@ void height_from_command() {
 
 int main() {
 
-heights_deletion = (long long *)malloc(sizeof(long long) * BLOCK_SIZE);
+    heights_deletion = (long long *)malloc(sizeof(long long) * BLOCK_SIZE);
     heights_insertion = (long long *)malloc(sizeof(long long) * BLOCK_SIZE);
 
     if (heights_deletion == NULL) {
@@ -364,27 +442,25 @@ heights_deletion = (long long *)malloc(sizeof(long long) * BLOCK_SIZE);
         perror("some error");
         return 1;
     }
+
     // cli
     char command;
     int value;
 
     while (1) {
-        printf("Podaj komende: i - insert, d - delete, h - height, e - exit\n");
         scanf("%s", &command);
 
         switch (command) {
         case 'i':
-            printf("Podaj wartosc:\n");
             scanf("%d", &value);
             insert_from_command(value);
-                add_height_insertion(height(root));
+            add_height_insertion(height(root));
             break;
 
         case 'd':
-            printf("Podaj wartosc:\n");
             scanf("%d", &value);
             delete_from_command(value);
-add_height_deletion(height(root));
+            add_height_deletion(height(root));
             break;
 
         case 'h':

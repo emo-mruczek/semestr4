@@ -59,9 +59,9 @@ void rotate_right(node *n) {
 
 void splay(node *n) {
     // dopoki node nie jest rootem
-    while (n->parent != NULL) { 
+    while (n->parent != NULL) {
         // node jest dzieckiem roota i wystarczy jedna rotacja
-        if (n->parent == root) { 
+        if (n->parent == root) {
             if (n == n->parent->left) {
                 rotate_right(n->parent);
             } else {
@@ -70,22 +70,22 @@ void splay(node *n) {
         } else {
             node *par = n->parent;
             node *grandparent = par->parent; //grandparent
-            
+
             // node jest lewym dzieckiem i parent jest lewym dzieckiem
             // zig zig rotation
-            if (n->parent->left == n && par->parent->left == par) { 
+            if (n->parent->left == n && par->parent->left == par) {
                 rotate_right(grandparent);
                 rotate_right(par);
-            // node jest prawym dzieckiem i parent jest prawym dzieckiem
-            // zag zag roation
-            } else if (n->parent->right == n && par->parent->right == par) { 
+                // node jest prawym dzieckiem i parent jest prawym dzieckiem
+                // zag zag roation
+            } else if (n->parent->right == n && par->parent->right == par) {
                 rotate_left(grandparent);
                 rotate_left(par);
-            // zag zig rotation
+                // zag zig rotation
             } else if (n->parent->right == n && par->parent->left == par) {
                 rotate_left(par);
                 rotate_right(grandparent);
-            // zig zag rotation
+                // zig zag rotation
             } else if (n->parent->left == n && par->parent->right == par) {
                 rotate_right(par);
                 rotate_left(grandparent);
@@ -108,9 +108,9 @@ void insert(node *n) {
             temp = temp->right;
         }
 
-        n->parent = new;
+        
     }
-
+n->parent = new;
     // jesli jest rootem
     if (new == NULL) {
         root = n;
