@@ -6,3 +6,7 @@ set ylabel "Maximum height for deletion"
 set title font "Helvetica,14"
 
 plot "maximum.txt" using 1:2 t "BST"
+
+set terminal png size 400,300
+set output "h_del_max.png"
+replot

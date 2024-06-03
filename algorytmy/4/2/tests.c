@@ -1,10 +1,13 @@
+
+#pragma GCC optimize("O3")
+#pragma GCC optimize("unroll-loops")
 #include <stdio.h>
 #include <stdlib.h>
 #include <omp.h>
 
 #define COMMAND_LEN 100
 #define DATA_SIZE 2048
-#define K_MAX 2
+#define K_MAX 20
 
 void results(const char *generator_type, const char *sort_type, int n) {
     FILE *pf;
@@ -52,8 +55,8 @@ int main() {
 
     for (int n = 10000; n <= 100000; n += 10000) {
         for (int k = 1; k < K_MAX; k++) {
-            // results("./generate_random", "./bst", n);
-            results("./generate_ascending", "./bst", n);
+            results("./generate_random", "./bst", n);
+            //results("./generate_ascending", "./bst", n);
         }
     }
 

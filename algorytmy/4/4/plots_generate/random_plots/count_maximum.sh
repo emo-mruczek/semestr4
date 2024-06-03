@@ -3,8 +3,8 @@ awk '{
     if ($2 > maxCT[$1]) maxCT[$1] = $2
     if ($3 > maxST[$1]) maxST[$1] = $3
     if ($4 > maxTT[$1]) maxTT[$1] = $4
-    if ($5 > maxCF[$1]) maxCF[$1] = $5
-    if ($6 > maxH[$1]) maxH[$1] = $6
+    if ($7 > maxCF[$1]) maxCF[$1] = $7
+    if ($8 > maxH[$1]) maxH[$1] = $8
     count[$1]++
 }
 END {

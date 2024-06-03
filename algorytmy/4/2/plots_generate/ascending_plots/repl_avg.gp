@@ -5,3 +5,6 @@ set ylabel "Average replacements of pointers"
 set title font "Helvetica,14"
 
 plot "average.txt" using 1:4 t "BST"
+set terminal png size 400,300
+set output "repl_avg.png"
+replot

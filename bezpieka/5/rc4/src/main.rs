@@ -105,10 +105,10 @@ fn is_same_key(input1: &[u8], input2: &[u8]) -> bool {
 fn test_key() {
     let input1 = b"testjeden";
     let input2 = b"testdwa";
-    let key = b"taki";
-
-    let output1 = encode_rc4(input1, key);
-    let output2 = encode_rc4(input2, key);
+    let key1 = b"taki";
+    let key2 = b"inny";
+    let output1 = encode_rc4(input1, key1);
+    let output2 = encode_rc4(input2, key2);
 
     let ok = is_same_key(&output1, &output2);
 
