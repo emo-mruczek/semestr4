@@ -10,4 +10,4 @@ awk '{
 END {
     for (key in sumCT) {
         print key, sumCT[key] / count[key], sumST[key] / count[key], sumTT[key] / count[key],  sumCF[key] / count[key], sumH[key] / count[key] }
-}' random.txt | sort -n > average.txt
+}' ascending.txt | sort -n > average.txt

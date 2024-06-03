@@ -5,7 +5,6 @@ set ylabel "Average comparisons"
 set title font "Helvetica,14"
 
 plot "average.txt" using 1:2 t "SPLAY"
-
 set terminal png size 400,300
 set output "comp_avg.png"
 replot
