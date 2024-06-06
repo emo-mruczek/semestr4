@@ -1,6 +1,7 @@
 sprawdzenie certyfikatu: komenda
 
-openssl s_client -showcerts -connect ww.pwr.edu.pl:443
+openssl s_client -showcerts -connect www.pwr.edu.pl:443
+openssl s_client -showcerts -verify 5 -connect stackexchange.com:443 < /dev/null
 
 albo kliknąć na kłódkę -> more information -> view certificate
 
@@ -19,5 +20,23 @@ Certyfikat klucza publicznego zawiera trzy podstawowe informacje:
     podpis cyfrowy złożony przez zaufaną trzecią stronę na dwóch powyższych strukturach.
 
 Certyfikat klucza publicznego realizuje przede wszystkim funkcję autentyczności w stosunku do klucza publicznego podmiotu. Autentyczny klucz może być następnie używany do realizacji kolejnych funkcji bezpieczeństwa.
+
+> wydawca openssl x509 -in pwr-edu-pl.pem -issuer
+> algorytm podpisu  openssl x509 -in pwr-edu-pl.pem -text | grep "Algorithm"
+> data waznosci podpisu  openssl x509 -in pwr-edu-pl.pem -endddate
+> dla kogo  openssl x509 -in pwr-edu-pl.pem -subject
+> domeny openssl x509 -in pwr-edu-pl.pem -text | grep -A 1 "Alternative"
+> rozszerzenia openssl x509 -in pwr-edu-pl.pem -text | grep -A 1 "X509"
+> crl openssl x509 -in pwr-edu-pl.pem -text | grep -A 2 "CRL"
+> oscp openssl x509 -in pwr-edu-pl.pem -text | grep -A 2 "Authority"
+        openssl x509 -in server-cert.pem -noout -ocsp_uri
+
+
+certyfikaty sa zapisane tez w /etc/ssl/certs/ca-certificates.crt
+
+openssl verify -CAfile ca-certificates.crt -untrusted stackoverflow-com-chain.pem stackoverflow-com.pem
+openssl verify -CAfile ca-certificates.crt -untrusted pwr-edu-pl-chain.pem pwr-edu-pl.pem
+
+openssl ocsp -issuer pwr-edu-pl-chain.pem -cert pwr-edu-pl.pem -text -url http://GEANT.ocsp.sectigo.com
 
 
