@@ -1,0 +1,165 @@
+CONNECTED(00000003)
+---
+Certificate chain
+ 0 s:CN = www.vatican.va
+   i:C = BE, O = GlobalSign nv-sa, CN = GlobalSign GCC R3 DV TLS CA 2020
+   a:PKEY: rsaEncryption, 2048 (bit); sigalg: RSA-SHA256
+   v:NotBefore: Dec 14 13:35:02 2023 GMT; NotAfter: Jan 14 13:35:01 2025 GMT
+-----BEGIN CERTIFICATE-----
+MIIGRDCCBSygAwIBAgIMT/JKfJ36DbbaR4I1MA0GCSqGSIb3DQEBCwUAMFMxCzAJ
+BgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSkwJwYDVQQDEyBH
+bG9iYWxTaWduIEdDQyBSMyBEViBUTFMgQ0EgMjAyMDAeFw0yMzEyMTQxMzM1MDJa
+Fw0yNTAxMTQxMzM1MDFaMBkxFzAVBgNVBAMTDnd3dy52YXRpY2FuLnZhMIIBIjAN
+BgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0paZ4MgtmfEK0eq9aPyeXjREXf5m
+iObA1ljmPoCQBDsEyFj9YVId+pep3YoXLwe4GnOUS6KadjGmukNiH643diN30AWV
+F/8dt7Xq8JNQ06Xoa9mUuwuz+30grPtNKaYgsyyF2QDO7Yv8waatJD3gggIezc4F
+bNFlcffLnh7ykjQI/4yEGdFBYof+dyf6MWat18g58DGA5oVlOkznMf+CS2jaSZsQ
+Dj/9313vD6WiKZumdD4CJNjyTXCbJ874a3NuA1FcobZ6BsSldALkp5MQx53XvNyE
+TCVEVICN1GZXCDGdlewO6JLcf3/l1i891bjHjwcy8NiT86rPbpMSxd4vnwIDAQAB
+o4IDUDCCA0wwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwgZMGCCsGAQUF
+BwEBBIGGMIGDMEYGCCsGAQUFBzAChjpodHRwOi8vc2VjdXJlLmdsb2JhbHNpZ24u
+Y29tL2NhY2VydC9nc2djY3IzZHZ0bHNjYTIwMjAuY3J0MDkGCCsGAQUFBzABhi1o
+dHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3IzZHZ0bHNjYTIwMjAwVgYD
+VR0gBE8wTTBBBgkrBgEEAaAyAQowNDAyBggrBgEFBQcCARYmaHR0cHM6Ly93d3cu
+Z2xvYmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wCAYGZ4EMAQIBMEEGA1UdHwQ6MDgw
+NqA0oDKGMGh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM2R2dGxzY2Ey
+MDIwLmNybDAZBgNVHREEEjAQgg53d3cudmF0aWNhbi52YTAdBgNVHSUEFjAUBggr
+BgEFBQcDAQYIKwYBBQUHAwIwHwYDVR0jBBgwFoAUDZjAc3+rvb3ZR0tJrQpKDKw+
+x3wwHQYDVR0OBBYEFNNfqg3oX9xcHuT2wt/lWF6ygNE9MIIBfwYKKwYBBAHWeQIE
+AgSCAW8EggFrAWkAdwDm0jFjQHeMwRBBBtdxuc7B0kD2loSG+7qHMh39HjeOUAAA
+AYxoiba5AAAEAwBIMEYCIQDyReVzo0kdDse5JhyYu/aZ1PBcXjJUTTl+jn1O2P0r
+9wIhAMpvwRwEmxhrDNQ7mEoBnAfM1okDlR3mRvF/kT1sg70WAHcATnWjJ1yaEMM4
+W2zU3z9S6x3w4I4bjWnAsfpksWKaOd8AAAGMaIm3tgAABAMASDBGAiEA4pO8t7OC
+fVAAy8fq0H7orfcuSd8LZgZIaMySJ2Vh0RkCIQDuWwUmBBIuV+1Pj1LuN0AKi1Fb
+xwXv53mBzq0BgBggoQB1AOCSs/wMHcjnaDYf3mG5lk0KUngZinLWcsSwTaVtb1QE
+AAABjGiJt2MAAAQDAEYwRAIgPAEpb9vF4Ayg3O/pyTlRdn3yXhSaShmQasUknh4T
+mqYCIAs61tbJIczsbCP5ZtkJmlHSU/vhJxzO5QCmEY8wawXqMA0GCSqGSIb3DQEB
+CwUAA4IBAQAx6VnzSz34EB0zuvvbR/BQCIg514sU4TBZFIaFnLHDYLsxyO0ogYZ9
+dWphX2jxaq+T73zHWgvLEu8PZUIaA8Zh/Fg5ZC2m5h2/+S8eN/cROu///6GN2Xau
+TsmZVU9y+7bUU6oy/cA7KVh1HlUNzgwG6Q4f6PcOcYOwzNKv9dYG9jGBrInZGD4l
+aGZRjiTBdZHQEiR66AUCGfAPznvoJXDP7FiA7JvU3bzVM2GWxTAzjkJbt8mJBesd
+SESc1wmA9Gfbf3Le1A3C1y5MHDrXC+8hWdAZpG1gbS1+mU+TlReHh0lSGabjJpy3
+A9iYXzVOEQrVWN5jNDdRHylSscU7Y8Gx
+-----END CERTIFICATE-----
+ 1 s:C = BE, O = GlobalSign nv-sa, CN = GlobalSign GCC R3 DV TLS CA 2020
+   i:OU = GlobalSign Root CA - R3, O = GlobalSign, CN = GlobalSign
+   a:PKEY: rsaEncryption, 2048 (bit); sigalg: RSA-SHA256
+   v:NotBefore: Jul 28 00:00:00 2020 GMT; NotAfter: Mar 18 00:00:00 2029 GMT
+-----BEGIN CERTIFICATE-----
+MIIEsDCCA5igAwIBAgIQd70OB0LV2enQSdd00CpvmjANBgkqhkiG9w0BAQsFADBM
+MSAwHgYDVQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xv
+YmFsU2lnbjETMBEGA1UEAxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0y
+OTAzMTgwMDAwMDBaMFMxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWdu
+IG52LXNhMSkwJwYDVQQDEyBHbG9iYWxTaWduIEdDQyBSMyBEViBUTFMgQ0EgMjAy
+MDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKxnlJV/de+OpwyvCXAJ
+IcxPCqkFPh1lttW2oljS3oUqPKq8qX6m7K0OVKaKG3GXi4CJ4fHVUgZYE6HRdjqj
+hhnuHY6EBCBegcUFgPG0scB12Wi8BHm9zKjWxo3Y2bwhO8Fvr8R42pW0eINc6OTb
+QXC0VWFCMVzpcqgz6X49KMZowAMFV6XqtItcG0cMS//9dOJs4oBlpuqX9INxMTGp
+6EASAF9cnlAGy/RXkVS9nOLCCa7pCYV+WgDKLTF+OK2Vxw3RUJ/p8009lQeUARv2
+UCcNNPCifYX1xIspvarkdjzLwzOdLahDdQbJON58zN4V+lMj0msg+c0KnywPIRp3
+BMkCAwEAAaOCAYUwggGBMA4GA1UdDwEB/wQEAwIBhjAdBgNVHSUEFjAUBggrBgEF
+BQcDAQYIKwYBBQUHAwIwEgYDVR0TAQH/BAgwBgEB/wIBADAdBgNVHQ4EFgQUDZjA
+c3+rvb3ZR0tJrQpKDKw+x3wwHwYDVR0jBBgwFoAUj/BLf6guRSSuTVD6Y5qL3uLd
+G7wwewYIKwYBBQUHAQEEbzBtMC4GCCsGAQUFBzABhiJodHRwOi8vb2NzcDIuZ2xv
+YmFsc2lnbi5jb20vcm9vdHIzMDsGCCsGAQUFBzAChi9odHRwOi8vc2VjdXJlLmds
+b2JhbHNpZ24uY29tL2NhY2VydC9yb290LXIzLmNydDA2BgNVHR8ELzAtMCugKaAn
+hiVodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL3Jvb3QtcjMuY3JsMEcGA1UdIARA
+MD4wPAYEVR0gADA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3dy5nbG9iYWxzaWdu
+LmNvbS9yZXBvc2l0b3J5LzANBgkqhkiG9w0BAQsFAAOCAQEAy8j/c550ea86oCkf
+r2W+ptTCYe6iVzvo7H0V1vUEADJOWelTv07Obf+YkEatdN1Jg09ctgSNv2h+LMTk
+KRZdAXmsE3N5ve+z1Oa9kuiu7284LjeS09zHJQB4DJJJkvtIbjL/ylMK1fbMHhAW
+i0O194TWvH3XWZGXZ6ByxTUIv1+kAIql/Mt29PmKraTT5jrzcVzQ5A9jw16yysuR
+XRrLODlkS1hyBjsfyTNZrmL1h117IFgntBA5SQNVl9ckedq5r4RSAU85jV8XK5UL
+REjRZt2I6M9Po9QL7guFLu4sPFJpwR1sPJvubS2THeo7SxYoNDtdyBHs7euaGcMa
+D/fayQ==
+-----END CERTIFICATE-----
+---
+Server certificate
+subject=CN = www.vatican.va
+issuer=C = BE, O = GlobalSign nv-sa, CN = GlobalSign GCC R3 DV TLS CA 2020
+---
+No client certificate CA names sent
+Peer signing digest: SHA256
+Peer signature type: RSA-PSS
+Server Temp Key: ECDH, prime256v1, 256 bits
+---
+SSL handshake has read 3499 bytes and written 745 bytes
+Verification: OK
+---
+New, TLSv1.3, Cipher is TLS_AES_256_GCM_SHA384
+Server public key is 2048 bit
+This TLS version forbids renegotiation.
+Compression: NONE
+Expansion: NONE
+No ALPN negotiated
+Early data was not sent
+Verify return code: 0 (ok)
+---
+---
+Post-Handshake New Session Ticket arrived:
+SSL-Session:
+    Protocol  : TLSv1.3
+    Cipher    : TLS_AES_256_GCM_SHA384
+    Session-ID: 32CC40354741A8CA336388E35AB69CF29A5F242D053D417702DD611EFDC58308
+    Session-ID-ctx: 
+    Resumption PSK: B312B91C0A93EF7E8EC6E5902EFCA2E67F0B549391A2B4F3725E0DC53DD9239912FF9B083CB1618E4935E0B3401EAC36
+    PSK identity: None
+    PSK identity hint: None
+    SRP username: None
+    TLS session ticket lifetime hint: 7200 (seconds)
+    TLS session ticket:
+    0000 - 34 31 e6 68 ae d4 64 1a-6b ad a1 01 53 c1 4a bb   41.h..d.k...S.J.
+    0010 - 7c b8 6e db eb e2 38 42-1b ed b6 02 a6 9e 9c c0   |.n...8B........
+    0020 - 74 73 75 e6 9c 19 1d 64-38 e0 1b 26 2e 08 e1 d7   tsu....d8..&....
+    0030 - 4d 80 87 31 1e cd bd bd-da dc 40 c3 12 9e e6 b5   M..1......@.....
+    0040 - e6 19 a7 8d fe 1d a0 a9-60 25 66 a4 6d 4e 26 c4   ........`%f.mN&.
+    0050 - 19 b0 8a ed 6e 7a a0 12-a0 cf bb 85 aa 9d 23 30   ....nz........#0
+    0060 - 76 87 39 fe aa e7 94 58-d2 5e 24 91 f6 48 ca fe   v.9....X.^$..H..
+    0070 - 24 14 17 3b c8 39 61 a5-a8 50 e9 7d 95 03 28 cc   $..;.9a..P.}..(.
+    0080 - 80 63 b4 6a 2c 08 17 7c-72 5d 60 52 05 2b 12 30   .c.j,..|r]`R.+.0
+    0090 - ff da a5 fb b3 3c 8e e1-10 ce 1f 4f 3b 54 30 ca   .....<.....O;T0.
+    00a0 - 93 4d 94 5b 07 ff a4 f4-c1 db a7 2b 67 7e 1e e6   .M.[.......+g~..
+    00b0 - ae 4b 2e b8 1b ba 4f 5c-30 8e e1 58 82 29 e6 7c   .K....O\0..X.).|
+    00c0 - c1 4e 65 d1 93 f2 a2 81-a0 f2 8b ba 47 40 c7 1c   .Ne.........G@..
+
+    Start Time: 1717592769
+    Timeout   : 7200 (sec)
+    Verify return code: 0 (ok)
+    Extended master secret: no
+    Max Early Data: 0
+---
+read R BLOCK
+---
+Post-Handshake New Session Ticket arrived:
+SSL-Session:
+    Protocol  : TLSv1.3
+    Cipher    : TLS_AES_256_GCM_SHA384
+    Session-ID: F863D363F591B4B468A304CE29B2C0B664EF5651B674CA8D34256AA5C1E694C4
+    Session-ID-ctx: 
+    Resumption PSK: 63A4B6F2C18C9DDA3E8195CBF0556E1B442E5BEC4A71C21048145FA474D544015CC4A5DD2ECACA501C2A609B27C4AA8D
+    PSK identity: None
+    PSK identity hint: None
+    SRP username: None
+    TLS session ticket lifetime hint: 7200 (seconds)
+    TLS session ticket:
+    0000 - 34 31 e6 68 ae d4 64 1a-6b ad a1 01 53 c1 4a bb   41.h..d.k...S.J.
+    0010 - 32 7a 3f 4c 53 04 fa 6b-15 eb 6d 32 5d 33 ad c1   2z?LS..k..m2]3..
+    0020 - b7 40 b6 8a 34 4d 7c 48-17 eb bb 70 25 da cb e1   .@..4M|H...p%...
+    0030 - e3 d1 60 5f 34 0a 43 85-d9 df 31 26 a6 b7 e9 b1   ..`_4.C...1&....
+    0040 - 06 13 26 b3 44 f1 a6 18-1b 7e dd 16 9b 22 48 08   ..&.D....~..."H.
+    0050 - 1b 04 99 93 47 8f d6 de-9c c1 62 e6 4e 5d 6b cf   ....G.....b.N]k.
+    0060 - cd 50 7d 4a 51 2f 4f 04-59 27 b8 f9 cc 12 8f 67   .P}JQ/O.Y'.....g
+    0070 - cc 9d 65 c4 a3 08 49 9a-2b 6a 52 52 01 8d 37 05   ..e...I.+jRR..7.
+    0080 - 78 db 3a 09 50 01 bc 8b-2d 89 79 b0 3d 59 50 0a   x.:.P...-.y.=YP.
+    0090 - 17 6f b5 71 fb 8a 58 47-ea 4e fa f0 e6 c0 e4 66   .o.q..XG.N.....f
+    00a0 - 0d 19 07 f0 f8 f8 34 f5-e1 9a 2b 23 b9 0e 2a c1   ......4...+#..*.
+    00b0 - 15 ed e7 b7 6f 67 9f da-c9 87 52 e3 0c c0 ff 91   ....og....R.....
+
+    Start Time: 1717592769
+    Timeout   : 7200 (sec)
+    Verify return code: 0 (ok)
+    Extended master secret: no
+    Max Early Data: 0
+---
+read R BLOCK
+closed

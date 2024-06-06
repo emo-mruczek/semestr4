@@ -3,8 +3,6 @@ with Ada.Numerics.Discrete_Random;
 with Ada.Real_Time; use Ada.Real_Time;
 
 -- Dijkstra's solution
---
--- possibly worth adding mutex for accessing Meal_Eaten??
 
 package body Philosophers is
 

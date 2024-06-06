@@ -1,0 +1,23 @@
+sprawdzenie certyfikatu: komenda
+
+openssl s_client -showcerts -connect ww.pwr.edu.pl:443
+
+albo kliknąć na kłódkę -> more information -> view certificate
+
+root certificate: public key certificate that identifies a root certificate authority (CA); it is self-signed and form of a basis X.509-based public key infrastructure
+
+certificate authority can issue multiple certificates in the form of a tree structure. A root certificate is the top-most certificate of the tree, the private key which is used to "sign" other certificates. All certificates signed by the root certificate, with the "CA" field set to true, inherit the trustworthiness of the root certificate
+
+plik .pem ( is a text-based container using base-64 encoding).
+certy
+x.509 - standard definiujacy format certyfikatu klucza publicznego
+
+Certyfikat klucza publicznego zawiera trzy podstawowe informacje:
+
+    klucz publiczny podmiotu,
+    opis tożsamości podmiotu[3],
+    podpis cyfrowy złożony przez zaufaną trzecią stronę na dwóch powyższych strukturach.
+
+Certyfikat klucza publicznego realizuje przede wszystkim funkcję autentyczności w stosunku do klucza publicznego podmiotu. Autentyczny klucz może być następnie używany do realizacji kolejnych funkcji bezpieczeństwa.
+
+
