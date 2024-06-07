@@ -39,4 +39,16 @@ openssl verify -CAfile ca-certificates.crt -untrusted pwr-edu-pl-chain.pem pwr-e
 
 openssl ocsp -issuer pwr-edu-pl-chain.pem -cert pwr-edu-pl.pem -text -url http://GEANT.ocsp.sectigo.com
 
+generowanie kluczy:
+openssl genrsa -out keypair.pem 2048 -> numer to dlugosc klucza w bitach
+openssl rsa -in keypair.pem -pubout -out publickey.crt -> wyciagam klucz publiczny
 
+generowanie csr cetificate signing request
+openssl req -new -key keypair.pem -out domain.csr
+
+ sudo certbot certonly --csr domain.csr --staging --manual
+
+git clone git@github.com:WebGoat/WebGoat.git
+./mvnw clean install
+./mvnw spring-boot:run
+http://localhost:8080/WebGoat 
