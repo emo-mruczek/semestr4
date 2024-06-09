@@ -52,3 +52,47 @@ git clone git@github.com:WebGoat/WebGoat.git
 ./mvnw clean install
 ./mvnw spring-boot:run
 http://localhost:8080/WebGoat 
+
+
+7. <script>alert()</script> 
+10. debugger->view>goatrouter.js start.mvc#test/
+11. nowa karta, wzrucic http://localhost:8080/WebGoat/start.mvc?username=zielnik#test/<script>webgoat.customjs.phoneHome()<%2Fscript>.
+12. 4 3 1 2 4
+
+3.  test <script>webgoat.customjs.phoneHome()</script>
+
+
+5. <%@ taglib uri="https://www.owasp.org/index.php/OWASP_Java_Encoder_Project" %>
+<html>
+<head>
+    <title>Using GET and POST Method to Read Form Data</title>
+</head>
+<body>
+    <h1>Using POST Method to Read Form Data</h1>
+    <table>
+        <tbody>
+            <tr>
+                <td><b>First Name:</b></td>
+                <td>${e:forHtml(param.first_name)}</td>
+            </tr>
+            <tr>
+                <td><b>Last Name:</b></td>
+                <td>${e:forHtml(param.last_name)}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
+
+
+6.import org.owasp.validator.html.*;
+import MyCommentDAO;
+
+public class AntiSamyController {
+    public void saveNewComment(int threadID, int userID, String newComment){
+        Policy p = Policy.getInstance("antisamy-slashdot.xml");  
+         AntiSamy as = new AntiSamy();  
+         CleanResults cr = as.scan(newComment, p, AntiSamy.DOM);  
+         MyCommentDAO.addComment(threadID, userID, cr.getCleanHTML());
+    }
+}
