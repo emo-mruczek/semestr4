@@ -1,14 +1,17 @@
 #ifndef GENERATE_GRAPH_H
 #define GENERATE_GRAPH_H
 
+typedef struct Vertice Vertice;
+
 typedef struct Edge {
-    float weight;
+    double weight;
+    Vertice *vertice;
 } Edge;
 
-typedef struct Vertice {
+struct Vertice {
     int number;
     Edge edges[];
-} Vertice;
+};
 
 typedef struct Graph {
     int size;

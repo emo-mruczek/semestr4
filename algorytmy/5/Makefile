@@ -1,11 +1,11 @@
-all: generate_graph
+all: prim
 
-generate_graph: astyle generate_graph.c
-	gcc -Wpedantic -Wall -Wextra -o generate_graph generate_graph.c
+prim: astyle prim.c 
+	gcc -Wpedantic -Wall -Wextra -o prim  prim.c
 
 clean:
-	trash generate_graph *.orig
+	trash *.o prim *.orig
 
 astyle:
-	astyle --style=attach --break-blocks --pad-oper --pad-header --align-pointer=name --align-reference=name generate_graph.c generate_graph.h
+	astyle --style=attach --break-blocks --pad-oper --pad-header --align-pointer=name --align-reference=name prim.c
 

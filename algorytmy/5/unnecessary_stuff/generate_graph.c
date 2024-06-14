@@ -55,6 +55,7 @@ Graph *make_graph(int size) {
     if (G == NULL) {
         fprintf(stderr, "Cos sie zepsulo przy grafie\n");
         //return 1;
+        return NULL;
     }
 
     G->size = size;
@@ -63,18 +64,21 @@ Graph *make_graph(int size) {
     getrandom( &seed, sizeof(seed), 0);
     srandom(seed);
 
-    size_t vertice_size = sizeof(Vertice) + size *sizeof(Edge);
 
     for (int i = 0; i < size; i++) {
+        size_t vertice_size = sizeof(Vertice) + size *sizeof(Edge);
         Vertice *vertice = (Vertice *)malloc(vertice_size);
         G->vertices[i] = vertice;
 
         if ( G->vertices[i] == NULL) {
             fprintf(stderr, "Cos sie zepsulo przy wierzcholku\n");
+            clean_graph(G);
+            return NULL;
             //return 1;
         }
 
-        G->vertices[i]->number = i;
+        vertice->number = i;
+        G->vertices[i] = vertice;
     }
 
     // liczba krawedzi to n(n-1)/2
@@ -85,7 +89,9 @@ Graph *make_graph(int size) {
 
             double rand_weight = (double)random() / (double)((unsigned)RAND_MAX + 1);
             G->vertices[i]->edges[j].weight = rand_weight;
+            G->vertices[i]->edges[j].vertice = G->vertices[j];
             G->vertices[j]->edges[i].weight = rand_weight;
+            G->vertices[j]->edges[i].vertice = G->vertices[i];
         }
     }
 
