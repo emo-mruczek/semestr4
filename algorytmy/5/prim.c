@@ -1,29 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/random.h>
-#include <time.h>
 #include <stdbool.h>
 #include <float.h>
+#include "generate_graph.h"
 
-void make_graph(int size, double G[size][size]) {
-
-    unsigned int seed;
-    getrandom( &seed, sizeof(seed), 0);
-    srandom(seed);
-
-    for (int i = 0; i < size; i++) {
-        for (int j = i + 1; j < size; j++) {
-
-            double rand_weight = (double)random() / (double)((unsigned)RAND_MAX + 1);
-
-            G[i][j] = rand_weight;
-            G[j][i] = rand_weight;
-        }
-    }
-}
 
 void printMST(int size, int parent[], double G[size][size]) {
-    printf("\nwierzcholek \twaga\n");
+    printf("\nMST:\n");
+    printf("wierzcholek \twaga\n");
 
     for (int i = 1; i < size; i++) {
         printf("%d - %d \t\t%.6f \n", parent[i], i, G[i][parent[i]]);
