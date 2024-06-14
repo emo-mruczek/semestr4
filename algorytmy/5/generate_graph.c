@@ -6,37 +6,55 @@
 #include <stdio.h>
 #include <sys/random.h>
 #include <time.h>
+#include "generate_graph.h"
 
-typedef struct Edge {
-    float weight;
-} Edge;
 
-typedef struct Verticle {
-    int number;
-    Edge edges[];
-} Verticle;
+void clean_graph(Graph *G) {
+    // czyściu czyściu
+    for (int i = 0; i < G->size; i++) {
+        free(G->vertices[i]);
+    }
 
-typedef struct Graph {
-    int size;
-    Verticle *verticles[];
-} Graph;
+    free(G);
+}
 
-int main(int argc, char **argv) {
-    if (argc < 2 || argc > 3) {
+void print_graph(Graph *G) {
+
+    printf("            ");
+
+    for (int i = 0; i < G->size; i++) {
+        printf("%12s%d", "Wierzcholek", G->vertices[i]->number);
+    }
+
+    printf("\n");
+
+    for (int i = 0; i < G->size; i++) {
+        printf("%12s%d", "Wierzcholek", G->vertices[i]->number);
+
+        for (int j = 0; j < G->size; j++) {
+            printf("%12.6f", G->vertices[i]->edges[j].weight);
+        }
+
+        printf("\n");
+    }
+}
+
+Graph *make_graph(int size) {
+    /*if (argc < 2 || argc > 3) {
         fprintf(stderr, "Podaj liczbe wierzcholkow.\n");
         return 1;
     }
 
     int size = 0;
     sscanf(argv[1], "%d", &size);
-    printf("Podana liczba wierzcholkow: %d\n", size);
+    printf("Podana liczba wierzcholkow: %d\n", size);*/
 
-    size_t graph_size = sizeof(Graph) + size *sizeof(Verticle *);
+    size_t graph_size = sizeof(Graph) + size *sizeof(Vertice *);
     Graph *G = (Graph *)malloc(graph_size);
 
     if (G == NULL) {
         fprintf(stderr, "Cos sie zepsulo przy grafie\n");
-        return 1;
+        //return 1;
     }
 
     G->size = size;
@@ -45,58 +63,31 @@ int main(int argc, char **argv) {
     getrandom( &seed, sizeof(seed), 0);
     srandom(seed);
 
-    size_t verticle_size = sizeof(Verticle) + size *sizeof(Edge);
+    size_t vertice_size = sizeof(Vertice) + size *sizeof(Edge);
 
     for (int i = 0; i < size; i++) {
-        Verticle *verticle = (Verticle *)malloc(verticle_size);
-        G->verticles[i] = verticle;
+        Vertice *vertice = (Vertice *)malloc(vertice_size);
+        G->vertices[i] = vertice;
 
-        if ( G->verticles[i] == NULL) {
+        if ( G->vertices[i] == NULL) {
             fprintf(stderr, "Cos sie zepsulo przy wierzcholku\n");
-            return 1;
+            //return 1;
         }
 
-        G->verticles[i]->number = i;
+        G->vertices[i]->number = i;
     }
 
     // liczba krawedzi to n(n-1)/2
-    //int number_of_verticles = size *(size - 1) / 2;
+    //int number_of_vertices = size *(size - 1) / 2;
 
     for (int i = 0; i < size; i++) {
         for (int j = i + 1; j < size; j++) {
 
             double rand_weight = (double)random() / (double)((unsigned)RAND_MAX + 1);
-            G->verticles[i]->edges[j].weight = rand_weight;
-            G->verticles[j]->edges[i].weight = rand_weight;
+            G->vertices[i]->edges[j].weight = rand_weight;
+            G->vertices[j]->edges[i].weight = rand_weight;
         }
     }
 
-    //printu printu
-
-    printf("            ");
-
-    for (int i = 0; i < size; i++) {
-        printf("%12s%d", "Wierzcholek", G->verticles[i]->number);
-    }
-
-    printf("\n");
-
-    for (int i = 0; i < size; i++) {
-        printf("%12s%d", "Wierzcholek", G->verticles[i]->number);
-
-        for (int j = 0; j < size; j++) {
-            printf("%12.6f", G->verticles[i]->edges[j].weight);
-        }
-
-        printf("\n");
-    }
-
-    // czyściu czyściu
-    for (int i = 0; i < size; i++) {
-        free(G->verticles[i]);
-    }
-
-    free(G);
-
-    return 0;
+    return G;
 }

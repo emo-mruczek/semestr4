@@ -4,8 +4,8 @@ generate_graph: astyle generate_graph.c
 	gcc -Wpedantic -Wall -Wextra -o generate_graph generate_graph.c
 
 clean:
-	trash generate_graph
+	trash generate_graph *.orig
 
 astyle:
-	astyle --style=attach --break-blocks --pad-oper --pad-header --align-pointer=name --align-reference=name generate_graph.c
+	astyle --style=attach --break-blocks --pad-oper --pad-header --align-pointer=name --align-reference=name generate_graph.c generate_graph.h
 
