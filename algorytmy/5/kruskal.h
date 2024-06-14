@@ -1,24 +1,16 @@
+#ifndef KRUSKAL_H
+#define KRUSKAL_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <float.h>
-#include "generate_graph.h"
 
 typedef struct Edge {
     int u;
     int v;
     double weight;
 } Edge;
-
-
-void printMST(int size, Edge mst[]) {
-    printf("\nMST:\n");
-    printf("wierzcholek \twaga\n");
-
-    for (int i = 0; i < size; i++) {
-        printf("%d - %d \t\t%.6f \n", mst[i].u, mst[i].v, mst[i].weight);
-    }
-}
 
 //https://en.cppreference.com/w/c/algorithm/qsort
 int cmp(const void *a, const void *b) {
@@ -86,30 +78,6 @@ void kruskalMST(int size, double G[size][size]) {
             unionSets(belongs, rank, a, b);
         }
     }
-
-    printMST(ind_new, mst);
 }
 
-int main() {
-
-    printf("Podaj wielkosc grafu: ");
-    int size;
-    scanf("%d", &size);
-
-    double graph[size][size];
-    make_graph(size, graph);
-
-    printf("\nGraf:");
-
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
-            printf("%.6f ", graph[i][j]);
-        }
-
-        printf("\n");
-    }
-
-    kruskalMST(size, graph);
-
-    return 0;
-}
+#endif

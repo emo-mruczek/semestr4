@@ -5,20 +5,20 @@
 #include "generate_graph.h"
 
 
-void printMST(int size, int parent[], double G[size][size]) {
+void printMST(long long size, long long parent[], double G[size][size]) {
     printf("\nMST:\n");
     printf("wierzcholek \twaga\n");
 
-    for (int i = 1; i < size; i++) {
+    for (long long i = 1; i < size; i++) {
         printf("%d - %d \t\t%.6f \n", parent[i], i, G[i][parent[i]]);
     }
 }
 
-int min(int size, double key[], bool mst[]) {
+long long min(long long size, double key[], bool mst[]) {
     double min = DBL_MAX;
-    int min_index;
+    long long min_index;
 
-    for (int i = 0; i < size; i++)  {
+    for (long long i = 0; i < size; i++)  {
         if (mst[i] == false && key[i] < min) {
             min = key[i];
             min_index = i;
@@ -28,9 +28,9 @@ int min(int size, double key[], bool mst[]) {
     return min_index;
 }
 
-void primMST(int size, double G[size][size]) {
+void primMST(long long size, double G[size][size]) {
     // tutaj trzymam MST
-    int parent[size];
+    long long parent[size];
 
     // do brania minimalnej wagi (zachlannie)
     double key[size];
@@ -38,7 +38,7 @@ void primMST(int size, double G[size][size]) {
     // te wziete do MST
     bool mst[size];
 
-    for (int i = 0; i < size; i++) {
+    for (long long i = 0; i < size; i++) {
         key[i] = DBL_MAX; //jako infinity
         mst[i] = false;
     }
@@ -47,11 +47,11 @@ void primMST(int size, double G[size][size]) {
     key[0] = 0.0;
     parent[0] = -1; //jako root
 
-    for (int i = 0; i < size - 1; i++) {
-        int u = min(size, key, mst);
+    for (long long i = 0; i < size - 1; i++) {
+        long long u = min(size, key, mst);
         mst[u] = true;
 
-        for (int j = 0; j < size; j++) {
+        for (long long j = 0; j < size; j++) {
             if (G[u][j] && mst[j] == false && G[u][j] < key[j] ) {
                 parent[j] = u;
                 key[j] = G[u][j];
@@ -67,7 +67,7 @@ void primMST(int size, double G[size][size]) {
 int main() {
 
     printf("Podaj wielkosc grafu: ");
-    int size;
+    long long size;
     scanf("%d", &size);
 
     double graph[size][size];
@@ -75,8 +75,8 @@ int main() {
 
     printf("Generated graph:\n");
 
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
+    for (long long i = 0; i < size; i++) {
+        for (long long j = 0; j < size; j++) {
             printf("%.6f ", graph[i][j]);
         }
 
