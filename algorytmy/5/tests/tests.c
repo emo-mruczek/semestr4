@@ -26,6 +26,7 @@ int main() {
 
 
     #pragma omp parallel for collapse(2) schedule(dynamic)
+
     for (int n = 1000; n <= 10000; n += 1000) {
         for (int k = 1; k < K_MAX; k++) {
 
@@ -61,6 +62,7 @@ int main() {
             #pragma omp critical
             {
                 printf("%d %" PRIu64 " %" PRIu64 "\n", n, delta_us_prim, delta_us_kruskal);
+                fflush(stdout);
 
                 for (int i = 0; i < n; i++) {
                     free(graph[i]);
