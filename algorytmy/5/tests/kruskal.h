@@ -5,10 +5,11 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <float.h>
+#include <inttypes.h>
 
 typedef struct Edge {
-    int u;
-    int v;
+    uint64_t u;
+    uint64_t v;
     double weight;
 } Edge;
 
@@ -18,7 +19,7 @@ int cmp(const void *a, const void *b) {
     return (res > 0) -  (res < 0); //sprytne!
 }
 
-int find(int belongs[], int i) {
+uint64_t find(uint64_t belongs[], uint64_t i) {
     if (belongs[i] != i) {
         belongs[i] = find(belongs, belongs[i]);
     }
@@ -26,9 +27,9 @@ int find(int belongs[], int i) {
     return belongs[i];
 }
 
-void unionSets(int belongs[], int rank[], int x, int y) {
-    int rootX = find(belongs, x);
-    int rootY = find(belongs, y);
+void unionSets(uint64_t belongs[], uint64_t rank[], uint64_t x, uint64_t y) {
+    uint64_t rootX = find(belongs, x);
+    uint64_t rootY = find(belongs, y);
 
     if (rank[rootX] < rank[rootY]) {
         belongs[rootX] = rootY;
@@ -40,15 +41,15 @@ void unionSets(int belongs[], int rank[], int x, int y) {
     }
 }
 
-void kruskalMST(int size, double G[size][size]) {
+void kruskalMST(uint64_t size, double **G) {
 
-    int belongs[size];
-    int rank[size];
-    Edge edges[size *size];
-    int ind = 0;
+    uint64_t *belongs = (uint64_t *)malloc(size *sizeof(uint64_t));
+    uint64_t *rank = (uint64_t *)malloc(size *sizeof(uint64_t));
+    Edge *edges = (Edge *)malloc(size *size *sizeof(Edge));
+    uint64_t ind = 0;
 
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < i; j++) {
+    for (uint64_t i = 0; i < size; i++) {
+        for (uint64_t j = 0; j < i; j++) {
             if (G[i][j] != 0) {
                 edges[ind].u = i;
                 edges[ind].v = j;
@@ -60,16 +61,16 @@ void kruskalMST(int size, double G[size][size]) {
 
     qsort(edges, ind, sizeof(Edge), cmp);
 
-    for (int i = 0; i < size; i++) {
+    for (uint64_t i = 0; i < size; i++) {
         belongs[i] = i;
     }
 
-    int ind_new = 0;
-    Edge mst[size];
+    uint64_t ind_new = 0;
+    Edge *mst = (Edge *)malloc(size *sizeof(Edge));
 
-    for (int i = 0; i < ind; i++) {
-        int a = find(belongs, edges[i].u);
-        int b = find(belongs, edges[i].v);
+    for (uint64_t i = 0; i < ind; i++) {
+        uint64_t a = find(belongs, edges[i].u);
+        uint64_t b = find(belongs, edges[i].v);
 
         if (a != b) {
             mst[ind_new] = edges[i];
@@ -78,6 +79,11 @@ void kruskalMST(int size, double G[size][size]) {
             unionSets(belongs, rank, a, b);
         }
     }
+
+    free(mst);
+    free(edges);
+    free(rank);
+    free(belongs);
 }
 
 #endif
