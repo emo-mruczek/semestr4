@@ -1,7 +1,7 @@
 sprawdzenie certyfikatu: komenda
 
 openssl s_client -showcerts -connect www.pwr.edu.pl:443
-openssl s_client -showcerts -verify 5 -connect stackexchange.com:443 < /dev/null
+openssl s_client -showcerts -connect stackexchange.com:443 < /dev/null
 
 albo kliknąć na kłódkę -> more information -> view certificate
 
@@ -29,7 +29,7 @@ Certyfikat klucza publicznego realizuje przede wszystkim funkcję autentycznośc
 > rozszerzenia openssl x509 -in pwr-edu-pl.pem -text | grep -A 1 "X509"
 > crl openssl x509 -in pwr-edu-pl.pem -text | grep -A 2 "CRL"
 > oscp openssl x509 -in pwr-edu-pl.pem -text | grep -A 2 "Authority"
-        openssl x509 -in server-cert.pem -noout -ocsp_uri
+        openssl x509 -in server-cert.pem -noout -ocsp_uri online certificate status protocol/ unifotm resource identifier
 
 
 certyfikaty sa zapisane tez w /etc/ssl/certs/ca-certificates.crt
@@ -47,6 +47,17 @@ generowanie csr cetificate signing request
 openssl req -new -key keypair.pem -out domain.csr
 
  sudo certbot certonly --csr domain.csr --staging --manual
+ sudo certbot certonly --manual -d https://nabezpieke.pages.dev/ --csr domain.csr
+
+ pojawia sie challenge np:
+
+ Create a file containing just this data:
+
+de3W8RURDIh9h3rv2Nm41wOxgHMvIBpDqcnBBBZE6d0.y1D3KHe-4xVNrCOzpcGy-4KaXI9tdbC5u-bZ55H_XjU
+
+And make it available on your web server at this URL:
+
+http://nabezpieke.freedynamicdns.net/.well-known/acme-challenge/de3W8RURDIh9h3rv2Nm41wOxgHMvIBpDqcnBBBZE6d0
 
 git clone git@github.com:WebGoat/WebGoat.git
 ./mvnw clean install
