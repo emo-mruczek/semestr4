@@ -1,0 +1,55 @@
+Jun 16 20:39:22.593 HYPERVISOR: Release 0.2.23-amd64/Linux (tag 2023010200)
+Jun 16 20:39:22.593 HYPERVISOR: Started on IP = 127.0.0.1, TCP port = 54881.
+Jun 16 20:39:22.601 HYPERVISOR: exec_cmd: hypervisor version 
+Jun 16 20:39:22.601 HYPERVISOR: exec_cmd: hypervisor working_dir /home/felix/semestr4/sieci/4/sieci4/project-files/dynamips 
+Jun 16 20:39:22.601 GENERAL: working_dir=/home/felix/semestr4/sieci/4/sieci4/project-files/dynamips
+Jun 16 20:39:22.601 HYPERVISOR: exec_cmd: hypervisor working_dir /home/felix/semestr4/sieci/4/sieci4/project-files/dynamips/9a04fcab-b824-4fd5-a53e-453750341016 
+Jun 16 20:39:22.601 GENERAL: working_dir=/home/felix/semestr4/sieci/4/sieci4/project-files/dynamips/9a04fcab-b824-4fd5-a53e-453750341016
+Jun 16 20:39:22.601 HYPERVISOR: exec_cmd: vm create R2 2 c3745 
+Jun 16 20:39:22.602 VM: VM R2 created.
+Jun 16 20:39:22.602 HYPERVISOR: exec_cmd: vm set_con_tcp_port R2 5005 
+Jun 16 20:39:22.602 HYPERVISOR: exec_cmd: c3745 get_mac_addr R2 
+Jun 16 20:39:22.602 HYPERVISOR: exec_cmd: vm set_disk0 R2 0 
+Jun 16 20:39:22.602 HYPERVISOR: exec_cmd: vm get_status R2 
+Jun 16 20:39:22.602 HYPERVISOR: exec_cmd: vm set_idle_pc R2 0x60aa1da0 
+Jun 16 20:39:22.602 HYPERVISOR: exec_cmd: vm set_ios R2 /home/felix/GNS3/images/IOS/c3745-adventerprisek9-mz.124-25d.image 
+Jun 16 20:39:22.602 HYPERVISOR: exec_cmd: c3745 set_mac_addr R2 c402.0a22.0000 
+Jun 16 20:39:22.602 HYPERVISOR: exec_cmd: vm set_nvram R2 256 
+Jun 16 20:39:22.603 HYPERVISOR: exec_cmd: vm set_ram R2 256 
+Jun 16 20:39:22.603 HYPERVISOR: exec_cmd: vm get_status R2 
+Jun 16 20:39:22.603 HYPERVISOR: exec_cmd: vm slot_add_binding R2 1 0 NM-1FE-TX 
+Jun 16 20:39:22.603 HYPERVISOR: exec_cmd: vm get_status R2 
+Jun 16 20:39:22.603 HYPERVISOR: exec_cmd: vm slot_add_binding R2 2 0 NM-4T 
+Jun 16 20:39:22.603 HYPERVISOR: exec_cmd: vm get_status R2 
+Jun 16 20:39:22.603 HYPERVISOR: exec_cmd: vm slot_add_binding R2 0 16 WIC-1T 
+Jun 16 20:39:22.603 HYPERVISOR: exec_cmd: vm get_status R2 
+Jun 16 20:39:22.603 HYPERVISOR: exec_cmd: vm slot_add_binding R2 0 32 WIC-1T 
+Jun 16 20:39:22.603 HYPERVISOR: exec_cmd: vm get_status R2 
+Jun 16 20:39:22.603 HYPERVISOR: exec_cmd: vm slot_add_binding R2 0 48 WIC-1T 
+Jun 16 20:39:23.243 HYPERVISOR: exec_cmd: nio create_udp udp-eac783b7-8f4d-44b3-9c33-784cf0977c5a 10014 127.0.0.1 10015 
+Jun 16 20:39:23.447 HYPERVISOR: exec_cmd: vm slot_add_nio_binding R2 0 0 udp-eac783b7-8f4d-44b3-9c33-784cf0977c5a 
+Jun 16 20:39:23.447 HYPERVISOR: exec_cmd: vm get_status R2 
+Jun 16 20:39:23.483 HYPERVISOR: exec_cmd: nio create_udp udp-30096b47-3888-4d90-9824-4fbf6ec46fb2 10018 127.0.0.1 10019 
+Jun 16 20:39:23.484 HYPERVISOR: exec_cmd: vm slot_add_nio_binding R2 0 1 udp-30096b47-3888-4d90-9824-4fbf6ec46fb2 
+Jun 16 20:39:23.484 HYPERVISOR: exec_cmd: vm get_status R2 
+Jun 16 20:39:23.731 HYPERVISOR: exec_cmd: nio create_udp udp-83f43167-4ac2-41dd-8a02-32b12e1b26ac 10024 127.0.0.1 10025 
+Jun 16 20:39:23.732 HYPERVISOR: exec_cmd: vm slot_add_nio_binding R2 1 0 udp-83f43167-4ac2-41dd-8a02-32b12e1b26ac 
+Jun 16 20:39:23.732 HYPERVISOR: exec_cmd: vm get_status R2 
+Jun 16 20:39:27.977 HYPERVISOR: exec_cmd: vm set_ghost_status R2 2 
+Jun 16 20:39:27.978 HYPERVISOR: exec_cmd: vm set_ghost_file R2 /home/felix/semestr4/sieci/4/sieci4/project-files/dynamips/c3745-adventerprisek9-mz.124-25d.image-256.ghost 
+Jun 16 20:39:27.978 HYPERVISOR: exec_cmd: vm get_status R2 
+Jun 16 20:39:27.978 HYPERVISOR: exec_cmd: vm set_config R2 configs/i2_startup-config.cfg 
+Jun 16 20:39:27.978 HYPERVISOR: exec_cmd: vm start R2 
+Jun 16 20:39:50.348 HYPERVISOR: exec_cmd: vm get_status R2 
+Jun 16 20:39:50.348 HYPERVISOR: exec_cmd: vm stop R2 
+Jun 16 20:39:50.488 VM: VM R2 shutdown.
+Jun 16 20:39:50.488 HYPERVISOR: exec_cmd: vm extract_config R2 
+Jun 16 20:44:20.262 HYPERVISOR: exec_cmd: vm get_status R2 
+Jun 16 20:44:20.262 HYPERVISOR: exec_cmd: vm extract_config R2 
+Jun 16 20:44:20.637 HYPERVISOR: exec_cmd: vm get_status R2 
+Jun 16 20:44:20.637 HYPERVISOR: exec_cmd: vm extract_config R2 
+Jun 16 20:44:20.638 HYPERVISOR: exec_cmd: vm delete R2 
+Jun 16 20:44:20.638 VM: VM R2 destroyed.
+Jun 16 20:44:20.638 HYPERVISOR: exec_cmd: hypervisor stop 
+Jun 16 20:44:20.892 HYPERVISOR: Stopped.
+Jun 16 20:44:20.892 GENERAL: reset done.

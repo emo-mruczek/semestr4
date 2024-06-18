@@ -1,0 +1,76 @@
+Jun 16 20:39:22.568 HYPERVISOR: Release 0.2.23-amd64/Linux (tag 2023010200)
+Jun 16 20:39:22.568 HYPERVISOR: Started on IP = 127.0.0.1, TCP port = 42095.
+Jun 16 20:39:22.576 HYPERVISOR: exec_cmd: hypervisor version 
+Jun 16 20:39:22.576 HYPERVISOR: exec_cmd: hypervisor working_dir /home/felix/semestr4/sieci/4/sieci4/project-files/dynamips 
+Jun 16 20:39:22.576 GENERAL: working_dir=/home/felix/semestr4/sieci/4/sieci4/project-files/dynamips
+Jun 16 20:39:22.576 HYPERVISOR: exec_cmd: hypervisor working_dir /home/felix/semestr4/sieci/4/sieci4/project-files/dynamips/68cd4ae7-a477-4782-8a80-aa823d03d90b 
+Jun 16 20:39:22.576 GENERAL: working_dir=/home/felix/semestr4/sieci/4/sieci4/project-files/dynamips/68cd4ae7-a477-4782-8a80-aa823d03d90b
+Jun 16 20:39:22.576 HYPERVISOR: exec_cmd: vm create R1 1 c3745 
+Jun 16 20:39:22.576 VM: VM R1 created.
+Jun 16 20:39:22.577 HYPERVISOR: exec_cmd: vm set_con_tcp_port R1 5004 
+Jun 16 20:39:22.577 HYPERVISOR: exec_cmd: c3745 get_mac_addr R1 
+Jun 16 20:39:22.577 HYPERVISOR: exec_cmd: vm set_disk0 R1 0 
+Jun 16 20:39:22.577 HYPERVISOR: exec_cmd: vm get_status R1 
+Jun 16 20:39:22.577 HYPERVISOR: exec_cmd: vm set_idle_pc R1 0x60aa1da0 
+Jun 16 20:39:22.577 HYPERVISOR: exec_cmd: vm set_ios R1 /home/felix/GNS3/images/IOS/c3745-adventerprisek9-mz.124-25d.image 
+Jun 16 20:39:22.577 HYPERVISOR: exec_cmd: c3745 set_mac_addr R1 c401.0a04.0000 
+Jun 16 20:39:22.577 HYPERVISOR: exec_cmd: vm set_nvram R1 256 
+Jun 16 20:39:22.577 HYPERVISOR: exec_cmd: vm set_ram R1 256 
+Jun 16 20:39:22.578 HYPERVISOR: exec_cmd: vm get_status R1 
+Jun 16 20:39:22.578 HYPERVISOR: exec_cmd: vm slot_add_binding R1 1 0 NM-1FE-TX 
+Jun 16 20:39:22.578 HYPERVISOR: exec_cmd: vm get_status R1 
+Jun 16 20:39:22.578 HYPERVISOR: exec_cmd: vm slot_add_binding R1 2 0 NM-4T 
+Jun 16 20:39:22.578 HYPERVISOR: exec_cmd: vm get_status R1 
+Jun 16 20:39:22.578 HYPERVISOR: exec_cmd: vm slot_add_binding R1 0 16 WIC-1T 
+Jun 16 20:39:22.578 HYPERVISOR: exec_cmd: vm get_status R1 
+Jun 16 20:39:22.578 HYPERVISOR: exec_cmd: vm slot_add_binding R1 0 32 WIC-1T 
+Jun 16 20:39:22.579 HYPERVISOR: exec_cmd: vm get_status R1 
+Jun 16 20:39:22.579 HYPERVISOR: exec_cmd: vm slot_add_binding R1 0 48 WIC-1T 
+Jun 16 20:39:22.849 HYPERVISOR: exec_cmd: nio create_udp udp-ef3ca13a-7c08-4db5-b155-3ce1d74934bc 10008 127.0.0.1 10009 
+Jun 16 20:39:23.053 HYPERVISOR: exec_cmd: vm slot_add_nio_binding R1 0 0 udp-ef3ca13a-7c08-4db5-b155-3ce1d74934bc 
+Jun 16 20:39:23.053 HYPERVISOR: exec_cmd: vm get_status R1 
+Jun 16 20:39:23.236 HYPERVISOR: exec_cmd: nio create_udp udp-8b912b2b-1cb1-4101-8789-3ca1d4388286 10012 127.0.0.1 10013 
+Jun 16 20:39:23.237 HYPERVISOR: exec_cmd: vm slot_add_nio_binding R1 0 1 udp-8b912b2b-1cb1-4101-8789-3ca1d4388286 
+Jun 16 20:39:23.237 HYPERVISOR: exec_cmd: vm get_status R1 
+Jun 16 20:39:27.566 HYPERVISOR: exec_cmd: vm create Ghost 0 c3745 
+Jun 16 20:39:27.566 VM: VM Ghost created.
+Jun 16 20:39:27.567 HYPERVISOR: exec_cmd: vm set_ios Ghost /home/felix/GNS3/images/IOS/c3745-adventerprisek9-mz.124-25d.image 
+Jun 16 20:39:27.567 HYPERVISOR: exec_cmd: vm set_ghost_status Ghost 1 
+Jun 16 20:39:27.567 HYPERVISOR: exec_cmd: vm set_ghost_file Ghost /home/felix/semestr4/sieci/4/sieci4/project-files/dynamips/c3745-adventerprisek9-mz.124-25d.image-256.ghost 
+Jun 16 20:39:27.567 HYPERVISOR: exec_cmd: vm set_ram Ghost 256 
+Jun 16 20:39:27.567 HYPERVISOR: exec_cmd: vm get_status Ghost 
+Jun 16 20:39:27.567 HYPERVISOR: exec_cmd: vm set_config Ghost configs/i0_startup-config.cfg 
+Jun 16 20:39:27.567 HYPERVISOR: exec_cmd: vm start Ghost 
+Jun 16 20:39:27.822 HYPERVISOR: exec_cmd: vm get_status Ghost 
+Jun 16 20:39:27.823 HYPERVISOR: exec_cmd: vm stop Ghost 
+Jun 16 20:39:27.976 VM: VM Ghost shutdown.
+Jun 16 20:39:27.976 HYPERVISOR: exec_cmd: vm extract_config Ghost 
+Jun 16 20:39:27.976 HYPERVISOR: exec_cmd: vm clean_delete Ghost 
+Jun 16 20:39:27.976 VM: VM Ghost destroyed.
+Jun 16 20:39:27.977 HYPERVISOR: exec_cmd: vm set_ghost_status R1 2 
+Jun 16 20:39:27.977 HYPERVISOR: exec_cmd: vm set_ghost_file R1 /home/felix/semestr4/sieci/4/sieci4/project-files/dynamips/c3745-adventerprisek9-mz.124-25d.image-256.ghost 
+Jun 16 20:39:27.977 HYPERVISOR: exec_cmd: vm get_status R1 
+Jun 16 20:39:27.978 HYPERVISOR: exec_cmd: vm set_config R1 configs/i1_startup-config.cfg 
+Jun 16 20:39:27.978 HYPERVISOR: exec_cmd: vm start R1 
+Jun 16 20:39:50.286 HYPERVISOR: exec_cmd: vm get_status R1 
+Jun 16 20:39:50.286 HYPERVISOR: exec_cmd: vm stop R1 
+Jun 16 20:39:50.345 VM: VM R1 shutdown.
+Jun 16 20:39:50.346 HYPERVISOR: exec_cmd: vm extract_config R1 
+Jun 16 20:41:41.788 HYPERVISOR: exec_cmd: vm get_status R1 
+Jun 16 20:41:41.788 HYPERVISOR: exec_cmd: vm slot_remove_nio_binding R1 0 0 
+Jun 16 20:41:41.789 HYPERVISOR: exec_cmd: nio delete udp-ef3ca13a-7c08-4db5-b155-3ce1d74934bc 
+Jun 16 20:41:47.794 HYPERVISOR: exec_cmd: nio create_udp udp-b3760333-acfc-4d77-9cd8-d05be84efce6 10008 127.0.0.1 10009 
+Jun 16 20:41:47.794 HYPERVISOR: exec_cmd: vm slot_add_nio_binding R1 0 0 udp-b3760333-acfc-4d77-9cd8-d05be84efce6 
+Jun 16 20:41:47.795 HYPERVISOR: exec_cmd: vm get_status R1 
+Jun 16 20:41:55.904 HYPERVISOR: exec_cmd: vm get_status R1 
+Jun 16 20:41:55.905 HYPERVISOR: exec_cmd: vm slot_remove_nio_binding R1 0 0 
+Jun 16 20:41:55.905 HYPERVISOR: exec_cmd: nio delete udp-b3760333-acfc-4d77-9cd8-d05be84efce6 
+Jun 16 20:44:20.259 HYPERVISOR: exec_cmd: vm get_status R1 
+Jun 16 20:44:20.259 HYPERVISOR: exec_cmd: vm extract_config R1 
+Jun 16 20:44:20.744 HYPERVISOR: exec_cmd: vm get_status R1 
+Jun 16 20:44:20.745 HYPERVISOR: exec_cmd: vm extract_config R1 
+Jun 16 20:44:20.745 HYPERVISOR: exec_cmd: vm delete R1 
+Jun 16 20:44:20.745 VM: VM R1 destroyed.
+Jun 16 20:44:20.745 HYPERVISOR: exec_cmd: hypervisor stop 
+Jun 16 20:44:20.868 HYPERVISOR: Stopped.
+Jun 16 20:44:20.868 GENERAL: reset done.
