@@ -1,4 +1,4 @@
-all: astyle
+all: astyle prim
 
 prim: prim.c 
 	gcc -Wpedantic -Wall -Wextra -o prim  prim.c
