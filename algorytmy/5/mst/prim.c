@@ -6,6 +6,65 @@
 #include "generate_graph.h"
 
 
+uint64_t min_value(uint64_t * rounds, uint64_t size) {
+    uint64_t ind = 0;
+    uint64_t min_round = rounds[0];
+
+    while (ind < size) {
+        if (min_round > rounds[ind]) {
+            min_round = rounds[ind];
+        }
+        ind++;
+    }
+
+    return min_round;
+}
+
+uint64_t make_round(uint64_t vertice, uint64_t *MIN, bool *VISITED, bool **MST, uint64_t size) {
+    
+    uint64_t rounds = 0;
+    uint64_t *children_rounds = (uint64_t *)malloc(size * sizeof(uint64_t));
+    VISITED[vertice] = true;
+   
+    uint64_t ind = 0;
+    for (uint64_t i = 0; i < size; i++ ) {
+        if (MST[vertice][i] == true) {
+            if (VISITED[i] == false) {
+                uint64_t child_rounds = make_round(i, MIN, VISITED, MST, size);
+                children_rounds[ind] = child_rounds;
+                ind++;
+            }
+        }
+    }
+    if (ind != 0) {
+    rounds = min_value(children_rounds, ind);
+    }
+
+    return rounds + 1;
+    
+}
+
+uint64_t calculate_rounds(bool **MST, uint64_t size) {
+    printf("\nLicze liczbe rund...\n");
+    
+    uint64_t *MIN  = (uint64_t *)malloc(size *sizeof(uint64_t));
+    bool *VISITED = (bool *)malloc(size * sizeof(uint64_t));
+
+    unsigned int seed;
+    getrandom( &seed, sizeof(seed), 0);
+    srandom(seed);
+
+    uint64_t rand_vertice = rand() % (size);
+
+    for (uint64_t i = 1; i < size; i++) {
+        MIN[i] = size + 1;
+        VISITED[i] = false;
+    }
+
+    uint64_t min_rounds = make_round(rand_vertice, MIN, VISITED, MST, size);
+
+    return min_rounds;
+}
 
 void saveMST(uint64_t size, uint64_t parent[], double **G) {
     printf("\nMST:\n");
