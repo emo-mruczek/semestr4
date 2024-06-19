@@ -19,6 +19,8 @@ void make_graph(int size, double G[size][size]) {
             G[i][j] = rand_weight;
             G[j][i] = rand_weight;
         }
+
+        G[i][i] = 0;
     }
 }
 
