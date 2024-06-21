@@ -33,11 +33,11 @@ void saveMST(int size, int parent[], double G[size][size]) {
 
 }
 
-uint64_t min(uint64_t size, double key[], bool mst[]) {
+int64_t min(int64_t size, double key[], bool mst[]) {
     double min = DBL_MAX;
-    uint64_t min_index = 0;
+    int64_t min_index = 0;
 
-    for (uint64_t i = 0; i < size; i++)  {
+    for (int64_t i = 0; i < size; i++)  {
         if (mst[i] == false && key[i] < min) {
             min = key[i];
             min_index = i;
@@ -47,9 +47,9 @@ uint64_t min(uint64_t size, double key[], bool mst[]) {
     return min_index;
 }
 
-void primMST(uint64_t size, double **G) {
+void primMST(int64_t size, double **G) {
     // tutaj trzymam MST
-    uint64_t *parent = (uint64_t *)malloc(size *sizeof(uint64_t));
+    int64_t *parent = (int64_t *)malloc(size *sizeof(int64_t));
 
     // do brania minimalnej wagi (zachlannie)
     double *key = (double *)malloc(size *sizeof(double));
@@ -59,7 +59,7 @@ void primMST(uint64_t size, double **G) {
     bool *mst = (bool *)malloc(size *sizeof(bool));
 
 
-    for (uint64_t i = 0; i < size; i++) {
+    for (int64_t i = 0; i < size; i++) {
         key[i] = DBL_MAX; //jako infinity
         mst[i] = false;
     }
@@ -68,11 +68,11 @@ void primMST(uint64_t size, double **G) {
     key[0] = 0.0;
     parent[0] = -1; //jako root
 
-    for (uint64_t i = 0; i < size - 1; i++) {
-        uint64_t u = min(size, key, mst);
+    for (int64_t i = 0; i < size - 1; i++) {
+        int64_t u = min(size, key, mst);
         mst[u] = true;
 
-        for (uint64_t j = 0; j < size; j++) {
+        for (int64_t j = 0; j < size; j++) {
             if (G[u][j] && mst[j] == false && G[u][j] < key[j] ) {
                 parent[j] = u;
                 key[j] = G[u][j];
