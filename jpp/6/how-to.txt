@@ -1,0 +1,26 @@
+haskell:
+
+ghci
+:l ex.hs
+binomial 2 1
+mergesort [10 9 8]
+
+lisp:
+
+sbcl
+(load "ex2.lisp")
+(binomial 2 1)
+(mergesort '(10 9 8))
+
+sml:
+
+sml
+use "ex3.sml";
+binomial(2, 1);
+mergeSort[10, 9, 8];
+
+prolog:
+swipl
+['ex4.pl'].
+prime_factors(10, X).
+mergesort([10, 9, 8], X).
