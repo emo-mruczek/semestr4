@@ -8,11 +8,14 @@
 #include <inttypes.h>
 #include "generate_graph.h"
 
+int64_t max_value_of_two(int64_t a, int64_t b) {
+    return (a > b ? a : b);
+}
 
-uint64_t max_value(uint64_t *rounds, uint64_t size) {
-    uint64_t max_round = rounds[0];
+int64_t max_value(int64_t *rounds, int64_t size) {
+    int64_t max_round = rounds[0];
 
-    for (uint64_t i = 1; i < size; i++) {
+    for (int64_t i = 1; i < size; i++) {
         if (max_round < rounds[i]) {
             max_round = rounds[i];
         }
@@ -21,18 +24,18 @@ uint64_t max_value(uint64_t *rounds, uint64_t size) {
     return max_round;
 }
 
-uint64_t make_round(uint64_t vertice, bool *VISITED, bool **MST, uint64_t size) {
+int64_t make_round(int64_t vertex, bool *VISITED, bool **MST, int64_t size) {
 
-    uint64_t rounds = 0;
-    uint64_t *children_rounds = (uint64_t *)malloc(size *sizeof(uint64_t));
-    VISITED[vertice] = true;
+    int64_t rounds = -1;
+    int64_t *children_rounds = (int64_t *)malloc(size *sizeof(int64_t));
+    VISITED[vertex] = true;
 
-    uint64_t ind = 0;
+    int64_t ind = 0;
 
-    for (uint64_t i = 0; i < size; i++ ) {
-        if (MST[vertice][i] == true) {
+    for (int64_t i = 0; i < size; i++ ) {
+        if (MST[vertex][i] == true) {
             if (VISITED[i] == false) {
-                uint64_t child_rounds = make_round(i, VISITED, MST, size);
+                int64_t child_rounds = make_round(i, VISITED, MST, size);
                 children_rounds[ind] = child_rounds;
                 ind++;
             }
@@ -41,14 +44,15 @@ uint64_t make_round(uint64_t vertice, bool *VISITED, bool **MST, uint64_t size) 
 
     if (ind != 0) {
         rounds = max_value(children_rounds, ind);
+        rounds = max_value_of_two(rounds, ind);
     }
 
     free(children_rounds);
 
-
-
     return rounds + 1;
 }
+
+
 
 uint64_t calculate_rounds(bool **MST, uint64_t size) {
     // printf("\nLicze liczbe rund...\n");
